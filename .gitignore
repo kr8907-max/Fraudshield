@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Node
+node_modules/
+.npm/
+.vite/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Perch local configuration
+.perch/mcp.json
+
+# Large/raw datasets
+data/malicious_phish.csv
+data/tranco/top-1m.csv
+top-1m.csv.zip
+
+# Archives / temporary files
+*.zip
+*.tmp
+*.temp
+
+# Runtime/log files
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Python-generated binaries
+*.exe
+
+# Unrelated document
+Register Team _ SEVA 2026.pdf
+
+# Generated/cache artifacts
+*.pyc
+*.pkl
+*.joblib
+
+# Stage 7 runtime/protection files
+model/stage7_study/protected_before.json
+model/stage7_study/protected_after.json
+model/stage7_study/protected_diff.json
+model/stage7_study/run.log
+model/stage7_study/stage7_addendum.json

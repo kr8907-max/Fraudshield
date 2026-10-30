@@ -1,0 +1,1889 @@
+{
+  "experiment": "D",
+  "stage": "5.5",
+  "generated_at": "2026-10-29T18:52:57.265760+00:00",
+  "objective": "Test whether legitimate deep-path/query URLs can be classified safe without destroying malicious deep-URL recall, whitelisting, threshold gaming, network access, or leakage.",
+  "constraints": {
+    "retrained_r2": false,
+    "promoted_anything": false,
+    "classification_threshold": 0.5,
+    "ui_bands_changed": false,
+    "network_used": false,
+    "pandas_used": false,
+    "grid_search_used": false
+  },
+  "predeclared": {
+    "augmentation_cap_share": 0.08,
+    "augmentation_salt": "fraudshield-d-v1",
+    "d2_ablation": "num_slashes",
+    "d3_ablation": null,
+    "acceptance_gates": [
+      "overall_malicious_recall >= 0.87",
+      "malicious_https_recall >= 0.90",
+      "external_tranco_homepage_safe_rate >= 0.95",
+      "suspicious_synthetic == 4/4",
+      "legit_heldout_deep_safe_rate >= 0.90",
+      "malicious_deep_recall >= 0.90",
+      "no train/evaluation leakage"
+    ],
+    "deep_suite_definition": "Kaggle TEST split, benign/malicious rows whose path is non-trivial and/or query is non-empty; browser form adds https:// only where the source row had no scheme"
+  },
+  "root_cause": {
+    "summary": "Scheme representation, not path shape. 93.2% of benign Kaggle rows are bare while 67.3% of malicious rows carry a scheme; only 2,263 benign https+deep rows existed versus 9,956 malicious.",
+    "measured_examples": {
+      "example.com/a": 0.0302,
+      "http://example.com/a": 0.9017,
+      "https://example.com/a": 0.9533,
+      "https://example.com": 0.0148,
+      "https://example.com/": 0.9328
+    },
+    "r2_feature_importances": {
+      "num_slashes": 0.261752,
+      "num_special_chars": 0.139258,
+      "num_dots": 0.121387,
+      "num_subdomains": 0.110667,
+      "hostname_length": 0.09093,
+      "url_length": 0.089737,
+      "num_digits": 0.048713,
+      "num_equal_signs": 0.042062,
+      "num_hyphens": 0.031355,
+      "has_ip_host": 0.018646,
+      "num_query_marks": 0.016135,
+      "uses_https": 0.015398,
+      "suspicious_keyword_count": 0.013693,
+      "has_at_symbol": 0.000266
+    }
+  },
+  "augmentation": {
+    "salt": "fraudshield-d-v1",
+    "selection_rule": "sha256(source_url + '|' + salt) ascending, allocated proportionally by structure group (path / query / path+query)",
+    "eligibility": "benign Kaggle TRAIN rows only (post sanity purge), no explicit scheme, genuine path and/or query text",
+    "derived_forms": "https://<source> and http://<source>",
+    "preserved_verbatim": "hostname, path, query, fragment",
+    "invented_content": "none - only the scheme representation is added",
+    "originals_retained": true,
+    "eligible_pool": {
+      "total": 268147,
+      "path": 217645,
+      "query": 3595,
+      "path+query": 46907
+    },
+    "selected_source_rows": 20672,
+    "selected_by_structure": {
+      "path": 16779,
+      "query": 277,
+      "path+query": 3616
+    },
+    "derived_rows_total": 41344,
+    "derived_rows_https": 20672,
+    "derived_rows_http": 20672,
+    "source_selection_sha256": "4904d7620490c5917d9c5bcc3c0b9873affdfe9f8f3c1fafa29cda5b20cff5cc",
+    "dual_scheme_rationale": "Adding https PATHS alone would make HTTPS a benign label proxy again (the Model B failure). Adding the identical benign content under both schemes keeps the scheme uninformative for the augmented rows.",
+    "not_observed_urls": true
+  },
+  "leakage_audit": {
+    "ok": true,
+    "exact_train_test_hostname_overlap": 0,
+    "deep_eval_hosts_in_training": 0,
+    "deep_eval_rows_from_test_split": true,
+    "derived_urls_equal_to_test_urls": 0,
+    "derived_urls_equal_to_train_urls": 224,
+    "derived_sources_in_test_split": 0,
+    "augmentation_sources_all_benign_train": true,
+    "famous_urls_in_training": 0,
+    "sanity_brand_hosts_in_training": 0,
+    "tranco_holdout_in_train": 0,
+    "derived_rows": 41344,
+    "derived_source_rows": 20672,
+    "note": "Derived rows come only from benign TRAIN rows, so by construction no held-out hostname can produce a derived training row. The deep-URL suites are drawn exclusively from the Kaggle TEST split.",
+    "derived_sources_all_in_train": true,
+    "derived_sources_all_benign": true
+  },
+  "pretraining_gate": {
+    "uses_https_univariate_auc": 0.486786,
+    "cramers_v_final": 0.503381,
+    "cramers_v_baseline": 0.614098,
+    "https_benign_count": 35016,
+    "https_malicious_count": 10679,
+    "https_malicious_share": 0.233702,
+    "augmentation_share_of_training": 0.074073,
+    "scheme_table": {
+      "0": {
+        "bare": 306197,
+        "http": 48535,
+        "https": 35016
+      },
+      "1": {
+        "bare": 55042,
+        "http": 102681,
+        "https": 10679
+      }
+    },
+    "checks": {
+      "uses_https_univariate_auc_0.45_to_0.55": true,
+      "cramers_v_not_worse_than_baseline_by_0.02": true,
+      "augmentation_le_10_percent_of_training": true,
+      "dual_scheme_balanced_within_augmentation": true
+    },
+    "passed": true,
+    "note": "HTTPS must not become a label proxy. The derived rows are added under BOTH schemes so the scheme carries no information for them."
+  },
+  "distribution_statistics": {
+    "num_slashes": {
+      "0": {
+        "mean": 2.7354,
+        "median": 2.0,
+        "p75": 4.0,
+        "p90": 5.0,
+        "p95": 6.0
+      },
+      "1": {
+        "mean": 3.297,
+        "median": 3.0,
+        "p75": 4.0,
+        "p90": 6.0,
+        "p95": 7.0
+      }
+    },
+    "url_length": {
+      "0": {
+        "mean": 57.6761,
+        "median": 46.0,
+        "p75": 71.0,
+        "p90": 102.0,
+        "p95": 125.0
+      },
+      "1": {
+        "mean": 63.949,
+        "median": 50.0,
+        "p75": 85.0,
+        "p90": 119.0,
+        "p95": 147.0
+      }
+    },
+    "num_special_chars": {
+      "0": {
+        "mean": 1.4528,
+        "median": 0.0,
+        "p75": 1.0,
+        "p90": 3.0,
+        "p95": 6.0
+      },
+      "1": {
+        "mean": 2.1588,
+        "median": 1.0,
+        "p75": 3.0,
+        "p90": 6.0,
+        "p95": 8.0
+      }
+    },
+    "num_query_marks": {
+      "0": {
+        "mean": 0.1808,
+        "median": 0.0,
+        "p75": 0.0,
+        "p90": 1.0,
+        "p95": 1.0
+      },
+      "1": {
+        "mean": 0.303,
+        "median": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "p95": 1.0
+      }
+    },
+    "num_equal_signs": {
+      "0": {
+        "mean": 0.3227,
+        "median": 0.0,
+        "p75": 0.0,
+        "p90": 1.0,
+        "p95": 2.0
+      },
+      "1": {
+        "mean": 1.1322,
+        "median": 0.0,
+        "p75": 1.0,
+        "p90": 4.0,
+        "p95": 5.0
+      }
+    }
+  },
+  "structure_tables": {
+    "full": {
+      "0": {
+        "bare": {
+          "homepage": 47638,
+          "path": 281995,
+          "query": 4453,
+          "path+query": 58610
+        },
+        "http": {
+          "homepage": 0,
+          "path": 24968,
+          "query": 68,
+          "path+query": 8392
+        },
+        "https": {
+          "homepage": 0,
+          "path": 735,
+          "query": 53,
+          "path+query": 1162
+        }
+      },
+      "1": {
+        "bare": {
+          "homepage": 22189,
+          "path": 45903,
+          "query": 165,
+          "path+query": 2177
+        },
+        "http": {
+          "homepage": 1446,
+          "path": 69069,
+          "query": 108,
+          "path+query": 58266
+        },
+        "https": {
+          "homepage": 923,
+          "path": 10011,
+          "query": 85,
+          "path+query": 2668
+        }
+      }
+    },
+    "train_base": {
+      "0": {
+        "bare": {
+          "homepage": 38050,
+          "path": 217645,
+          "query": 3595,
+          "path+query": 46907
+        },
+        "http": {
+          "homepage": 0,
+          "path": 20793,
+          "query": 60,
+          "path+query": 7010
+        },
+        "https": {
+          "homepage": 0,
+          "path": 615,
+          "query": 53,
+          "path+query": 771
+        }
+      },
+      "1": {
+        "bare": {
+          "homepage": 17498,
+          "path": 36031,
+          "query": 84,
+          "path+query": 1429
+        },
+        "http": {
+          "homepage": 1102,
+          "path": 55023,
+          "query": 84,
+          "path+query": 46472
+        },
+        "https": {
+          "homepage": 723,
+          "path": 8028,
+          "query": 68,
+          "path+query": 1860
+        }
+      }
+    },
+    "test": {
+      "0": {
+        "bare": {
+          "homepage": 9574,
+          "path": 58631,
+          "query": 856,
+          "path+query": 10727
+        },
+        "http": {
+          "homepage": 0,
+          "path": 3949,
+          "query": 8,
+          "path+query": 1359
+        },
+        "https": {
+          "homepage": 0,
+          "path": 118,
+          "query": 0,
+          "path+query": 391
+        }
+      },
+      "1": {
+        "bare": {
+          "homepage": 4505,
+          "path": 9427,
+          "query": 25,
+          "path+query": 706
+        },
+        "http": {
+          "homepage": 311,
+          "path": 13506,
+          "query": 20,
+          "path+query": 11780
+        },
+        "https": {
+          "homepage": 184,
+          "path": 1789,
+          "query": 16,
+          "path+query": 332
+        }
+      }
+    },
+    "train_final": {
+      "0": {
+        "bare": {
+          "homepage": 38050,
+          "path": 217645,
+          "query": 3595,
+          "path+query": 46907
+        },
+        "http": {
+          "homepage": 0,
+          "path": 37572,
+          "query": 337,
+          "path+query": 10626
+        },
+        "https": {
+          "homepage": 12905,
+          "path": 17394,
+          "query": 330,
+          "path+query": 4387
+        }
+      },
+      "1": {
+        "bare": {
+          "homepage": 17498,
+          "path": 36031,
+          "query": 84,
+          "path+query": 1429
+        },
+        "http": {
+          "homepage": 1102,
+          "path": 55023,
+          "query": 84,
+          "path+query": 46472
+        },
+        "https": {
+          "homepage": 723,
+          "path": 8028,
+          "query": 68,
+          "path+query": 1860
+        }
+      }
+    }
+  },
+  "deep_evaluation_sets": {
+    "legit_rows": 76039,
+    "legit_hostnames": 18629,
+    "legit_by_structure": {
+      "path": 62698,
+      "query": 864,
+      "path+query": 12477
+    },
+    "malicious_rows": 37601,
+    "malicious_by_structure": {
+      "path": 24722,
+      "query": 61,
+      "path+query": 12818
+    }
+  },
+  "models": {
+    "r2": {
+      "model": "R2",
+      "accuracy": 0.894107,
+      "precision": 0.794588,
+      "recall": 0.918828,
+      "f1": 0.852204,
+      "roc_auc": 0.965169,
+      "tn": 75494,
+      "fp": 10119,
+      "fn": 3458,
+      "tp": 39143,
+      "malicious_https_recall": 0.985782,
+      "benign_https_fp_rate": 0.037328,
+      "external_domain_safe_rate": 0.991,
+      "legit_deep_safe_rate": 0.112074,
+      "legit_deep_fp_rate": 0.887926,
+      "malicious_deep_recall": 0.975001,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 29.32,
+      "gates_passed": 6,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 14
+    },
+    "d1": {
+      "model": "D1",
+      "accuracy": 0.877494,
+      "precision": 0.78481,
+      "recall": 0.869792,
+      "f1": 0.825118,
+      "roc_auc": 0.953126,
+      "tn": 75453,
+      "fp": 10160,
+      "fn": 5547,
+      "tp": 37054,
+      "malicious_https_recall": 0.395088,
+      "benign_https_fp_rate": 0.003929,
+      "external_domain_safe_rate": 0.989,
+      "legit_deep_safe_rate": 0.892897,
+      "legit_deep_fp_rate": 0.107103,
+      "malicious_deep_recall": 0.722986,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 35.15,
+      "gates_passed": 3,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 14
+    },
+    "d2": {
+      "model": "D2",
+      "accuracy": 0.831766,
+      "precision": 0.703084,
+      "recall": 0.854557,
+      "f1": 0.771456,
+      "roc_auc": 0.914319,
+      "tn": 70239,
+      "fp": 15374,
+      "fn": 6196,
+      "tp": 36405,
+      "malicious_https_recall": 0.348988,
+      "benign_https_fp_rate": 0.0,
+      "external_domain_safe_rate": 0.9635,
+      "legit_deep_safe_rate": 0.89771,
+      "legit_deep_fp_rate": 0.10229,
+      "malicious_deep_recall": 0.681764,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 37.22,
+      "gates_passed": 3,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 13
+    }
+  },
+  "detail": {
+    "r2": {
+      "internal": {
+        "accuracy": 0.8941067278144352,
+        "precision": 0.7945881206609557,
+        "recall": 0.9188281965212084,
+        "f1": 0.8522038252615307,
+        "roc_auc": 0.9651686184069914,
+        "tn": 75494,
+        "fp": 10119,
+        "fn": 3458,
+        "tp": 39143,
+        "threshold": 0.5,
+        "rows": 128214,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9025,
+            "benign_fp_rate": 0.11311224745575776,
+            "malicious_count": 14663,
+            "malicious_recall": 0.8302530177999046
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 1075,
+            "benign_fp_rate": 0.20221971407072986,
+            "malicious_count": 25617,
+            "malicious_recall": 0.9634617636725612
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 19,
+            "benign_fp_rate": 0.03732809430255403,
+            "malicious_count": 2321,
+            "malicious_recall": 0.985781990521327
+          }
+        }
+      },
+      "external": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.9955,
+        "domain_safe_rate": 0.991,
+        "domains_safe": 1982,
+        "domains_unsafe": 18,
+        "apex_safe_rate": 1.0,
+        "www_safe_rate": 0.991,
+        "score_mean": 0.042247657547417515,
+        "worst_domains": [
+          {
+            "domain": "ffe390afd658c19dcbf707e0597b846d.de",
+            "max_score": 0.727928
+          },
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.699085
+          },
+          {
+            "domain": "browser-intake-us3-datadoghq.com",
+            "max_score": 0.638028
+          },
+          {
+            "domain": "xn--42cf7cgd7gxbd4m7c.cc",
+            "max_score": 0.632486
+          },
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.629076
+          },
+          {
+            "domain": "xn----gtbdhedngtjwm0ak2j.xn--p1ai",
+            "max_score": 0.608842
+          },
+          {
+            "domain": "xn--42c5ab1a9aq9hqb5dud.to",
+            "max_score": 0.601392
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.597332
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.597332
+          },
+          {
+            "domain": "udyamregistration.gov.in",
+            "max_score": 0.563913
+          },
+          {
+            "domain": "datadoghq-browser-agent.com",
+            "max_score": 0.561968
+          },
+          {
+            "domain": "elsiglodetorreon.com.mx",
+            "max_score": 0.54185
+          },
+          {
+            "domain": "chemistwarehouse.com.au",
+            "max_score": 0.54185
+          },
+          {
+            "domain": "mitsui-shopping-park.com",
+            "max_score": 0.533271
+          },
+          {
+            "domain": "jartrim68oum1z.org",
+            "max_score": 0.513095
+          }
+        ],
+        "note": "Generated homepage representations of held-out Tranco domains. Never used for fitting, tuning, or threshold selection."
+      },
+      "deep_benign": {
+        "suite": "legitimate held-out deep URLs (browser form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.112074,
+          "mean_score": 0.7912
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.106606,
+            "mean_score": 0.801115
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.042824,
+            "mean_score": 0.79164
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.144346,
+            "mean_score": 0.741349
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_benign_original": {
+        "suite": "legitimate held-out deep URLs (original form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.867752,
+          "mean_score": 0.190632
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.856997,
+            "mean_score": 0.198554
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.993056,
+            "mean_score": 0.057919
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.91312,
+            "mean_score": 0.160011
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious": {
+        "suite": "malicious held-out deep URLs (browser form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.975001,
+          "mean_score": 0.927382
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.972211,
+            "mean_score": 0.921195
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.868852,
+            "mean_score": 0.818672
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.980886,
+            "mean_score": 0.939832
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious_original": {
+        "suite": "malicious held-out deep URLs (original form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.909178,
+          "mean_score": 0.84477
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.889936,
+            "mean_score": 0.810633
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.459016,
+            "mean_score": 0.556394
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.948432,
+            "mean_score": 0.911982
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "sanity": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.015872
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.011001
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.015872
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.027957
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.04213
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.039211
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.915309
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.965691
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.841611
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.867217
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4
+      },
+      "diagnostics": [
+        {
+          "label": "google search",
+          "url": "https://www.google.com/search?q=fraud",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.976129
+        },
+        {
+          "label": "wikipedia article",
+          "url": "https://en.wikipedia.org/wiki/Phishing",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.982301
+        },
+        {
+          "label": "github repository",
+          "url": "https://github.com/microsoft/vscode",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.956543
+        },
+        {
+          "label": "python downloads",
+          "url": "https://www.python.org/downloads/",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.957796
+        },
+        {
+          "label": "microsoft windows",
+          "url": "https://www.microsoft.com/en-us/windows",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.982862
+        },
+        {
+          "label": "bbc news",
+          "url": "https://www.bbc.com/news",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.900879
+        },
+        {
+          "label": "example.org about",
+          "url": "https://example.org/about",
+          "kind": "extra",
+          "prediction": 1,
+          "score": 0.944006
+        },
+        {
+          "label": "example.com path+query",
+          "url": "https://example.com/path?a=1",
+          "kind": "extra",
+          "prediction": 1,
+          "score": 0.841798
+        }
+      ],
+      "gates": {
+        "checks": {
+          "overall_malicious_recall_ge_0.87": true,
+          "malicious_https_recall_ge_0.90": true,
+          "external_tranco_homepage_safe_ge_0.95": true,
+          "suspicious_synthetic_4_of_4": true,
+          "legit_deep_safe_ge_0.90": false,
+          "malicious_deep_recall_ge_0.90": true,
+          "no_leakage": true
+        },
+        "passed_count": 6,
+        "total": 7,
+        "passed": false
+      },
+      "feature_importances": {
+        "num_slashes": 0.261752,
+        "num_special_chars": 0.139258,
+        "num_dots": 0.121387,
+        "num_subdomains": 0.110667,
+        "hostname_length": 0.09093,
+        "url_length": 0.089737,
+        "num_digits": 0.048713,
+        "num_equal_signs": 0.042062,
+        "num_hyphens": 0.031355,
+        "has_ip_host": 0.018646,
+        "num_query_marks": 0.016135,
+        "uses_https": 0.015398,
+        "suspicious_keyword_count": 0.013693,
+        "has_at_symbol": 0.000266
+      }
+    },
+    "d1": {
+      "internal": {
+        "accuracy": 0.8774938774236822,
+        "precision": 0.784809590375736,
+        "recall": 0.8697917889251426,
+        "f1": 0.8251182987251573,
+        "roc_auc": 0.9531262838575149,
+        "tn": 75453,
+        "fp": 10160,
+        "fn": 5547,
+        "tp": 37054,
+        "threshold": 0.5,
+        "rows": 128214,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9312,
+            "benign_fp_rate": 0.11670927959091593,
+            "malicious_count": 14663,
+            "malicious_recall": 0.8207051762940735
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 846,
+            "benign_fp_rate": 0.15914221218961624,
+            "malicious_count": 25617,
+            "malicious_recall": 0.9408986220088222
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 2,
+            "benign_fp_rate": 0.003929273084479371,
+            "malicious_count": 2321,
+            "malicious_recall": 0.3950883239982766
+          }
+        }
+      },
+      "external": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.9945,
+        "domain_safe_rate": 0.989,
+        "domains_safe": 1978,
+        "domains_unsafe": 22,
+        "apex_safe_rate": 1.0,
+        "www_safe_rate": 0.989,
+        "score_mean": 0.05160516202865129,
+        "worst_domains": [
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.713229
+          },
+          {
+            "domain": "browser-intake-us3-datadoghq.com",
+            "max_score": 0.689608
+          },
+          {
+            "domain": "ffe390afd658c19dcbf707e0597b846d.de",
+            "max_score": 0.68375
+          },
+          {
+            "domain": "xn----gtbdhedngtjwm0ak2j.xn--p1ai",
+            "max_score": 0.663707
+          },
+          {
+            "domain": "xn--42cf7cgd7gxbd4m7c.cc",
+            "max_score": 0.655027
+          },
+          {
+            "domain": "datadoghq-browser-agent.com",
+            "max_score": 0.629728
+          },
+          {
+            "domain": "mitsui-shopping-park.com",
+            "max_score": 0.629195
+          },
+          {
+            "domain": "thueringer-allgemeine.de",
+            "max_score": 0.618193
+          },
+          {
+            "domain": "automizely-analytics.com",
+            "max_score": 0.618193
+          },
+          {
+            "domain": "xn--42c5ab1a9aq9hqb5dud.to",
+            "max_score": 0.616087
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.61438
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.61438
+          },
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.611509
+          },
+          {
+            "domain": "confiant-integrations.net",
+            "max_score": 0.604133
+          },
+          {
+            "domain": "realmoneyslots-mobile.com",
+            "max_score": 0.604133
+          }
+        ],
+        "note": "Generated homepage representations of held-out Tranco domains. Never used for fitting, tuning, or threshold selection."
+      },
+      "deep_benign": {
+        "suite": "legitimate held-out deep URLs (browser form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.892897,
+          "mean_score": 0.238796
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.896376,
+            "mean_score": 0.228556
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.913194,
+            "mean_score": 0.218362
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.874008,
+            "mean_score": 0.291665
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_benign_original": {
+        "suite": "legitimate held-out deep URLs (original form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.867239,
+          "mean_score": 0.189698
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.852101,
+            "mean_score": 0.199341
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.99537,
+            "mean_score": 0.059008
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.934439,
+            "mean_score": 0.150291
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious": {
+        "suite": "malicious held-out deep URLs (browser form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.722986,
+          "mean_score": 0.726373
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.616212,
+            "mean_score": 0.640789
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.442623,
+            "mean_score": 0.474918
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.930254,
+            "mean_score": 0.892636
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious_original": {
+        "suite": "malicious held-out deep URLs (original form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.853594,
+          "mean_score": 0.793702
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.812232,
+            "mean_score": 0.743168
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.393443,
+            "mean_score": 0.461466
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.935559,
+            "mean_score": 0.892747
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "sanity": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.040866
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.039332
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.012371
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.039332
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.039311
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.040866
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.046954
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.040866
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.040278
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.040866
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.770123
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.930638
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.809676
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.831663
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4
+      },
+      "diagnostics": [
+        {
+          "label": "google search",
+          "url": "https://www.google.com/search?q=fraud",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.511471
+        },
+        {
+          "label": "wikipedia article",
+          "url": "https://en.wikipedia.org/wiki/Phishing",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.382412
+        },
+        {
+          "label": "github repository",
+          "url": "https://github.com/microsoft/vscode",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.059632
+        },
+        {
+          "label": "python downloads",
+          "url": "https://www.python.org/downloads/",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.427419
+        },
+        {
+          "label": "microsoft windows",
+          "url": "https://www.microsoft.com/en-us/windows",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.313055
+        },
+        {
+          "label": "bbc news",
+          "url": "https://www.bbc.com/news",
+          "kind": "famous",
+          "prediction": 1,
+          "score": 0.680131
+        },
+        {
+          "label": "example.org about",
+          "url": "https://example.org/about",
+          "kind": "extra",
+          "prediction": 0,
+          "score": 0.395035
+        },
+        {
+          "label": "example.com path+query",
+          "url": "https://example.com/path?a=1",
+          "kind": "extra",
+          "prediction": 0,
+          "score": 0.149385
+        }
+      ],
+      "gates": {
+        "checks": {
+          "overall_malicious_recall_ge_0.87": false,
+          "malicious_https_recall_ge_0.90": false,
+          "external_tranco_homepage_safe_ge_0.95": true,
+          "suspicious_synthetic_4_of_4": true,
+          "legit_deep_safe_ge_0.90": false,
+          "malicious_deep_recall_ge_0.90": false,
+          "no_leakage": true
+        },
+        "passed_count": 3,
+        "total": 7,
+        "passed": false
+      },
+      "feature_importances": {
+        "num_slashes": 0.227729,
+        "num_dots": 0.134119,
+        "num_subdomains": 0.126984,
+        "num_special_chars": 0.106578,
+        "hostname_length": 0.100127,
+        "url_length": 0.087232,
+        "num_digits": 0.058712,
+        "num_equal_signs": 0.054823,
+        "num_hyphens": 0.031263,
+        "has_ip_host": 0.022703,
+        "uses_https": 0.017871,
+        "suspicious_keyword_count": 0.01579,
+        "num_query_marks": 0.015426,
+        "has_at_symbol": 0.000643
+      }
+    },
+    "d2": {
+      "internal": {
+        "accuracy": 0.8317656418175863,
+        "precision": 0.7030842619594816,
+        "recall": 0.8545574047557569,
+        "f1": 0.7714558169103624,
+        "roc_auc": 0.9143185501768449,
+        "tn": 70239,
+        "fp": 15374,
+        "fn": 6196,
+        "tp": 36405,
+        "threshold": 0.5,
+        "rows": 128214,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 14663,
+            "benign_fp_rate": 0.18377450243144333,
+            "malicious_count": 14663,
+            "malicious_recall": 0.8563049853372434
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 711,
+            "benign_fp_rate": 0.13374717832957111,
+            "malicious_count": 25617,
+            "malicious_recall": 0.8993637037904516
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 0,
+            "benign_fp_rate": 0.0,
+            "malicious_count": 2321,
+            "malicious_recall": 0.34898750538560963
+          }
+        }
+      },
+      "external": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.981,
+        "domain_safe_rate": 0.9635,
+        "domains_safe": 1927,
+        "domains_unsafe": 73,
+        "apex_safe_rate": 0.9985,
+        "www_safe_rate": 0.9635,
+        "score_mean": 0.10725546509316158,
+        "worst_domains": [
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.896014
+          },
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.891808
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.882882
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.882882
+          },
+          {
+            "domain": "ffe390afd658c19dcbf707e0597b846d.de",
+            "max_score": 0.840534
+          },
+          {
+            "domain": "datadoghq-browser-agent.com",
+            "max_score": 0.832158
+          },
+          {
+            "domain": "restaurant-partners.com",
+            "max_score": 0.831254
+          },
+          {
+            "domain": "browser-intake-us3-datadoghq.com",
+            "max_score": 0.830045
+          },
+          {
+            "domain": "thueringer-allgemeine.de",
+            "max_score": 0.810655
+          },
+          {
+            "domain": "automizely-analytics.com",
+            "max_score": 0.810655
+          },
+          {
+            "domain": "mitsui-shopping-park.com",
+            "max_score": 0.806681
+          },
+          {
+            "domain": "bahagiabatik77.com",
+            "max_score": 0.803021
+          },
+          {
+            "domain": "kingdomtotox75.com",
+            "max_score": 0.803021
+          },
+          {
+            "domain": "confiant-integrations.net",
+            "max_score": 0.796741
+          },
+          {
+            "domain": "realmoneyslots-mobile.com",
+            "max_score": 0.796741
+          }
+        ],
+        "note": "Generated homepage representations of held-out Tranco domains. Never used for fitting, tuning, or threshold selection."
+      },
+      "deep_benign": {
+        "suite": "legitimate held-out deep URLs (browser form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.89771,
+          "mean_score": 0.230223
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.910763,
+            "mean_score": 0.220816
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.947917,
+            "mean_score": 0.194225
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.828645,
+            "mean_score": 0.279987
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_benign_original": {
+        "suite": "legitimate held-out deep URLs (original form)",
+        "label": 0,
+        "rows": 76039,
+        "rate_key": "safe_rate",
+        "score_key": "false_positive_rate",
+        "overall": {
+          "count": 76039,
+          "rate": 0.802562,
+          "mean_score": 0.243244
+        },
+        "by_structure": {
+          "path": {
+            "count": 62698,
+            "rate": 0.779738,
+            "mean_score": 0.252594
+          },
+          "query": {
+            "count": 864,
+            "rate": 0.943287,
+            "mean_score": 0.135283
+          },
+          "path+query": {
+            "count": 12477,
+            "rate": 0.90751,
+            "mean_score": 0.203738
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious": {
+        "suite": "malicious held-out deep URLs (browser form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.681764,
+          "mean_score": 0.695137
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.575196,
+            "mean_score": 0.613864
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.360656,
+            "mean_score": 0.431307
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.888828,
+            "mean_score": 0.853144
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "deep_malicious_original": {
+        "suite": "malicious held-out deep URLs (original form)",
+        "label": 1,
+        "rows": 37601,
+        "rate_key": "recall",
+        "score_key": "false_negative_rate",
+        "overall": {
+          "count": 37601,
+          "rate": 0.840403,
+          "mean_score": 0.770476
+        },
+        "by_structure": {
+          "path": {
+            "count": 24722,
+            "rate": 0.804749,
+            "mean_score": 0.725313
+          },
+          "query": {
+            "count": 61,
+            "rate": 0.540984,
+            "mean_score": 0.508619
+          },
+          "path+query": {
+            "count": 12818,
+            "rate": 0.910594,
+            "mean_score": 0.85883
+          }
+        },
+        "note": "Held-out Kaggle TEST rows only. Browser-form representation: a scheme was added only where the source row had none; existing path/query text is byte-identical. Never used for fitting."
+      },
+      "sanity": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.071557
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.085243
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.028771
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.085243
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.065979
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.071557
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.080942
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.071557
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.097911
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.071557
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.779739
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.914696
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.734396
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.772769
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4
+      },
+      "diagnostics": [
+        {
+          "label": "google search",
+          "url": "https://www.google.com/search?q=fraud",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.481562
+        },
+        {
+          "label": "wikipedia article",
+          "url": "https://en.wikipedia.org/wiki/Phishing",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.41605
+        },
+        {
+          "label": "github repository",
+          "url": "https://github.com/microsoft/vscode",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.05904
+        },
+        {
+          "label": "python downloads",
+          "url": "https://www.python.org/downloads/",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.440793
+        },
+        {
+          "label": "microsoft windows",
+          "url": "https://www.microsoft.com/en-us/windows",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.399243
+        },
+        {
+          "label": "bbc news",
+          "url": "https://www.bbc.com/news",
+          "kind": "famous",
+          "prediction": 0,
+          "score": 0.314772
+        },
+        {
+          "label": "example.org about",
+          "url": "https://example.org/about",
+          "kind": "extra",
+          "prediction": 0,
+          "score": 0.308182
+        },
+        {
+          "label": "example.com path+query",
+          "url": "https://example.com/path?a=1",
+          "kind": "extra",
+          "prediction": 0,
+          "score": 0.102461
+        }
+      ],
+      "gates": {
+        "checks": {
+          "overall_malicious_recall_ge_0.87": false,
+          "malicious_https_recall_ge_0.90": false,
+          "external_tranco_homepage_safe_ge_0.95": true,
+          "suspicious_synthetic_4_of_4": true,
+          "legit_deep_safe_ge_0.90": false,
+          "malicious_deep_recall_ge_0.90": false,
+          "no_leakage": true
+        },
+        "passed_count": 3,
+        "total": 7,
+        "passed": false
+      },
+      "feature_importances": {
+        "num_dots": 0.16577,
+        "url_length": 0.153062,
+        "hostname_length": 0.150666,
+        "num_special_chars": 0.13366,
+        "num_subdomains": 0.125851,
+        "num_digits": 0.076885,
+        "num_equal_signs": 0.06744,
+        "num_hyphens": 0.04494,
+        "has_ip_host": 0.022485,
+        "suspicious_keyword_count": 0.02195,
+        "uses_https": 0.018548,
+        "num_query_marks": 0.017759,
+        "has_at_symbol": 0.000985
+      }
+    }
+  },
+  "separability_analysis": {
+    "artifact": "C:\\fraudshield\\model\\experiment_d\\deep_separability.json",
+    "purpose": "Answer whether ANY decision threshold could satisfy the deep-URL gates. Diagnostic only; the deployed threshold remains 0.5.",
+    "headline": {
+      "https_only_deep_auc": {
+        "R2": 0.757214,
+        "D1": 0.755828,
+        "D2": 0.757289
+      },
+      "https_only_best_balanced_point": {
+        "R2": {
+          "benign_safe": 0.665795,
+          "malicious_recall": 0.665718,
+          "min": 0.665718
+        },
+        "D1": {
+          "benign_safe": 0.701427,
+          "malicious_recall": 0.701423,
+          "min": 0.701423
+        },
+        "D2": {
+          "benign_safe": 0.702501,
+          "malicious_recall": 0.702481,
+          "min": 0.702481
+        }
+      },
+      "both_0.90_reachable_by_any_threshold": {
+        "R2": false,
+        "D1": false,
+        "D2": false
+      },
+      "all_deep_auc": {
+        "R2": 0.772797,
+        "D1": 0.905009,
+        "D2": 0.894548
+      }
+    },
+    "interpretation": "On the HTTPS-only deep subset (the realistic browser case) all three models sit at ROC-AUC ~0.756. D1's higher all-deep AUC (0.905) comes from the scheme artifact: benign deep rows are 93% https while malicious deep rows are 67% http. Once scheme is held constant, no model separates benign from malicious deep URLs well enough for 0.90/0.90, at any threshold.",
+    "full_results": {
+      "R2|all deep": {
+        "roc_auc": 0.772797,
+        "at_0.5": {
+          "benign_safe": 0.112074,
+          "malicious_recall": 0.975001
+        },
+        "best_balanced": {
+          "benign_safe": 0.690198,
+          "malicious_recall": 0.689742,
+          "min": 0.689742
+        },
+        "best_sum": {
+          "benign_safe": 0.784098,
+          "malicious_recall": 0.634744
+        },
+        "both_0.90_reachable": false
+      },
+      "R2|https-only deep": {
+        "roc_auc": 0.757214,
+        "at_0.5": {
+          "benign_safe": 0.060532,
+          "malicious_recall": 0.997967
+        },
+        "best_balanced": {
+          "benign_safe": 0.665795,
+          "malicious_recall": 0.665718,
+          "min": 0.665718
+        },
+        "best_sum": {
+          "benign_safe": 0.519732,
+          "malicious_recall": 0.877349
+        },
+        "both_0.90_reachable": false
+      },
+      "D1|all deep": {
+        "roc_auc": 0.905009,
+        "at_0.5": {
+          "benign_safe": 0.892897,
+          "malicious_recall": 0.722986
+        },
+        "best_balanced": {
+          "benign_safe": 0.805284,
+          "malicious_recall": 0.806016,
+          "min": 0.805284
+        },
+        "best_sum": {
+          "benign_safe": 0.900683,
+          "malicious_recall": 0.716656
+        },
+        "both_0.90_reachable": false
+      },
+      "D1|https-only deep": {
+        "roc_auc": 0.755828,
+        "at_0.5": {
+          "benign_safe": 0.896809,
+          "malicious_recall": 0.27442
+        },
+        "best_balanced": {
+          "benign_safe": 0.701427,
+          "malicious_recall": 0.701423,
+          "min": 0.701423
+        },
+        "best_sum": {
+          "benign_safe": 0.530422,
+          "malicious_recall": 0.887515
+        },
+        "both_0.90_reachable": false
+      },
+      "D2|all deep": {
+        "roc_auc": 0.894548,
+        "at_0.5": {
+          "benign_safe": 0.89771,
+          "malicious_recall": 0.681764
+        },
+        "best_balanced": {
+          "benign_safe": 0.791528,
+          "malicious_recall": 0.791548,
+          "min": 0.791528
+        },
+        "best_sum": {
+          "benign_safe": 0.932521,
+          "malicious_recall": 0.657296
+        },
+        "both_0.90_reachable": false
+      },
+      "D2|https-only deep": {
+        "roc_auc": 0.757289,
+        "at_0.5": {
+          "benign_safe": 0.900075,
+          "malicious_recall": 0.234486
+        },
+        "best_balanced": {
+          "benign_safe": 0.702501,
+          "malicious_recall": 0.702481,
+          "min": 0.702481
+        },
+        "best_sum": {
+          "benign_safe": 0.534777,
+          "malicious_recall": 0.896625
+        },
+        "both_0.90_reachable": false
+      }
+    }
+  },
+  "d3_decision": {
+    "run": false,
+    "reason": "D3 is only justified when D1/D2 clearly implicate ANOTHER single structural feature as the shortcut. The measurements show the residual failure is not a single-feature shortcut: removing num_slashes (D2) left the deep HTTPS AUC essentially unchanged (0.7573 vs 0.7572 for R2) and worsened every headline metric. The ceiling is set by the feature set and dataset content, not by one redundant column. Running a third ablation would be brute-force feature search against the diagnostic strings, which the stage explicitly forbids.",
+    "evidence": {
+      "d1_https_only_deep_auc": 0.7558,
+      "d2_https_only_deep_auc": 0.7573,
+      "r2_https_only_deep_auc": 0.7572,
+      "d2_effect": "no improvement in separability; lower recall and F1 than D1"
+    }
+  },
+  "final_decision": {
+    "candidates_evaluating": [
+      "D1",
+      "D2"
+    ],
+    "d1_passes_all_gates": false,
+    "d2_passes_all_gates": false,
+    "d3_run": false,
+    "any_candidate_passes": false,
+    "promote": false,
+    "r2_remains_promoted": true,
+    "headline": "No candidate passes the predeclared gates. D1 and D2 both convert the benign-deep failure into a malicious-deep failure: legitimate deep safe rate rises from 0.112 to ~0.89 while malicious HTTPS recall collapses from 0.986 to ~0.35-0.40. The deep-URL problem is not separable with the 14 canonical lexical features on this dataset at any threshold.",
+    "blocking_issues": [
+      "malicious HTTPS recall 0.3951 (D1) / 0.3490 (D2) vs gate 0.90",
+      "malicious deep recall 0.7230 (D1) / 0.6818 (D2) vs gate 0.90",
+      "legitimate deep safe 0.8929 (D1) / 0.8977 (D2) vs gate 0.90",
+      "overall malicious recall 0.8698 (D1) / 0.8546 (D2) vs gate 0.87"
+    ],
+    "what_would_be_needed": [
+      "A feature representation that reads URL semantics rather than writing convention (e.g. token-level path/query modelling) instead of 14 scalar counts.",
+      "A benign deep-URL source that is independent of the Kaggle writing convention (real observed browsing URLs, not scheme-derived duplicates).",
+      "Evaluation against a curated deep-URL evasion set, not only Kaggle rows."
+    ]
+  }
+}

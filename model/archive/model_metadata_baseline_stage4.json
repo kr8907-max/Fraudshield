@@ -1,0 +1,152 @@
+{
+  "model_name": "FraudShield URL Risk Model",
+  "model_type": "RandomForestClassifier",
+  "training_timestamp": "2026-10-29T16:59:44.053517+00:00",
+  "python_version": "3.14.10",
+  "scikit_learn_version": "1.9.1",
+  "dataset_filename": "malicious_phish.csv",
+  "dataset_size_bytes": 45664439,
+  "dataset_sha256": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+  "dataset_source": "Kaggle Malicious URLs Dataset (sid321axn/malicious-urls-dataset), file malicious_phish.csv",
+  "dataset_original_rows": 651191,
+  "dataset_usable_rows": 641084,
+  "invalid_rows": 29,
+  "duplicates_removed": 10066,
+  "conflicting_urls": 6,
+  "conflict_rows_removed": 12,
+  "source_class_counts_original": {
+    "benign": 428103,
+    "phishing": 94111,
+    "defacement": 96457,
+    "malware": 32520
+  },
+  "source_class_counts_usable": {
+    "benign": 428074,
+    "phishing": 94057,
+    "defacement": 95308,
+    "malware": 23645
+  },
+  "class_mapping": {
+    "source_to_binary": {
+      "benign": 0,
+      "phishing": 1,
+      "defacement": 1,
+      "malware": 1
+    },
+    "binary": {
+      "0": "benign/safe",
+      "1": "malicious/suspicious"
+    }
+  },
+  "feature_names": [
+    "url_length",
+    "hostname_length",
+    "num_dots",
+    "num_hyphens",
+    "num_slashes",
+    "num_digits",
+    "num_special_chars",
+    "num_query_marks",
+    "num_equal_signs",
+    "has_at_symbol",
+    "uses_https",
+    "has_ip_host",
+    "num_subdomains",
+    "suspicious_keyword_count"
+  ],
+  "feature_count": 14,
+  "training_samples": 512870,
+  "testing_samples": 128214,
+  "train_class_counts": {
+    "benign": 342461,
+    "malicious": 170409
+  },
+  "test_class_counts": {
+    "benign": 85613,
+    "malicious": 42601
+  },
+  "random_state": 42,
+  "split_strategy": "StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42); first fold held out (~20%). Groups are hostnames parsed with urllib.parse; hostname is not a registrable domain because no Public Suffix List dependency is used.",
+  "hostname_overlap": 0,
+  "unique_train_hostnames": 157045,
+  "unique_test_hostnames": 39460,
+  "training_seconds": 28.26,
+  "data_preparation_seconds": 15.31,
+  "accuracy": 0.881183,
+  "precision": 0.781675,
+  "recall": 0.891364,
+  "f1": 0.832924,
+  "roc_auc": 0.955218,
+  "confusion_matrix": [
+    [
+      75007,
+      10606
+    ],
+    [
+      4628,
+      37973
+    ]
+  ],
+  "true_negatives": 75007,
+  "false_positives": 10606,
+  "false_negatives": 4628,
+  "true_positives": 37973,
+  "feature_importances": [
+    {
+      "feature": "num_slashes",
+      "importance": 0.234111
+    },
+    {
+      "feature": "num_special_chars",
+      "importance": 0.132731
+    },
+    {
+      "feature": "url_length",
+      "importance": 0.118075
+    },
+    {
+      "feature": "num_dots",
+      "importance": 0.113436
+    },
+    {
+      "feature": "hostname_length",
+      "importance": 0.107824
+    },
+    {
+      "feature": "num_subdomains",
+      "importance": 0.101627
+    },
+    {
+      "feature": "num_digits",
+      "importance": 0.058535
+    },
+    {
+      "feature": "num_equal_signs",
+      "importance": 0.037606
+    },
+    {
+      "feature": "num_hyphens",
+      "importance": 0.036273
+    },
+    {
+      "feature": "uses_https",
+      "importance": 0.016735
+    },
+    {
+      "feature": "num_query_marks",
+      "importance": 0.015325
+    },
+    {
+      "feature": "suspicious_keyword_count",
+      "importance": 0.014284
+    },
+    {
+      "feature": "has_ip_host",
+      "importance": 0.012943
+    },
+    {
+      "feature": "has_at_symbol",
+      "importance": 0.000496
+    }
+  ]
+}

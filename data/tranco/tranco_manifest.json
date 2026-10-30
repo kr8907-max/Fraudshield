@@ -1,0 +1,30 @@
+{
+  "source": "Tranco list (https://tranco-list.eu/) - research-oriented top sites ranking",
+  "download_url": "https://tranco-list.eu/top-1m.csv.zip",
+  "attribution": "Le Pochat, Van Goethem, Tajalizadehkhoob, Korczynski, Joosen. Tranco: A Research-Oriented Top Sites Ranking Hardened Against Manipulation (NDSS 2019).",
+  "local_csv_path": "C:\\fraudshield\\data\\tranco\\top-1m.csv",
+  "csv_sha256": "c13d972cb8deb00bcada3d2087c283a067e7235e7acebd596ab21c0126cd95c5",
+  "csv_size_bytes": 22625214,
+  "archive_path": "C:\\fraudshield\\top-1m.csv.zip",
+  "archive_sha256": "6e26a38784bbf6203ccff8283d22db656fa2e2d96515cbb7df3c9c1b920e4936",
+  "archive_member_last_modified": "2026-10-28T22:22:32",
+  "csv_mtime_utc": "2026-10-29T17:16:17.811702+00:00",
+  "rows": 1000000,
+  "unique_domains": 1000000,
+  "rank_range": [
+    1,
+    1000000
+  ],
+  "format": "rank,domain (no header; CRLF line endings)",
+  "duplicates": 0,
+  "malformed_entries": 6,
+  "malformed_breakdown": {
+    "wildcard_or_underscore": 6,
+    "idn_punycode_accepted_as_valid": 1421,
+    "other_invalid": 0
+  },
+  "list_id": null,
+  "list_id_note": "No list ID is embedded in top-1m.csv. The authoritative ID is published at https://tranco-list.eu/top-1m-id; it was NOT fetched because this stage forbids network access.",
+  "verified_read_only": true,
+  "network_used": false
+}

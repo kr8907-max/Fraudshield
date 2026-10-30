@@ -1,0 +1,773 @@
+{
+  "model_name": "FraudShield Stage 6 Experiment S2-A",
+  "variant": "s2",
+  "status": "experimental - NOT promoted; R2 remains the current model",
+  "representation": {
+    "representation": "S1 scheme-blind field-separated TF-IDF + keyword counts, with a www-normalised hostname",
+    "change_vs_s1": "host block input only",
+    "normalization": {
+      "function": "host.strip().lower(); if startswith('www.') and len>4: host[4:]",
+      "removes": "exactly one leading literal 'www.'",
+      "does_not_remove": [
+        "www2.",
+        "ww2.",
+        "m.",
+        "wap.",
+        "any non-leading label"
+      ],
+      "applies_to": [
+        "HOST feature block"
+      ],
+      "does_not_apply_to": [
+        "path block",
+        "query block",
+        "keyword-count block"
+      ],
+      "original_url_untouched": true
+    },
+    "scheme_handling": {
+      "scheme_is_a_feature": false,
+      "preprocessing": "http(s):// prefix stripped before any feature"
+    },
+    "blocks": {
+      "host": {
+        "field": "normalized hostname",
+        "config": {
+          "analyzer": "char_wb",
+          "ngram_range": [
+            3,
+            5
+          ],
+          "max_features": 30000,
+          "min_df": 3,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": true
+        },
+        "vocab_size": 30000,
+        "offset": 0
+      },
+      "path": {
+        "field": "path",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 50000,
+        "offset": 30000
+      },
+      "query": {
+        "field": "query",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            1
+          ],
+          "max_features": 20000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 7500,
+        "offset": 80000
+      },
+      "suspicious_vocab": {
+        "fields": [
+          "host",
+          "path",
+          "query"
+        ],
+        "keywords": [
+          "login",
+          "signin",
+          "verify",
+          "account",
+          "update",
+          "secure",
+          "password",
+          "bank",
+          "confirm",
+          "payment",
+          "security",
+          "wallet",
+          "authentication",
+          "bonus",
+          "prize"
+        ],
+        "count": 45,
+        "offset": 87500
+      }
+    },
+    "total_features": 87545,
+    "model_config": {
+      "class_weight": "balanced",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 400,
+      "random_state": 42
+    }
+  },
+  "python_version": "3.14.10",
+  "scikit_learn_version": "1.9.1",
+  "trained_on": {
+    "kaggle_rows": 487729,
+    "tranco_rows": 12905,
+    "total": 500634,
+    "augmentation": "none",
+    "rows_purged_for_normalized_leakage": 16172,
+    "vocabulary_fit": "S2 training population only"
+  },
+  "metrics": {
+    "model": "S2",
+    "accuracy": 0.865607,
+    "precision": 0.811334,
+    "recall": 0.775968,
+    "f1": 0.793257,
+    "roc_auc": 0.939787,
+    "tn": 77926,
+    "fp": 7687,
+    "fn": 9544,
+    "tp": 33057,
+    "malicious_https_recall": 0.460577,
+    "benign_https_fp_rate": 0.121807,
+    "external_domain_safe_rate": 0.5955,
+    "external_apex_safe_rate": 0.5955,
+    "external_www_safe_rate": 0.5955,
+    "legit_deep_safe_rate": 0.918239,
+    "legit_deep_fp_rate": 0.081761,
+    "malicious_deep_recall": 0.785617,
+    "https_only_deep_roc_auc": 0.924561,
+    "all_deep_roc_auc": 0.947931,
+    "legit_sanity_safe": 5,
+    "suspicious_flagged": 4,
+    "model_size_mb": 1.17,
+    "gates_passed": 3,
+    "gates_total": 7,
+    "all_gates_passed": false,
+    "active_features": 87545
+  },
+  "evaluation": {
+    "generated_at": "2026-10-30T06:55:31.752008+00:00",
+    "internal_test": {
+      "accuracy": 0.8656074999610027,
+      "precision": 0.811334184174357,
+      "recall": 0.7759677002887256,
+      "f1": 0.7932569440278361,
+      "roc_auc": 0.9397872296981531,
+      "tn": 77926,
+      "fp": 7687,
+      "fn": 9544,
+      "tp": 33057,
+      "threshold": 0.5,
+      "rows": 128214,
+      "by_style": {
+        "bare": {
+          "benign_count": 79788,
+          "benign_fp": 6581,
+          "benign_fp_rate": 0.08248107484834813,
+          "malicious_count": 14663,
+          "malicious_recall": 0.6875809861556298
+        },
+        "http": {
+          "benign_count": 5316,
+          "benign_fp": 1044,
+          "benign_fp_rate": 0.1963882618510158,
+          "malicious_count": 25617,
+          "malicious_recall": 0.8551352617402506
+        },
+        "https": {
+          "benign_count": 509,
+          "benign_fp": 62,
+          "benign_fp_rate": 0.12180746561886051,
+          "malicious_count": 2321,
+          "malicious_recall": 0.46057733735458856
+        }
+      }
+    },
+    "external_tranco_homepage": {
+      "url_count": 4000,
+      "domain_count": 2000,
+      "url_safe_rate": 0.5955,
+      "domain_safe_rate": 0.5955,
+      "domains_safe": 1191,
+      "domains_unsafe": 809,
+      "apex_safe_rate": 0.5955,
+      "www_safe_rate": 0.5955,
+      "score_mean": 0.4470165967941284
+    },
+    "deep_legitimate": {
+      "label": 0,
+      "rows": 76039,
+      "overall": {
+        "count": 76039,
+        "rate": 0.918239,
+        "mean_score": 0.137337
+      },
+      "by_structure": {
+        "path": {
+          "count": 62698,
+          "rate": 0.916552,
+          "mean_score": 0.138483
+        },
+        "query": {
+          "count": 864,
+          "rate": 0.931713,
+          "mean_score": 0.151316
+        },
+        "path+query": {
+          "count": 12477,
+          "rate": 0.925783,
+          "mean_score": 0.13061
+        }
+      }
+    },
+    "deep_malicious": {
+      "label": 1,
+      "rows": 37601,
+      "overall": {
+        "count": 37601,
+        "rate": 0.785617,
+        "mean_score": 0.762017
+      },
+      "by_structure": {
+        "path": {
+          "count": 24722,
+          "rate": 0.712604,
+          "mean_score": 0.687744
+        },
+        "query": {
+          "count": 61,
+          "rate": 0.508197,
+          "mean_score": 0.501926
+        },
+        "path+query": {
+          "count": 12818,
+          "rate": 0.927758,
+          "mean_score": 0.906503
+        }
+      }
+    },
+    "deep_malicious_by_subtype": {
+      "defacement": {
+        "count": 19268,
+        "recall": 0.87513,
+        "mean_score": 0.841017
+      },
+      "malware": {
+        "count": 4266,
+        "recall": 0.711205,
+        "mean_score": 0.800572
+      },
+      "phishing": {
+        "count": 14067,
+        "recall": 0.685576,
+        "mean_score": 0.642115
+      }
+    },
+    "separability": {
+      "https_only_deep": {
+        "roc_auc": 0.924561,
+        "best_balanced_safe": 0.847631,
+        "best_balanced_recall": 0.847662,
+        "best_balanced_min": 0.847631,
+        "best_balanced_threshold": 0.280971,
+        "both_0.90_reachable": false,
+        "note": "Threshold sweep is diagnostic only; deployed threshold stays 0.5."
+      },
+      "all_deep": {
+        "roc_auc": 0.947931,
+        "best_balanced_safe": 0.874249,
+        "best_balanced_recall": 0.874365,
+        "best_balanced_min": 0.874249,
+        "best_balanced_threshold": 0.35901,
+        "both_0.90_reachable": false,
+        "note": "Threshold sweep is diagnostic only; deployed threshold stays 0.5."
+      }
+    },
+    "tranco_diagnosis": {
+      "apex_www": {
+        "pairs": 2000,
+        "mean_delta": 0.0,
+        "max_abs_delta": 0.0,
+        "pairs_with_nonzero_delta": 0,
+        "note": "Apex and www forms of the same domain must be identical under S2."
+      },
+      "s2": {
+        "domain_safe_rate": 0.5955,
+        "apex_safe_rate": 0.5955,
+        "www_safe_rate": 0.5955,
+        "url_safe_rate": 0.5955,
+        "mean_score": 0.447017,
+        "median_score": 0.433033,
+        "flagged_urls": 1618
+      },
+      "r2_same_urls": {
+        "domain_safe_rate": 0.991,
+        "mean_score": 0.042248
+      },
+      "host_block_logit": {
+        "mean_on_tranco_false_positives": 0.476826,
+        "mean_on_tranco_true_negatives": -1.269904,
+        "mean_path_block": 0.0,
+        "mean_query_block": 0.0,
+        "mean_keyword_block": 0.001044118,
+        "intercept": 0.301758
+      },
+      "top_positive_host_features": [
+        {
+          "feature": " cs.",
+          "coefficient": 5.536268,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "spp",
+          "coefficient": 5.396314,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "cs.",
+          "coefficient": 4.386119,
+          "mean_tfidf_tranco": 0.001107
+        },
+        {
+          "feature": "ml ",
+          "coefficient": 4.372288,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": ".ml ",
+          "coefficient": 4.372288,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": ".ga ",
+          "coefficient": 4.265977,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "ga ",
+          "coefficient": 4.265977,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "id ",
+          "coefficient": 4.010455,
+          "mean_tfidf_tranco": 0.000857
+        },
+        {
+          "feature": "cf ",
+          "coefficient": 3.936052,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": ".cf ",
+          "coefficient": 3.936052,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": " www",
+          "coefficient": 3.704795,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "gq ",
+          "coefficient": 3.535475,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": ".gq ",
+          "coefficient": 3.535475,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": ".ml",
+          "coefficient": 3.497158,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "iclo",
+          "coefficient": 3.487122,
+          "mean_tfidf_tranco": 0.000104
+        }
+      ],
+      "top_negative_host_features": [
+        {
+          "feature": " kc",
+          "coefficient": -4.489187,
+          "mean_tfidf_tranco": 0.000134
+        },
+        {
+          "feature": "film",
+          "coefficient": -3.827338,
+          "mean_tfidf_tranco": 0.000345
+        },
+        {
+          "feature": "ryb",
+          "coefficient": -3.616913,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "loot.",
+          "coefficient": -3.344923,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": " 's",
+          "coefficient": -3.336181,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "wik",
+          "coefficient": -3.15486,
+          "mean_tfidf_tranco": 0.000368
+        },
+        {
+          "feature": "db.",
+          "coefficient": -3.111893,
+          "mean_tfidf_tranco": 0.0004
+        },
+        {
+          "feature": ".ca ",
+          "coefficient": -3.037307,
+          "mean_tfidf_tranco": 0.000306
+        },
+        {
+          "feature": "ca ",
+          "coefficient": -3.037307,
+          "mean_tfidf_tranco": 0.000306
+        },
+        {
+          "feature": ".dev",
+          "coefficient": -2.981812,
+          "mean_tfidf_tranco": 0.000451
+        },
+        {
+          "feature": " loo",
+          "coefficient": -2.937961,
+          "mean_tfidf_tranco": 0.000391
+        },
+        {
+          "feature": " tv",
+          "coefficient": -2.921006,
+          "mean_tfidf_tranco": 0.000585
+        },
+        {
+          "feature": "myl",
+          "coefficient": -2.917232,
+          "mean_tfidf_tranco": 0.0
+        },
+        {
+          "feature": "wiki",
+          "coefficient": -2.892419,
+          "mean_tfidf_tranco": 0.00037
+        },
+        {
+          "feature": "ilm",
+          "coefficient": -2.879341,
+          "mean_tfidf_tranco": 0.000341
+        }
+      ]
+    },
+    "sanity": {
+      "rows": [
+        {
+          "kind": "legit",
+          "url": "https://www.google.com",
+          "score": 0.545496,
+          "prediction": 1
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.wikipedia.org",
+          "score": 0.023052,
+          "prediction": 0
+        },
+        {
+          "kind": "legit",
+          "url": "https://github.com",
+          "score": 0.289327,
+          "prediction": 0
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.microsoft.com",
+          "score": 0.924893,
+          "prediction": 1
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.apple.com",
+          "score": 0.931555,
+          "prediction": 1
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.python.org",
+          "score": 0.407446,
+          "prediction": 0
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.mozilla.org",
+          "score": 0.584513,
+          "prediction": 1
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.reddit.com",
+          "score": 0.44774,
+          "prediction": 0
+        },
+        {
+          "kind": "legit",
+          "url": "https://stackoverflow.com",
+          "score": 0.388068,
+          "prediction": 0
+        },
+        {
+          "kind": "legit",
+          "url": "https://www.amazon.com",
+          "score": 0.694714,
+          "prediction": 1
+        },
+        {
+          "kind": "suspicious",
+          "url": "http://secure-login.example/verify/account",
+          "score": 0.788028,
+          "prediction": 1
+        },
+        {
+          "kind": "suspicious",
+          "url": "http://192.0.2.123/login/verify/password",
+          "score": 0.944622,
+          "prediction": 1
+        },
+        {
+          "kind": "suspicious",
+          "url": "http://account-security-update.example/confirm/password",
+          "score": 0.881615,
+          "prediction": 1
+        },
+        {
+          "kind": "suspicious",
+          "url": "http://bank-login-verification.example/account/secure",
+          "score": 0.783437,
+          "prediction": 1
+        }
+      ],
+      "legit_safe": 5,
+      "suspicious_flagged": 4
+    },
+    "diagnostics": [
+      {
+        "label": "google search",
+        "url": "https://www.google.com/search?q=fraud",
+        "kind": "famous",
+        "score": 0.097508,
+        "prediction": 0
+      },
+      {
+        "label": "wikipedia article",
+        "url": "https://en.wikipedia.org/wiki/Phishing",
+        "kind": "famous",
+        "score": 0.080597,
+        "prediction": 0
+      },
+      {
+        "label": "github repository",
+        "url": "https://github.com/microsoft/vscode",
+        "kind": "famous",
+        "score": 0.596293,
+        "prediction": 1
+      },
+      {
+        "label": "python downloads",
+        "url": "https://www.python.org/downloads/",
+        "kind": "famous",
+        "score": 0.688378,
+        "prediction": 1
+      },
+      {
+        "label": "microsoft windows",
+        "url": "https://www.microsoft.com/en-us/windows",
+        "kind": "famous",
+        "score": 0.964471,
+        "prediction": 1
+      },
+      {
+        "label": "bbc news",
+        "url": "https://www.bbc.com/news",
+        "kind": "famous",
+        "score": 0.12056,
+        "prediction": 0
+      },
+      {
+        "label": "example.org about",
+        "url": "https://example.org/about",
+        "kind": "extra",
+        "score": 0.148115,
+        "prediction": 0
+      },
+      {
+        "label": "example.com path+query",
+        "url": "https://example.com/path?a=1",
+        "kind": "extra",
+        "score": 0.149416,
+        "prediction": 0
+      }
+    ],
+    "degeneracy": {
+      "intercept": 0.301758,
+      "score_when_no_features": 0.574872,
+      "decision_when_no_features": 1,
+      "tranco_holdout": {
+        "rows": 4000,
+        "rows_with_no_features": 2,
+        "share_with_no_features": 0.0005,
+        "mean_score_no_features": 0.574872
+      },
+      "deep_benign": {
+        "rows": 76039,
+        "rows_with_no_features": 6,
+        "share_with_no_features": 7.9e-05,
+        "mean_score_no_features": 0.574872
+      },
+      "deep_malicious": {
+        "rows": 37601,
+        "rows_with_no_features": 0,
+        "share_with_no_features": 0.0,
+        "mean_score_no_features": null
+      }
+    },
+    "scheme_probe": {
+      "purpose": "diagnostic only: can the features reconstruct the written scheme?",
+      "train_rows": 25000,
+      "test_rows": 15000,
+      "https_rate_train": 0.02416,
+      "auc": 0.880385
+    },
+    "inference_latency": {
+      "iterations": 200,
+      "mean_ms": 1.361,
+      "median_ms": 1.139,
+      "p95_ms": 2.311
+    },
+    "gates": {
+      "checks": {
+        "overall_malicious_recall_ge_0.87": false,
+        "malicious_https_recall_ge_0.90": false,
+        "external_tranco_homepage_safe_ge_0.95": false,
+        "suspicious_synthetic_4_of_4": true,
+        "legit_deep_safe_ge_0.90": true,
+        "malicious_deep_recall_ge_0.90": false,
+        "no_leakage": true
+      },
+      "passed_count": 3,
+      "total": 7,
+      "passed": false
+    },
+    "timings": {
+      "vectoriser_fit_seconds": 80.22,
+      "train_transform_seconds": 57.9,
+      "classifier_fit_seconds": 19.12,
+      "test_inference_seconds": 19.69
+    }
+  },
+  "leakage_audit": {
+    "split_train_rows_matches_experiment_c": 503901,
+    "kaggle_train_after_collision_purge": 487729,
+    "total_s2_training_rows": 500634,
+    "collision_rows_purged": 16172,
+    "raw_train_test_hostname_overlap": 0,
+    "normalized_train_test_hostname_overlap": 0,
+    "deep_benign_hosts_in_train": 0,
+    "deep_malicious_hosts_in_train": 0,
+    "deep_rows_all_from_test_split": 1,
+    "famous_diagnostic_urls_in_train": 0,
+    "sanity_brand_hosts_in_train": 0,
+    "tranco_holdout_domains_in_train": 0,
+    "tranco_train_vs_holdout_normalized_overlap": 0,
+    "tranco_train_urls_in_test_split": 0,
+    "no_augmentation_rows": 0,
+    "vocab_will_be_fit_on_s2_train_only": 1,
+    "host_text_equal_over_5000_real_domains": 0,
+    "scheme_blind_field_equality_5000": 0,
+    "scheme_blind_sample_size": 5000,
+    "only_one_leading_literal_www_removed": 0,
+    "host_vector_equal_over_5000_domains": 0,
+    "host_block_vector_selfcheck": 0,
+    "tranco_2000_apex_www_full_vector_equality": 0,
+    "scheme_blind_full_vector_equality_5000": 0
+  },
+  "gates": {
+    "checks": {
+      "overall_malicious_recall_ge_0.87": false,
+      "malicious_https_recall_ge_0.90": false,
+      "external_tranco_homepage_safe_ge_0.95": false,
+      "suspicious_synthetic_4_of_4": true,
+      "legit_deep_safe_ge_0.90": true,
+      "malicious_deep_recall_ge_0.90": false,
+      "no_leakage": true
+    },
+    "passed_count": 3,
+    "total": 7,
+    "passed": false
+  },
+  "protected_artifacts": {
+    "checked": 18,
+    "changed": [],
+    "before": {
+      "model/fraudshield_model.pkl": "d74190913f656a4260578e4dfa1b4b8d17bc4b0681e1215d18974713876a1bf8",
+      "model/model_metadata.json": "aabcbed33a678be9081f808962d474042729599c6339003988c83cfad765b26c",
+      "backend/feature_extractor.py": "05958afb85dc687f8fc3109f7e24669c8ede098399b4d34313fbce9d302d9edd",
+      "backend/predictor.py": "3bf87d3feed8399aa4c0dc60086e1913bca835c2d026d9bb2bdfdacd76683bfd",
+      "backend/dataset_loader.py": "c3ae38a84c269bf6626e9c3a02b7b0c6ecf928aa94c931f53026ea23f4ff0cf3",
+      "train.py": "62d3236d17d30c48e28ff1e17f613100a4b321e6b174d90ad04a8f148fe17692",
+      "experiment_c.py": "1368ba056120228ddda8cef817f9f0cdc9a4a91003c8a1b5c48046a88c6e1c7b",
+      "experiment_d.py": "f7dfbf41d50bf979063e5abb7baa55245942ed59650d04409e11d6baaeefcf05",
+      "experiment_six.py": "7f07fef6080026139e19c65d3f68ac108cc77a42cf543e87aa6046a24c42299f",
+      "data/malicious_phish.csv": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+      "data/tranco/top-1m.csv": "c13d972cb8deb00bcada3d2087c283a067e7235e7acebd596ab21c0126cd95c5",
+      "data/tranco/selection.json": "5d3708ad6bbbb35929c6a4afa6298cc9b1f69119fbd2864df62faf6440bd5d27",
+      "model/experiment_six/s1.pkl": "e1c227b633f896c8f133423227ab5355827cb5b756f7de7221f7b8cf63de2144",
+      "model/experiment_six/s1.metadata.json": "1656805de8527c8a337a0aaeef37eb17f507765d410f1fb577ac1a74ca816d86",
+      "model/experiment_six/comparison.json": "9c62ef1d63ba7eea296cdbfdb518e3774622db58671f9a9dadf8a6948808adb0",
+      "model/experiment_six/evaluation.json": "d8b01cdb5ecbfe9b4e815fc706106533e169d418d818a17e2ec0f1065990100c",
+      "model/experiment_six/feature_config.json": "ff793a02bd691c2039d3cb387c3ba7c0e72fcf5b194319261be0def8a91366ff",
+      "model/experiment_six/protected_before.json": "7580708fd6eeccd7e754449828a95146ff7d1895748f732015e5d55ba0985d58"
+    },
+    "after": {
+      "model/fraudshield_model.pkl": "d74190913f656a4260578e4dfa1b4b8d17bc4b0681e1215d18974713876a1bf8",
+      "model/model_metadata.json": "aabcbed33a678be9081f808962d474042729599c6339003988c83cfad765b26c",
+      "backend/feature_extractor.py": "05958afb85dc687f8fc3109f7e24669c8ede098399b4d34313fbce9d302d9edd",
+      "backend/predictor.py": "3bf87d3feed8399aa4c0dc60086e1913bca835c2d026d9bb2bdfdacd76683bfd",
+      "backend/dataset_loader.py": "c3ae38a84c269bf6626e9c3a02b7b0c6ecf928aa94c931f53026ea23f4ff0cf3",
+      "train.py": "62d3236d17d30c48e28ff1e17f613100a4b321e6b174d90ad04a8f148fe17692",
+      "experiment_c.py": "1368ba056120228ddda8cef817f9f0cdc9a4a91003c8a1b5c48046a88c6e1c7b",
+      "experiment_d.py": "f7dfbf41d50bf979063e5abb7baa55245942ed59650d04409e11d6baaeefcf05",
+      "experiment_six.py": "7f07fef6080026139e19c65d3f68ac108cc77a42cf543e87aa6046a24c42299f",
+      "data/malicious_phish.csv": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+      "data/tranco/top-1m.csv": "c13d972cb8deb00bcada3d2087c283a067e7235e7acebd596ab21c0126cd95c5",
+      "data/tranco/selection.json": "5d3708ad6bbbb35929c6a4afa6298cc9b1f69119fbd2864df62faf6440bd5d27",
+      "model/experiment_six/s1.pkl": "e1c227b633f896c8f133423227ab5355827cb5b756f7de7221f7b8cf63de2144",
+      "model/experiment_six/s1.metadata.json": "1656805de8527c8a337a0aaeef37eb17f507765d410f1fb577ac1a74ca816d86",
+      "model/experiment_six/comparison.json": "9c62ef1d63ba7eea296cdbfdb518e3774622db58671f9a9dadf8a6948808adb0",
+      "model/experiment_six/evaluation.json": "d8b01cdb5ecbfe9b4e815fc706106533e169d418d818a17e2ec0f1065990100c",
+      "model/experiment_six/feature_config.json": "ff793a02bd691c2039d3cb387c3ba7c0e72fcf5b194319261be0def8a91366ff",
+      "model/experiment_six/protected_before.json": "7580708fd6eeccd7e754449828a95146ff7d1895748f732015e5d55ba0985d58"
+    }
+  },
+  "note": "Deep suites are browser-form representations of held-out Kaggle TEST rows; features are scheme-blind, so original and browser form are identical inputs. predict_proba is a model score, not a calibrated probability."
+}

@@ -1,0 +1,6393 @@
+{
+  "meta": {
+    "stage": 7,
+    "study": "data-redesign audit A-H",
+    "mode": "READ-ONLY",
+    "no_fit": true,
+    "no_network": true,
+    "no_pandas": true,
+    "threshold": 0.5,
+    "generated_seconds": 451.04,
+    "sources": {
+      "corpus": "data\\malicious_phish.csv",
+      "tranco_selection": "data\\tranco\\selection.json",
+      "r2_model": "model\\fraudshield_model.pkl",
+      "s1_bundle": "model\\experiment_six\\s1.pkl",
+      "s2_bundle": "model\\experiment_six\\s2\\s2.pkl"
+    }
+  },
+  "integrity": {
+    "load_report": {
+      "source_file": "data\\malicious_phish.csv",
+      "data_rows_read": 651191,
+      "raw_type_counts": {
+        "phishing": 94111,
+        "benign": 428103,
+        "defacement": 96457,
+        "malware": 32520
+      },
+      "invalid_or_unknown_counts": {
+        "phishing": 29
+      },
+      "exact_duplicate_rows_removed_by_subtype": {
+        "malware": 8875,
+        "defacement": 1149,
+        "phishing": 19,
+        "benign": 23
+      },
+      "conflicting_url_rows_removed_by_subtype": {
+        "benign": 12
+      },
+      "conflicting_urls": 6,
+      "usable_rows": 641084,
+      "usable_by_subtype": {
+        "phishing": 94057,
+        "benign": 428074,
+        "defacement": 95308,
+        "malware": 23645
+      },
+      "load_seconds": 49.36
+    },
+    "split_report": {
+      "train_before_purge": 512870,
+      "train_after_brand_purge": 503901,
+      "purged_as_sanity_brand": 8969,
+      "test_rows": 128214,
+      "test_subtypes": {
+        "benign": 85613,
+        "defacement": 19268,
+        "phishing": 18853,
+        "malware": 4480
+      },
+      "train_subtypes_after_purge": {
+        "phishing": 73525,
+        "benign": 335499,
+        "defacement": 76040,
+        "malware": 18837
+      },
+      "matches_r2_metadata": {
+        "train_before_purge": true,
+        "train_after_purge": true,
+        "test_rows": true,
+        "purged": true
+      }
+    },
+    "defacement_https_zero_confirmed": {
+      "full_corpus_rows": 0,
+      "test_split_rows": 0,
+      "is_zero": true
+    }
+  },
+  "A_corpus_by_subtype": {
+    "full_corpus": {
+      "benign": {
+        "rows": 428074,
+        "scheme": {
+          "bare": {
+            "count": 392696,
+            "share": 0.917355
+          },
+          "http": {
+            "count": 33428,
+            "share": 0.078089
+          },
+          "https": {
+            "count": 1950,
+            "share": 0.004555
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 47638,
+            "share": 0.111284
+          },
+          "path": {
+            "count": 307698,
+            "share": 0.718796
+          },
+          "query": {
+            "count": 4574,
+            "share": 0.010685
+          },
+          "path+query": {
+            "count": 68164,
+            "share": 0.159234
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 47638,
+            "path": 281995,
+            "query": 4453,
+            "path+query": 58610
+          },
+          "http": {
+            "homepage": 0,
+            "path": 24968,
+            "query": 68,
+            "path+query": 8392
+          },
+          "https": {
+            "homepage": 0,
+            "path": 735,
+            "query": 53,
+            "path+query": 1162
+          }
+        },
+        "leading_www": {
+          "count": 13228,
+          "share": 0.030901,
+          "non_www": 414846
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "1": 6,
+            "2": 301617,
+            "3": 107927,
+            "4": 10635,
+            "5": 2307,
+            "6": 1513,
+            "7": 978,
+            "8": 311,
+            "9": 369,
+            "10": 310,
+            "11": 366,
+            "12": 293,
+            "13": 566,
+            "14": 260,
+            "15": 174,
+            "16": 84,
+            "17": 41,
+            "18": 54,
+            "19": 175,
+            "20": 24,
+            "21": 15,
+            "22": 11,
+            "23": 8,
+            "24": 10,
+            "25": 16,
+            "27": 1,
+            "28": 2,
+            "35": 1
+          },
+          "share_3_plus_labels": 0.295395,
+          "share_4_plus_labels": 0.043273,
+          "share_5_plus_labels": 0.018429
+        },
+        "tld_last_label": {
+          "distinct": 220,
+          "total": 428074,
+          "top": [
+            {
+              "value": "com",
+              "count": 309354,
+              "share": 0.722665
+            },
+            {
+              "value": "org",
+              "count": 37533,
+              "share": 0.087679
+            },
+            {
+              "value": "net",
+              "count": 18989,
+              "share": 0.044359
+            },
+            {
+              "value": "ca",
+              "count": 9698,
+              "share": 0.022655
+            },
+            {
+              "value": "edu",
+              "count": 6936,
+              "share": 0.016203
+            },
+            {
+              "value": "uk",
+              "count": 5713,
+              "share": 0.013346
+            },
+            {
+              "value": "gov",
+              "count": 2617,
+              "share": 0.006113
+            },
+            {
+              "value": "br",
+              "count": 2194,
+              "share": 0.005125
+            },
+            {
+              "value": "au",
+              "count": 1865,
+              "share": 0.004357
+            },
+            {
+              "value": "vn",
+              "count": 1797,
+              "share": 0.004198
+            },
+            {
+              "value": "info",
+              "count": 1784,
+              "share": 0.004168
+            },
+            {
+              "value": "pl",
+              "count": 1750,
+              "share": 0.004088
+            },
+            {
+              "value": "ru",
+              "count": 1710,
+              "share": 0.003995
+            },
+            {
+              "value": "de",
+              "count": 1352,
+              "share": 0.003158
+            },
+            {
+              "value": "us",
+              "count": 1313,
+              "share": 0.003067
+            },
+            {
+              "value": "cn",
+              "count": 1247,
+              "share": 0.002913
+            },
+            {
+              "value": "ua",
+              "count": 1146,
+              "share": 0.002677
+            },
+            {
+              "value": "mx",
+              "count": 1116,
+              "share": 0.002607
+            },
+            {
+              "value": "cc",
+              "count": 1040,
+              "share": 0.002429
+            },
+            {
+              "value": "in",
+              "count": 909,
+              "share": 0.002123
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 456,
+          "total": 428074,
+          "top": [
+            {
+              "value": "com",
+              "count": 309354,
+              "share": 0.722665
+            },
+            {
+              "value": "org",
+              "count": 37533,
+              "share": 0.087679
+            },
+            {
+              "value": "net",
+              "count": 18989,
+              "share": 0.044359
+            },
+            {
+              "value": "ca",
+              "count": 9694,
+              "share": 0.022646
+            },
+            {
+              "value": "edu",
+              "count": 6936,
+              "share": 0.016203
+            },
+            {
+              "value": "co.uk",
+              "count": 4847,
+              "share": 0.011323
+            },
+            {
+              "value": "gov",
+              "count": 2617,
+              "share": 0.006113
+            },
+            {
+              "value": "com.br",
+              "count": 1886,
+              "share": 0.004406
+            },
+            {
+              "value": "info",
+              "count": 1784,
+              "share": 0.004168
+            },
+            {
+              "value": "ru",
+              "count": 1704,
+              "share": 0.003981
+            },
+            {
+              "value": "pl",
+              "count": 1693,
+              "share": 0.003955
+            },
+            {
+              "value": "com.au",
+              "count": 1469,
+              "share": 0.003432
+            },
+            {
+              "value": "de",
+              "count": 1352,
+              "share": 0.003158
+            },
+            {
+              "value": "vn",
+              "count": 1314,
+              "share": 0.00307
+            },
+            {
+              "value": "us",
+              "count": 1298,
+              "share": 0.003032
+            },
+            {
+              "value": "cc",
+              "count": 1025,
+              "share": 0.002394
+            },
+            {
+              "value": "mx",
+              "count": 1002,
+              "share": 0.002341
+            },
+            {
+              "value": "cn",
+              "count": 839,
+              "share": 0.00196
+            },
+            {
+              "value": "asia",
+              "count": 836,
+              "share": 0.001953
+            },
+            {
+              "value": "jp",
+              "count": 809,
+              "share": 0.00189
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 104520,
+          "rows": 428074,
+          "rows_per_domain_mean": 4.096,
+          "top": [
+            {
+              "value": "wikipedia.org",
+              "count": 12874,
+              "share": 0.030074
+            },
+            {
+              "value": "youtube.com",
+              "count": 8626,
+              "share": 0.020151
+            },
+            {
+              "value": "facebook.com",
+              "count": 8321,
+              "share": 0.019438
+            },
+            {
+              "value": "blogspot.com",
+              "count": 7811,
+              "share": 0.018247
+            },
+            {
+              "value": "yahoo.com",
+              "count": 5120,
+              "share": 0.011961
+            },
+            {
+              "value": "linkedin.com",
+              "count": 5021,
+              "share": 0.011729
+            },
+            {
+              "value": "amazon.com",
+              "count": 4722,
+              "share": 0.011031
+            },
+            {
+              "value": "imdb.com",
+              "count": 3470,
+              "share": 0.008106
+            },
+            {
+              "value": "myspace.com",
+              "count": 3014,
+              "share": 0.007041
+            },
+            {
+              "value": "mylife.com",
+              "count": 2822,
+              "share": 0.006592
+            }
+          ]
+        },
+        "distinct_hostnames": 134065,
+        "rows_per_hostname_mean": 3.193,
+        "distinct_normalized_host_path_query": 427685,
+        "hostname_length": {
+          "n": 428074,
+          "min": 2.0,
+          "p10": 9.0,
+          "p25": 11.0,
+          "median": 15.0,
+          "mean": 16.7686,
+          "p75": 19.0,
+          "p90": 24.0,
+          "p95": 29.0,
+          "p99": 45.0,
+          "max": 248.0
+        },
+        "share_hostname_over_30": 0.037979,
+        "path_depth": {
+          "distribution": {
+            "0": 52218,
+            "1": 96978,
+            "2": 123726,
+            "3": 80661,
+            "4": 41509,
+            "5": 18636,
+            "6": 7358,
+            "7": 3460,
+            "8": 1141,
+            "9": 585,
+            "10": 1158,
+            "11": 153,
+            "12": 179,
+            "13": 59,
+            "14": 144,
+            "15": 43,
+            "16": 19,
+            "17": 16,
+            "18": 3,
+            "19": 3,
+            "20": 2,
+            "21": 14,
+            "22": 2,
+            "23": 1,
+            "24": 1,
+            "27": 3,
+            "32": 1,
+            "34": 1
+          },
+          "stats": {
+            "n": 428074,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 1.0,
+            "median": 2.0,
+            "mean": 2.2157,
+            "p75": 3.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "max": 34.0
+          }
+        },
+        "query": {
+          "rows_with_query": 72738,
+          "share_with_query": 0.169919,
+          "param_count_stats": {
+            "n": 72738,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.8421,
+            "p75": 2.0,
+            "p90": 3.0,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 40.0
+          },
+          "param_count_distribution": {
+            "1": 43559,
+            "2": 16530,
+            "3": 6098,
+            "4": 2751,
+            "5": 1382,
+            "6": 692,
+            "7": 288,
+            "8": 229,
+            "9": 686,
+            "10": 65,
+            "11": 73,
+            "12": 150,
+            "13": 27,
+            "14": 138,
+            "15": 6,
+            "16": 4,
+            "17": 6,
+            "18": 5,
+            "19": 30,
+            "20": 3,
+            "21": 2,
+            "23": 1,
+            "26": 2,
+            "27": 1,
+            "28": 3,
+            "29": 1,
+            "35": 4,
+            "38": 1,
+            "40": 1
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 428074,
+            "share": 1.0
+          },
+          "path": {
+            "count": 375862,
+            "share": 0.87803
+          },
+          "query": {
+            "count": 72738,
+            "share": 0.169919
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 428074,
+            "min": 1.0,
+            "p10": 2.0,
+            "p25": 2.0,
+            "median": 2.0,
+            "mean": 2.5206,
+            "p75": 3.0,
+            "p90": 3.0,
+            "p95": 4.0,
+            "p99": 7.0,
+            "max": 35.0
+          },
+          "path": {
+            "n": 428074,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 2.0,
+            "median": 4.0,
+            "mean": 5.0509,
+            "p75": 7.0,
+            "p90": 11.0,
+            "p95": 14.0,
+            "p99": 22.0,
+            "max": 202.0
+          },
+          "query": {
+            "n": 428074,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 1.1623,
+            "p75": 0.0,
+            "p90": 3.0,
+            "p95": 7.0,
+            "p99": 18.0,
+            "max": 356.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 26,
+          "share": 6.1e-05
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 25253,
+          "share_with_any_hit": 0.058992,
+          "mean_distinct_hits_per_hit_row": 1.3937,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 7334,
+              "share": 0.017133
+            },
+            "path": {
+              "count": 14776,
+              "share": 0.034517
+            },
+            "query": {
+              "count": 7896,
+              "share": 0.018445
+            }
+          }
+        }
+      },
+      "phishing": {
+        "rows": 94057,
+        "scheme": {
+          "bare": {
+            "count": 69224,
+            "share": 0.735979
+          },
+          "http": {
+            "count": 17869,
+            "share": 0.189981
+          },
+          "https": {
+            "count": 6964,
+            "share": 0.07404
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 23547,
+            "share": 0.250348
+          },
+          "path": {
+            "count": 62370,
+            "share": 0.663109
+          },
+          "query": {
+            "count": 338,
+            "share": 0.003594
+          },
+          "path+query": {
+            "count": 7802,
+            "share": 0.08295
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 21202,
+            "path": 45680,
+            "query": 165,
+            "path+query": 2177
+          },
+          "http": {
+            "homepage": 1426,
+            "path": 12853,
+            "query": 93,
+            "path+query": 3497
+          },
+          "https": {
+            "homepage": 919,
+            "path": 3837,
+            "query": 80,
+            "path+query": 2128
+          }
+        },
+        "leading_www": {
+          "count": 36452,
+          "share": 0.387552,
+          "non_www": 57605
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "1": 45,
+            "2": 26282,
+            "3": 53788,
+            "4": 9817,
+            "5": 2109,
+            "6": 702,
+            "7": 343,
+            "8": 191,
+            "9": 44,
+            "10": 38,
+            "11": 362,
+            "12": 275,
+            "13": 23,
+            "14": 12,
+            "15": 8,
+            "16": 6,
+            "17": 6,
+            "18": 1,
+            "19": 2,
+            "21": 2,
+            "27": 1
+          },
+          "share_3_plus_labels": 0.720095,
+          "share_4_plus_labels": 0.148229,
+          "share_5_plus_labels": 0.043856
+        },
+        "tld_last_label": {
+          "distinct": 531,
+          "total": 94057,
+          "top": [
+            {
+              "value": "com",
+              "count": 49391,
+              "share": 0.525118
+            },
+            {
+              "value": "org",
+              "count": 9439,
+              "share": 0.100354
+            },
+            {
+              "value": "net",
+              "count": 5460,
+              "share": 0.05805
+            },
+            {
+              "value": "edu",
+              "count": 3140,
+              "share": 0.033384
+            },
+            {
+              "value": "uk",
+              "count": 2918,
+              "share": 0.031024
+            },
+            {
+              "value": "br",
+              "count": 1307,
+              "share": 0.013896
+            },
+            {
+              "value": "de",
+              "count": 1302,
+              "share": 0.013843
+            },
+            {
+              "value": "au",
+              "count": 1235,
+              "share": 0.01313
+            },
+            {
+              "value": "ru",
+              "count": 1086,
+              "share": 0.011546
+            },
+            {
+              "value": "ca",
+              "count": 742,
+              "share": 0.007889
+            },
+            {
+              "value": "fr",
+              "count": 691,
+              "share": 0.007347
+            },
+            {
+              "value": "info",
+              "count": 652,
+              "share": 0.006932
+            },
+            {
+              "value": "it",
+              "count": 645,
+              "share": 0.006858
+            },
+            {
+              "value": "in",
+              "count": 610,
+              "share": 0.006485
+            },
+            {
+              "value": "nl",
+              "count": 593,
+              "share": 0.006305
+            },
+            {
+              "value": "pl",
+              "count": 581,
+              "share": 0.006177
+            },
+            {
+              "value": "za",
+              "count": 441,
+              "share": 0.004689
+            },
+            {
+              "value": "gov",
+              "count": 419,
+              "share": 0.004455
+            },
+            {
+              "value": "se",
+              "count": 402,
+              "share": 0.004274
+            },
+            {
+              "value": "id",
+              "count": 387,
+              "share": 0.004115
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 769,
+          "total": 94057,
+          "top": [
+            {
+              "value": "com",
+              "count": 49391,
+              "share": 0.525118
+            },
+            {
+              "value": "org",
+              "count": 9439,
+              "share": 0.100354
+            },
+            {
+              "value": "net",
+              "count": 5460,
+              "share": 0.05805
+            },
+            {
+              "value": "edu",
+              "count": 3140,
+              "share": 0.033384
+            },
+            {
+              "value": "co.uk",
+              "count": 2147,
+              "share": 0.022827
+            },
+            {
+              "value": "de",
+              "count": 1301,
+              "share": 0.013832
+            },
+            {
+              "value": "com.br",
+              "count": 1180,
+              "share": 0.012546
+            },
+            {
+              "value": "ru",
+              "count": 1049,
+              "share": 0.011153
+            },
+            {
+              "value": "com.au",
+              "count": 929,
+              "share": 0.009877
+            },
+            {
+              "value": "ca",
+              "count": 742,
+              "share": 0.007889
+            },
+            {
+              "value": "fr",
+              "count": 690,
+              "share": 0.007336
+            },
+            {
+              "value": "info",
+              "count": 652,
+              "share": 0.006932
+            },
+            {
+              "value": "it",
+              "count": 645,
+              "share": 0.006858
+            },
+            {
+              "value": "nl",
+              "count": 593,
+              "share": 0.006305
+            },
+            {
+              "value": "ac.uk",
+              "count": 567,
+              "share": 0.006028
+            },
+            {
+              "value": "pl",
+              "count": 490,
+              "share": 0.00521
+            },
+            {
+              "value": "co.za",
+              "count": 422,
+              "share": 0.004487
+            },
+            {
+              "value": "gov",
+              "count": 419,
+              "share": 0.004455
+            },
+            {
+              "value": "in",
+              "count": 418,
+              "share": 0.004444
+            },
+            {
+              "value": "se",
+              "count": 402,
+              "share": 0.004274
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 45548,
+          "rows": 94057,
+          "rows_per_domain_mean": 2.065,
+          "top": [
+            {
+              "value": "ietf.org",
+              "count": 3212,
+              "share": 0.03415
+            },
+            {
+              "value": "angelfire.com",
+              "count": 1306,
+              "share": 0.013885
+            },
+            {
+              "value": "000webhostapp.com",
+              "count": 1193,
+              "share": 0.012684
+            },
+            {
+              "value": "pastehtml.com",
+              "count": 944,
+              "share": 0.010036
+            },
+            {
+              "value": "tripod.com",
+              "count": 871,
+              "share": 0.00926
+            },
+            {
+              "value": "sourceforge.net",
+              "count": 713,
+              "share": 0.007581
+            },
+            {
+              "value": "google.com",
+              "count": 710,
+              "share": 0.007549
+            },
+            {
+              "value": "yahoo.com",
+              "count": 685,
+              "share": 0.007283
+            },
+            {
+              "value": "wikipedia.org",
+              "count": 548,
+              "share": 0.005826
+            },
+            {
+              "value": "blogspot.com",
+              "count": 447,
+              "share": 0.004752
+            }
+          ]
+        },
+        "distinct_hostnames": 55810,
+        "rows_per_hostname_mean": 1.685,
+        "distinct_normalized_host_path_query": 93401,
+        "hostname_length": {
+          "n": 94057,
+          "min": 1.0,
+          "p10": 12.0,
+          "p25": 14.0,
+          "median": 17.0,
+          "mean": 19.3031,
+          "p75": 21.0,
+          "p90": 28.0,
+          "p95": 34.0,
+          "p99": 70.0,
+          "max": 236.0
+        },
+        "share_hostname_over_30": 0.071212,
+        "path_depth": {
+          "distribution": {
+            "0": 23891,
+            "1": 23770,
+            "2": 24325,
+            "3": 10138,
+            "4": 5037,
+            "5": 3446,
+            "6": 1753,
+            "7": 856,
+            "8": 455,
+            "9": 178,
+            "10": 88,
+            "11": 44,
+            "12": 45,
+            "13": 10,
+            "14": 7,
+            "15": 9,
+            "16": 1,
+            "18": 1,
+            "20": 1,
+            "23": 1,
+            "38": 1
+          },
+          "stats": {
+            "n": 94057,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 1.0,
+            "mean": 1.7473,
+            "p75": 2.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "max": 38.0
+          }
+        },
+        "query": {
+          "rows_with_query": 8140,
+          "share_with_query": 0.086543,
+          "param_count_stats": {
+            "n": 8140,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.9764,
+            "p75": 2.0,
+            "p90": 3.0,
+            "p95": 4.0,
+            "p99": 11.0,
+            "max": 51.0
+          },
+          "param_count_distribution": {
+            "1": 4290,
+            "2": 1914,
+            "3": 1186,
+            "4": 403,
+            "5": 135,
+            "6": 24,
+            "7": 64,
+            "8": 19,
+            "9": 10,
+            "10": 11,
+            "11": 29,
+            "12": 13,
+            "13": 16,
+            "14": 14,
+            "16": 1,
+            "17": 2,
+            "18": 1,
+            "19": 1,
+            "20": 2,
+            "21": 2,
+            "41": 2,
+            "51": 1
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 94057,
+            "share": 1.0
+          },
+          "path": {
+            "count": 70172,
+            "share": 0.746058
+          },
+          "query": {
+            "count": 8140,
+            "share": 0.086543
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 94057,
+            "min": 0.0,
+            "p10": 2.0,
+            "p25": 3.0,
+            "median": 3.0,
+            "mean": 3.1854,
+            "p75": 3.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 9.0,
+            "max": 30.0
+          },
+          "path": {
+            "n": 94057,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 2.0,
+            "mean": 2.5387,
+            "p75": 4.0,
+            "p90": 6.0,
+            "p95": 8.0,
+            "p99": 11.0,
+            "max": 106.0
+          },
+          "query": {
+            "n": 94057,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 0.6698,
+            "p75": 0.0,
+            "p90": 0.0,
+            "p95": 4.0,
+            "p99": 17.0,
+            "max": 104.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 329,
+          "share": 0.003498
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 10412,
+          "share_with_any_hit": 0.110699,
+          "mean_distinct_hits_per_hit_row": 1.3803,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 4070,
+              "share": 0.043272
+            },
+            "path": {
+              "count": 5616,
+              "share": 0.059708
+            },
+            "query": {
+              "count": 2084,
+              "share": 0.022157
+            }
+          }
+        }
+      },
+      "malware": {
+        "rows": 23645,
+        "scheme": {
+          "bare": {
+            "count": 1210,
+            "share": 0.051174
+          },
+          "http": {
+            "count": 15712,
+            "share": 0.664496
+          },
+          "https": {
+            "count": 6723,
+            "share": 0.284331
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 1011,
+            "share": 0.042757
+          },
+          "path": {
+            "count": 21265,
+            "share": 0.899344
+          },
+          "query": {
+            "count": 20,
+            "share": 0.000846
+          },
+          "path+query": {
+            "count": 1349,
+            "share": 0.057052
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 987,
+            "path": 223,
+            "query": 0,
+            "path+query": 0
+          },
+          "http": {
+            "homepage": 20,
+            "path": 14868,
+            "query": 15,
+            "path+query": 809
+          },
+          "https": {
+            "homepage": 4,
+            "path": 6174,
+            "query": 5,
+            "path+query": 540
+          }
+        },
+        "leading_www": {
+          "count": 841,
+          "share": 0.035568,
+          "non_www": 22804
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "2": 6172,
+            "3": 5250,
+            "4": 12001,
+            "5": 28,
+            "6": 157,
+            "7": 1,
+            "8": 35,
+            "11": 1
+          },
+          "share_3_plus_labels": 0.738972,
+          "share_4_plus_labels": 0.516938,
+          "share_5_plus_labels": 0.009389
+        },
+        "tld_last_label": {
+          "distinct": 396,
+          "total": 23645,
+          "top": [
+            {
+              "value": "com",
+              "count": 6011,
+              "share": 0.254219
+            },
+            {
+              "value": "jp",
+              "count": 2912,
+              "share": 0.123155
+            },
+            {
+              "value": "info",
+              "count": 421,
+              "share": 0.017805
+            },
+            {
+              "value": "ru",
+              "count": 249,
+              "share": 0.010531
+            },
+            {
+              "value": "org",
+              "count": 225,
+              "share": 0.009516
+            },
+            {
+              "value": "net",
+              "count": 207,
+              "share": 0.008754
+            },
+            {
+              "value": "cn",
+              "count": 142,
+              "share": 0.006005
+            },
+            {
+              "value": "xyz",
+              "count": 133,
+              "share": 0.005625
+            },
+            {
+              "value": "26",
+              "count": 119,
+              "share": 0.005033
+            },
+            {
+              "value": "179",
+              "count": 117,
+              "share": 0.004948
+            },
+            {
+              "value": "130",
+              "count": 106,
+              "share": 0.004483
+            },
+            {
+              "value": "vn",
+              "count": 105,
+              "share": 0.004441
+            },
+            {
+              "value": "142",
+              "count": 101,
+              "share": 0.004272
+            },
+            {
+              "value": "253",
+              "count": 100,
+              "share": 0.004229
+            },
+            {
+              "value": "6",
+              "count": 100,
+              "share": 0.004229
+            },
+            {
+              "value": "uk",
+              "count": 99,
+              "share": 0.004187
+            },
+            {
+              "value": "164",
+              "count": 98,
+              "share": 0.004145
+            },
+            {
+              "value": "19",
+              "count": 97,
+              "share": 0.004102
+            },
+            {
+              "value": "129",
+              "count": 95,
+              "share": 0.004018
+            },
+            {
+              "value": "166",
+              "count": 94,
+              "share": 0.003975
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 432,
+          "total": 23645,
+          "top": [
+            {
+              "value": "com",
+              "count": 6011,
+              "share": 0.254219
+            },
+            {
+              "value": "jp",
+              "count": 2907,
+              "share": 0.122944
+            },
+            {
+              "value": "info",
+              "count": 421,
+              "share": 0.017805
+            },
+            {
+              "value": "ru",
+              "count": 249,
+              "share": 0.010531
+            },
+            {
+              "value": "org",
+              "count": 225,
+              "share": 0.009516
+            },
+            {
+              "value": "net",
+              "count": 207,
+              "share": 0.008754
+            },
+            {
+              "value": "xyz",
+              "count": 133,
+              "share": 0.005625
+            },
+            {
+              "value": "26",
+              "count": 119,
+              "share": 0.005033
+            },
+            {
+              "value": "179",
+              "count": 117,
+              "share": 0.004948
+            },
+            {
+              "value": "130",
+              "count": 106,
+              "share": 0.004483
+            },
+            {
+              "value": "142",
+              "count": 101,
+              "share": 0.004272
+            },
+            {
+              "value": "253",
+              "count": 100,
+              "share": 0.004229
+            },
+            {
+              "value": "6",
+              "count": 100,
+              "share": 0.004229
+            },
+            {
+              "value": "164",
+              "count": 98,
+              "share": 0.004145
+            },
+            {
+              "value": "19",
+              "count": 97,
+              "share": 0.004102
+            },
+            {
+              "value": "co.uk",
+              "count": 96,
+              "share": 0.00406
+            },
+            {
+              "value": "com.vn",
+              "count": 95,
+              "share": 0.004018
+            },
+            {
+              "value": "129",
+              "count": 95,
+              "share": 0.004018
+            },
+            {
+              "value": "166",
+              "count": 94,
+              "share": 0.003975
+            },
+            {
+              "value": "58",
+              "count": 93,
+              "share": 0.003933
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 6887,
+          "rows": 23645,
+          "rows_per_domain_mean": 3.433,
+          "top": [
+            {
+              "value": "mixh.jp",
+              "count": 2881,
+              "share": 0.121844
+            },
+            {
+              "value": "apbfiber.com",
+              "count": 1147,
+              "share": 0.048509
+            },
+            {
+              "value": "pastebin.com",
+              "count": 987,
+              "share": 0.041742
+            },
+            {
+              "value": "toulousa.com",
+              "count": 501,
+              "share": 0.021188
+            },
+            {
+              "value": "9779.info",
+              "count": 395,
+              "share": 0.016705
+            },
+            {
+              "value": "live.com",
+              "count": 289,
+              "share": 0.012222
+            },
+            {
+              "value": "spdtextile.com",
+              "count": 253,
+              "share": 0.0107
+            },
+            {
+              "value": "google.com",
+              "count": 205,
+              "share": 0.00867
+            },
+            {
+              "value": "lovettz.com",
+              "count": 84,
+              "share": 0.003553
+            },
+            {
+              "value": "grasslandhotel.com.vn",
+              "count": 83,
+              "share": 0.00351
+            }
+          ]
+        },
+        "distinct_hostnames": 7364,
+        "rows_per_hostname_mean": 3.211,
+        "distinct_normalized_host_path_query": 22897,
+        "hostname_length": {
+          "n": 23645,
+          "min": 5.0,
+          "p10": 12.0,
+          "p25": 12.0,
+          "median": 14.0,
+          "mean": 15.0469,
+          "p75": 16.0,
+          "p90": 20.0,
+          "p95": 21.0,
+          "p99": 44.0,
+          "max": 73.0
+        },
+        "share_hostname_over_30": 0.014083,
+        "path_depth": {
+          "distribution": {
+            "0": 1031,
+            "1": 9239,
+            "2": 11351,
+            "3": 643,
+            "4": 671,
+            "5": 408,
+            "6": 204,
+            "7": 81,
+            "8": 14,
+            "9": 1,
+            "11": 2
+          },
+          "stats": {
+            "n": 23645,
+            "min": 0.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 2.0,
+            "mean": 1.714,
+            "p75": 2.0,
+            "p90": 2.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 11.0
+          }
+        },
+        "query": {
+          "rows_with_query": 1369,
+          "share_with_query": 0.057898,
+          "param_count_stats": {
+            "n": 1369,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 3.0,
+            "mean": 2.7611,
+            "p75": 3.0,
+            "p90": 5.0,
+            "p95": 7.0,
+            "p99": 9.32,
+            "max": 19.0
+          },
+          "param_count_distribution": {
+            "1": 402,
+            "2": 273,
+            "3": 470,
+            "4": 42,
+            "5": 78,
+            "6": 34,
+            "7": 35,
+            "8": 18,
+            "9": 3,
+            "10": 2,
+            "15": 1,
+            "19": 11
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 23645,
+            "share": 1.0
+          },
+          "path": {
+            "count": 22614,
+            "share": 0.956397
+          },
+          "query": {
+            "count": 1369,
+            "share": 0.057898
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 23645,
+            "min": 2.0,
+            "p10": 2.0,
+            "p25": 3.0,
+            "median": 4.0,
+            "mean": 3.4221,
+            "p75": 4.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 5.0,
+            "max": 13.0
+          },
+          "path": {
+            "n": 23645,
+            "min": 0.0,
+            "p10": 1.0,
+            "p25": 2.0,
+            "median": 3.0,
+            "mean": 3.355,
+            "p75": 3.0,
+            "p90": 5.0,
+            "p95": 9.0,
+            "p99": 24.0,
+            "max": 77.0
+          },
+          "query": {
+            "n": 23645,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 0.4283,
+            "p75": 0.0,
+            "p90": 0.0,
+            "p95": 3.0,
+            "p99": 11.0,
+            "max": 56.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 11769,
+          "share": 0.497737
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 244,
+          "share_with_any_hit": 0.010319,
+          "mean_distinct_hits_per_hit_row": 1.1967,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 72,
+              "share": 0.003045
+            },
+            "path": {
+              "count": 136,
+              "share": 0.005752
+            },
+            "query": {
+              "count": 47,
+              "share": 0.001988
+            }
+          }
+        }
+      },
+      "defacement": {
+        "rows": 95308,
+        "scheme": {
+          "bare": {
+            "count": 0,
+            "share": 0.0
+          },
+          "http": {
+            "count": 95308,
+            "share": 1.0
+          },
+          "https": {
+            "count": 0,
+            "share": 0.0
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 0,
+            "share": 0.0
+          },
+          "path": {
+            "count": 41348,
+            "share": 0.433836
+          },
+          "query": {
+            "count": 0,
+            "share": 0.0
+          },
+          "path+query": {
+            "count": 53960,
+            "share": 0.566164
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 0,
+            "path": 0,
+            "query": 0,
+            "path+query": 0
+          },
+          "http": {
+            "homepage": 0,
+            "path": 41348,
+            "query": 0,
+            "path+query": 53960
+          },
+          "https": {
+            "homepage": 0,
+            "path": 0,
+            "query": 0,
+            "path+query": 0
+          }
+        },
+        "leading_www": {
+          "count": 66318,
+          "share": 0.695828,
+          "non_www": 28990
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "2": 25953,
+            "3": 55689,
+            "4": 13543,
+            "5": 123
+          },
+          "share_3_plus_labels": 0.727693,
+          "share_4_plus_labels": 0.143388,
+          "share_5_plus_labels": 0.001291
+        },
+        "tld_last_label": {
+          "distinct": 74,
+          "total": 95308,
+          "top": [
+            {
+              "value": "com",
+              "count": 29153,
+              "share": 0.305882
+            },
+            {
+              "value": "de",
+              "count": 10768,
+              "share": 0.112981
+            },
+            {
+              "value": "nl",
+              "count": 5998,
+              "share": 0.062933
+            },
+            {
+              "value": "br",
+              "count": 5004,
+              "share": 0.052503
+            },
+            {
+              "value": "it",
+              "count": 4066,
+              "share": 0.042662
+            },
+            {
+              "value": "org",
+              "count": 3567,
+              "share": 0.037426
+            },
+            {
+              "value": "net",
+              "count": 3419,
+              "share": 0.035873
+            },
+            {
+              "value": "au",
+              "count": 3274,
+              "share": 0.034352
+            },
+            {
+              "value": "uk",
+              "count": 3216,
+              "share": 0.033743
+            },
+            {
+              "value": "ru",
+              "count": 2343,
+              "share": 0.024583
+            },
+            {
+              "value": "pl",
+              "count": 1701,
+              "share": 0.017847
+            },
+            {
+              "value": "fr",
+              "count": 1537,
+              "share": 0.016127
+            },
+            {
+              "value": "eu",
+              "count": 1526,
+              "share": 0.016011
+            },
+            {
+              "value": "gr",
+              "count": 1523,
+              "share": 0.01598
+            },
+            {
+              "value": "es",
+              "count": 1236,
+              "share": 0.012968
+            },
+            {
+              "value": "ch",
+              "count": 1134,
+              "share": 0.011898
+            },
+            {
+              "value": "cz",
+              "count": 1041,
+              "share": 0.010922
+            },
+            {
+              "value": "at",
+              "count": 1022,
+              "share": 0.010723
+            },
+            {
+              "value": "ro",
+              "count": 895,
+              "share": 0.009391
+            },
+            {
+              "value": "dk",
+              "count": 878,
+              "share": 0.009212
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 109,
+          "total": 95308,
+          "top": [
+            {
+              "value": "com",
+              "count": 29153,
+              "share": 0.305882
+            },
+            {
+              "value": "de",
+              "count": 10768,
+              "share": 0.112981
+            },
+            {
+              "value": "nl",
+              "count": 5998,
+              "share": 0.062933
+            },
+            {
+              "value": "com.br",
+              "count": 4517,
+              "share": 0.047394
+            },
+            {
+              "value": "it",
+              "count": 4066,
+              "share": 0.042662
+            },
+            {
+              "value": "org",
+              "count": 3567,
+              "share": 0.037426
+            },
+            {
+              "value": "net",
+              "count": 3419,
+              "share": 0.035873
+            },
+            {
+              "value": "co.uk",
+              "count": 2914,
+              "share": 0.030575
+            },
+            {
+              "value": "com.au",
+              "count": 2698,
+              "share": 0.028308
+            },
+            {
+              "value": "ru",
+              "count": 2343,
+              "share": 0.024583
+            },
+            {
+              "value": "fr",
+              "count": 1537,
+              "share": 0.016127
+            },
+            {
+              "value": "eu",
+              "count": 1526,
+              "share": 0.016011
+            },
+            {
+              "value": "pl",
+              "count": 1390,
+              "share": 0.014584
+            },
+            {
+              "value": "es",
+              "count": 1236,
+              "share": 0.012968
+            },
+            {
+              "value": "gr",
+              "count": 1173,
+              "share": 0.012307
+            },
+            {
+              "value": "ch",
+              "count": 1134,
+              "share": 0.011898
+            },
+            {
+              "value": "cz",
+              "count": 1041,
+              "share": 0.010922
+            },
+            {
+              "value": "at",
+              "count": 1022,
+              "share": 0.010723
+            },
+            {
+              "value": "ro",
+              "count": 895,
+              "share": 0.009391
+            },
+            {
+              "value": "dk",
+              "count": 878,
+              "share": 0.009212
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 2121,
+          "rows": 95308,
+          "rows_per_domain_mean": 44.935,
+          "top": [
+            {
+              "value": "allaroundrental.com",
+              "count": 119,
+              "share": 0.001249
+            },
+            {
+              "value": "ind.br",
+              "count": 114,
+              "share": 0.001196
+            },
+            {
+              "value": "adventure-nicaragua.net",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "ikenmijnkunst.nl",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "lebensmittel-ueberwachung.de",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "raci.it",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "newtec.ac.uk",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "musimagen.com",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "asociacionkaribu.org",
+              "count": 102,
+              "share": 0.00107
+            },
+            {
+              "value": "protect-effect.nl",
+              "count": 102,
+              "share": 0.00107
+            }
+          ]
+        },
+        "distinct_hostnames": 2122,
+        "rows_per_hostname_mean": 44.914,
+        "distinct_normalized_host_path_query": 95307,
+        "hostname_length": {
+          "n": 95308,
+          "min": 6.0,
+          "p10": 12.0,
+          "p25": 15.0,
+          "median": 18.0,
+          "mean": 18.9872,
+          "p75": 22.0,
+          "p90": 27.0,
+          "p95": 30.0,
+          "p99": 35.0,
+          "max": 49.0
+        },
+        "share_hostname_over_30": 0.041088,
+        "path_depth": {
+          "distribution": {
+            "1": 54839,
+            "2": 18102,
+            "3": 12682,
+            "4": 5724,
+            "5": 2412,
+            "6": 776,
+            "7": 390,
+            "8": 240,
+            "9": 71,
+            "10": 8,
+            "11": 54,
+            "12": 10
+          },
+          "stats": {
+            "n": 95308,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.8339,
+            "p75": 2.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 12.0
+          }
+        },
+        "query": {
+          "rows_with_query": 53960,
+          "share_with_query": 0.566164,
+          "param_count_stats": {
+            "n": 53960,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 3.0,
+            "median": 4.0,
+            "mean": 4.0279,
+            "p75": 5.0,
+            "p90": 6.0,
+            "p95": 8.0,
+            "p99": 9.0,
+            "max": 23.0
+          },
+          "param_count_distribution": {
+            "1": 6537,
+            "2": 4845,
+            "3": 6935,
+            "4": 16371,
+            "5": 10495,
+            "6": 4447,
+            "7": 1390,
+            "8": 984,
+            "9": 1647,
+            "10": 251,
+            "11": 48,
+            "19": 3,
+            "22": 6,
+            "23": 1
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 95308,
+            "share": 1.0
+          },
+          "path": {
+            "count": 95308,
+            "share": 1.0
+          },
+          "query": {
+            "count": 53960,
+            "share": 0.566164
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 95308,
+            "min": 2.0,
+            "p10": 2.0,
+            "p25": 3.0,
+            "median": 3.0,
+            "mean": 3.0896,
+            "p75": 4.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 5.0,
+            "max": 6.0
+          },
+          "path": {
+            "n": 95308,
+            "min": 1.0,
+            "p10": 2.0,
+            "p25": 2.0,
+            "median": 2.0,
+            "mean": 3.8113,
+            "p75": 4.0,
+            "p90": 8.0,
+            "p95": 10.0,
+            "p99": 16.0,
+            "max": 54.0
+          },
+          "query": {
+            "n": 95308,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 4.0,
+            "mean": 5.7875,
+            "p75": 10.0,
+            "p90": 15.0,
+            "p95": 18.0,
+            "p99": 24.0,
+            "max": 66.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 0,
+          "share": 0.0
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 839,
+          "share_with_any_hit": 0.008803,
+          "mean_distinct_hits_per_hit_row": 1.0191,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 137,
+              "share": 0.001437
+            },
+            "path": {
+              "count": 515,
+              "share": 0.005404
+            },
+            "query": {
+              "count": 195,
+              "share": 0.002046
+            }
+          }
+        }
+      }
+    },
+    "test_split": {
+      "benign": {
+        "rows": 85613,
+        "scheme": {
+          "bare": {
+            "count": 79788,
+            "share": 0.931961
+          },
+          "http": {
+            "count": 5316,
+            "share": 0.062093
+          },
+          "https": {
+            "count": 509,
+            "share": 0.005945
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 9574,
+            "share": 0.111829
+          },
+          "path": {
+            "count": 62698,
+            "share": 0.732342
+          },
+          "query": {
+            "count": 864,
+            "share": 0.010092
+          },
+          "path+query": {
+            "count": 12477,
+            "share": 0.145737
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 9574,
+            "path": 58631,
+            "query": 856,
+            "path+query": 10727
+          },
+          "http": {
+            "homepage": 0,
+            "path": 3949,
+            "query": 8,
+            "path+query": 1359
+          },
+          "https": {
+            "homepage": 0,
+            "path": 118,
+            "query": 0,
+            "path+query": 391
+          }
+        },
+        "leading_www": {
+          "count": 2607,
+          "share": 0.030451,
+          "non_www": 83006
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "1": 1,
+            "2": 50266,
+            "3": 32171,
+            "4": 1878,
+            "5": 321,
+            "6": 281,
+            "7": 159,
+            "8": 56,
+            "9": 63,
+            "10": 81,
+            "11": 79,
+            "12": 57,
+            "13": 44,
+            "14": 60,
+            "15": 33,
+            "16": 16,
+            "17": 4,
+            "18": 15,
+            "19": 5,
+            "20": 1,
+            "21": 10,
+            "22": 2,
+            "23": 3,
+            "24": 1,
+            "25": 5,
+            "27": 1
+          },
+          "share_3_plus_labels": 0.412858,
+          "share_4_plus_labels": 0.037085,
+          "share_5_plus_labels": 0.01515
+        },
+        "tld_last_label": {
+          "distinct": 164,
+          "total": 85613,
+          "top": [
+            {
+              "value": "com",
+              "count": 52028,
+              "share": 0.607711
+            },
+            {
+              "value": "org",
+              "count": 17757,
+              "share": 0.20741
+            },
+            {
+              "value": "net",
+              "count": 3716,
+              "share": 0.043405
+            },
+            {
+              "value": "ca",
+              "count": 1876,
+              "share": 0.021913
+            },
+            {
+              "value": "edu",
+              "count": 1440,
+              "share": 0.01682
+            },
+            {
+              "value": "uk",
+              "count": 1138,
+              "share": 0.013292
+            },
+            {
+              "value": "br",
+              "count": 863,
+              "share": 0.01008
+            },
+            {
+              "value": "gov",
+              "count": 488,
+              "share": 0.0057
+            },
+            {
+              "value": "ua",
+              "count": 440,
+              "share": 0.005139
+            },
+            {
+              "value": "au",
+              "count": 425,
+              "share": 0.004964
+            },
+            {
+              "value": "jp",
+              "count": 385,
+              "share": 0.004497
+            },
+            {
+              "value": "to",
+              "count": 338,
+              "share": 0.003948
+            },
+            {
+              "value": "cz",
+              "count": 330,
+              "share": 0.003855
+            },
+            {
+              "value": "cn",
+              "count": 326,
+              "share": 0.003808
+            },
+            {
+              "value": "info",
+              "count": 320,
+              "share": 0.003738
+            },
+            {
+              "value": "us",
+              "count": 317,
+              "share": 0.003703
+            },
+            {
+              "value": "ru",
+              "count": 246,
+              "share": 0.002873
+            },
+            {
+              "value": "mx",
+              "count": 219,
+              "share": 0.002558
+            },
+            {
+              "value": "de",
+              "count": 178,
+              "share": 0.002079
+            },
+            {
+              "value": "fr",
+              "count": 150,
+              "share": 0.001752
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 275,
+          "total": 85613,
+          "top": [
+            {
+              "value": "com",
+              "count": 52028,
+              "share": 0.607711
+            },
+            {
+              "value": "org",
+              "count": 17757,
+              "share": 0.20741
+            },
+            {
+              "value": "net",
+              "count": 3716,
+              "share": 0.043405
+            },
+            {
+              "value": "ca",
+              "count": 1876,
+              "share": 0.021913
+            },
+            {
+              "value": "edu",
+              "count": 1440,
+              "share": 0.01682
+            },
+            {
+              "value": "co.uk",
+              "count": 995,
+              "share": 0.011622
+            },
+            {
+              "value": "com.br",
+              "count": 729,
+              "share": 0.008515
+            },
+            {
+              "value": "gov",
+              "count": 488,
+              "share": 0.0057
+            },
+            {
+              "value": "jp",
+              "count": 373,
+              "share": 0.004357
+            },
+            {
+              "value": "to",
+              "count": 338,
+              "share": 0.003948
+            },
+            {
+              "value": "cz",
+              "count": 330,
+              "share": 0.003855
+            },
+            {
+              "value": "info",
+              "count": 320,
+              "share": 0.003738
+            },
+            {
+              "value": "ua",
+              "count": 316,
+              "share": 0.003691
+            },
+            {
+              "value": "us",
+              "count": 315,
+              "share": 0.003679
+            },
+            {
+              "value": "com.au",
+              "count": 313,
+              "share": 0.003656
+            },
+            {
+              "value": "ru",
+              "count": 245,
+              "share": 0.002862
+            },
+            {
+              "value": "cn",
+              "count": 243,
+              "share": 0.002838
+            },
+            {
+              "value": "mx",
+              "count": 204,
+              "share": 0.002383
+            },
+            {
+              "value": "de",
+              "count": 178,
+              "share": 0.002079
+            },
+            {
+              "value": "fr",
+              "count": 150,
+              "share": 0.001752
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 22487,
+          "rows": 85613,
+          "rows_per_domain_mean": 3.807,
+          "top": [
+            {
+              "value": "wikipedia.org",
+              "count": 12851,
+              "share": 0.150106
+            },
+            {
+              "value": "yahoo.com",
+              "count": 1878,
+              "share": 0.021936
+            },
+            {
+              "value": "blogspot.com",
+              "count": 1521,
+              "share": 0.017766
+            },
+            {
+              "value": "123people.com",
+              "count": 983,
+              "share": 0.011482
+            },
+            {
+              "value": "flickr.com",
+              "count": 808,
+              "share": 0.009438
+            },
+            {
+              "value": "ancestry.com",
+              "count": 744,
+              "share": 0.00869
+            },
+            {
+              "value": "classmates.com",
+              "count": 716,
+              "share": 0.008363
+            },
+            {
+              "value": "mic.com",
+              "count": 667,
+              "share": 0.007791
+            },
+            {
+              "value": "duckduckgo.com",
+              "count": 567,
+              "share": 0.006623
+            },
+            {
+              "value": "thefreedictionary.com",
+              "count": 520,
+              "share": 0.006074
+            }
+          ]
+        },
+        "distinct_hostnames": 26911,
+        "rows_per_hostname_mean": 3.181,
+        "distinct_normalized_host_path_query": 85596,
+        "hostname_length": {
+          "n": 85613,
+          "min": 4.0,
+          "p10": 10.0,
+          "p25": 13.0,
+          "median": 16.0,
+          "mean": 17.2261,
+          "p75": 19.0,
+          "p90": 24.0,
+          "p95": 28.0,
+          "p99": 44.0,
+          "max": 248.0
+        },
+        "share_hostname_over_30": 0.033605,
+        "path_depth": {
+          "distribution": {
+            "0": 10438,
+            "1": 16289,
+            "2": 32436,
+            "3": 13147,
+            "4": 7769,
+            "5": 3139,
+            "6": 1385,
+            "7": 516,
+            "8": 281,
+            "9": 71,
+            "10": 54,
+            "11": 15,
+            "12": 31,
+            "13": 6,
+            "14": 5,
+            "15": 11,
+            "17": 4,
+            "20": 1,
+            "21": 11,
+            "22": 2,
+            "27": 2
+          },
+          "stats": {
+            "n": 85613,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 1.0,
+            "median": 2.0,
+            "mean": 2.1491,
+            "p75": 3.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 7.0,
+            "max": 27.0
+          }
+        },
+        "query": {
+          "rows_with_query": 13341,
+          "share_with_query": 0.155829,
+          "param_count_stats": {
+            "n": 13341,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.7287,
+            "p75": 2.0,
+            "p90": 3.0,
+            "p95": 4.0,
+            "p99": 8.0,
+            "max": 26.0
+          },
+          "param_count_distribution": {
+            "1": 8342,
+            "2": 3073,
+            "3": 910,
+            "4": 615,
+            "5": 155,
+            "6": 48,
+            "7": 37,
+            "8": 31,
+            "9": 6,
+            "10": 11,
+            "11": 17,
+            "12": 24,
+            "13": 12,
+            "14": 26,
+            "15": 1,
+            "18": 1,
+            "19": 29,
+            "20": 1,
+            "26": 2
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 85613,
+            "share": 1.0
+          },
+          "path": {
+            "count": 75175,
+            "share": 0.878079
+          },
+          "query": {
+            "count": 13341,
+            "share": 0.155829
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 85613,
+            "min": 1.0,
+            "p10": 2.0,
+            "p25": 2.0,
+            "median": 2.0,
+            "mean": 2.6085,
+            "p75": 3.0,
+            "p90": 3.0,
+            "p95": 4.0,
+            "p99": 7.0,
+            "max": 30.0
+          },
+          "path": {
+            "n": 85613,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 2.0,
+            "median": 4.0,
+            "mean": 4.9605,
+            "p75": 6.0,
+            "p90": 11.0,
+            "p95": 14.0,
+            "p99": 20.0,
+            "max": 113.0
+          },
+          "query": {
+            "n": 85613,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 0.8628,
+            "p75": 0.0,
+            "p90": 2.0,
+            "p95": 5.0,
+            "p99": 16.0,
+            "max": 66.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 11,
+          "share": 0.000128
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 4435,
+          "share_with_any_hit": 0.051803,
+          "mean_distinct_hits_per_hit_row": 1.4404,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 1188,
+              "share": 0.013876
+            },
+            "path": {
+              "count": 2792,
+              "share": 0.032612
+            },
+            "query": {
+              "count": 1330,
+              "share": 0.015535
+            }
+          }
+        }
+      },
+      "phishing": {
+        "rows": 18853,
+        "scheme": {
+          "bare": {
+            "count": 14401,
+            "share": 0.763857
+          },
+          "http": {
+            "count": 3176,
+            "share": 0.168461
+          },
+          "https": {
+            "count": 1276,
+            "share": 0.067682
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 4786,
+            "share": 0.253859
+          },
+          "path": {
+            "count": 12395,
+            "share": 0.657455
+          },
+          "query": {
+            "count": 58,
+            "share": 0.003076
+          },
+          "path+query": {
+            "count": 1614,
+            "share": 0.08561
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 4297,
+            "path": 9373,
+            "query": 25,
+            "path+query": 706
+          },
+          "http": {
+            "homepage": 305,
+            "path": 2275,
+            "query": 17,
+            "path+query": 579
+          },
+          "https": {
+            "homepage": 184,
+            "path": 747,
+            "query": 16,
+            "path+query": 329
+          }
+        },
+        "leading_www": {
+          "count": 7472,
+          "share": 0.396329,
+          "non_www": 11381
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "1": 8,
+            "2": 5140,
+            "3": 10761,
+            "4": 2162,
+            "5": 456,
+            "6": 114,
+            "7": 49,
+            "8": 32,
+            "9": 9,
+            "10": 7,
+            "11": 89,
+            "12": 16,
+            "13": 3,
+            "14": 2,
+            "15": 1,
+            "16": 2,
+            "17": 1,
+            "27": 1
+          },
+          "share_3_plus_labels": 0.72694,
+          "share_4_plus_labels": 0.156156,
+          "share_5_plus_labels": 0.041479
+        },
+        "tld_last_label": {
+          "distinct": 254,
+          "total": 18853,
+          "top": [
+            {
+              "value": "com",
+              "count": 10214,
+              "share": 0.541771
+            },
+            {
+              "value": "org",
+              "count": 1692,
+              "share": 0.089747
+            },
+            {
+              "value": "net",
+              "count": 1050,
+              "share": 0.055694
+            },
+            {
+              "value": "edu",
+              "count": 616,
+              "share": 0.032674
+            },
+            {
+              "value": "uk",
+              "count": 552,
+              "share": 0.029279
+            },
+            {
+              "value": "br",
+              "count": 258,
+              "share": 0.013685
+            },
+            {
+              "value": "au",
+              "count": 247,
+              "share": 0.013101
+            },
+            {
+              "value": "de",
+              "count": 240,
+              "share": 0.01273
+            },
+            {
+              "value": "ru",
+              "count": 220,
+              "share": 0.011669
+            },
+            {
+              "value": "ca",
+              "count": 168,
+              "share": 0.008911
+            },
+            {
+              "value": "fr",
+              "count": 161,
+              "share": 0.00854
+            },
+            {
+              "value": "pl",
+              "count": 149,
+              "share": 0.007903
+            },
+            {
+              "value": "info",
+              "count": 133,
+              "share": 0.007055
+            },
+            {
+              "value": "in",
+              "count": 127,
+              "share": 0.006736
+            },
+            {
+              "value": "nl",
+              "count": 93,
+              "share": 0.004933
+            },
+            {
+              "value": "gov",
+              "count": 93,
+              "share": 0.004933
+            },
+            {
+              "value": "se",
+              "count": 90,
+              "share": 0.004774
+            },
+            {
+              "value": "it",
+              "count": 85,
+              "share": 0.004509
+            },
+            {
+              "value": "za",
+              "count": 84,
+              "share": 0.004456
+            },
+            {
+              "value": "cn",
+              "count": 75,
+              "share": 0.003978
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 361,
+          "total": 18853,
+          "top": [
+            {
+              "value": "com",
+              "count": 10214,
+              "share": 0.541771
+            },
+            {
+              "value": "org",
+              "count": 1692,
+              "share": 0.089747
+            },
+            {
+              "value": "net",
+              "count": 1050,
+              "share": 0.055694
+            },
+            {
+              "value": "edu",
+              "count": 616,
+              "share": 0.032674
+            },
+            {
+              "value": "co.uk",
+              "count": 329,
+              "share": 0.017451
+            },
+            {
+              "value": "de",
+              "count": 239,
+              "share": 0.012677
+            },
+            {
+              "value": "com.br",
+              "count": 228,
+              "share": 0.012094
+            },
+            {
+              "value": "ru",
+              "count": 202,
+              "share": 0.010714
+            },
+            {
+              "value": "com.au",
+              "count": 196,
+              "share": 0.010396
+            },
+            {
+              "value": "ac.uk",
+              "count": 171,
+              "share": 0.00907
+            },
+            {
+              "value": "ca",
+              "count": 168,
+              "share": 0.008911
+            },
+            {
+              "value": "fr",
+              "count": 160,
+              "share": 0.008487
+            },
+            {
+              "value": "info",
+              "count": 133,
+              "share": 0.007055
+            },
+            {
+              "value": "pl",
+              "count": 121,
+              "share": 0.006418
+            },
+            {
+              "value": "nl",
+              "count": 93,
+              "share": 0.004933
+            },
+            {
+              "value": "gov",
+              "count": 93,
+              "share": 0.004933
+            },
+            {
+              "value": "se",
+              "count": 90,
+              "share": 0.004774
+            },
+            {
+              "value": "it",
+              "count": 85,
+              "share": 0.004509
+            },
+            {
+              "value": "in",
+              "count": 83,
+              "share": 0.004402
+            },
+            {
+              "value": "co.za",
+              "count": 82,
+              "share": 0.004349
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 9822,
+          "rows": 18853,
+          "rows_per_domain_mean": 1.919,
+          "top": [
+            {
+              "value": "wikipedia.org",
+              "count": 546,
+              "share": 0.028961
+            },
+            {
+              "value": "tripod.com",
+              "count": 487,
+              "share": 0.025831
+            },
+            {
+              "value": "cnet.com",
+              "count": 318,
+              "share": 0.016867
+            },
+            {
+              "value": "000webhostapp.com",
+              "count": 249,
+              "share": 0.013207
+            },
+            {
+              "value": "microsoft.com",
+              "count": 227,
+              "share": 0.012041
+            },
+            {
+              "value": "yahoo.com",
+              "count": 216,
+              "share": 0.011457
+            },
+            {
+              "value": "webring.com",
+              "count": 213,
+              "share": 0.011298
+            },
+            {
+              "value": "gamespot.com",
+              "count": 142,
+              "share": 0.007532
+            },
+            {
+              "value": "rpg.net",
+              "count": 125,
+              "share": 0.00663
+            },
+            {
+              "value": "arizona.edu",
+              "count": 121,
+              "share": 0.006418
+            }
+          ]
+        },
+        "distinct_hostnames": 11185,
+        "rows_per_hostname_mean": 1.686,
+        "distinct_normalized_host_path_query": 18717,
+        "hostname_length": {
+          "n": 18853,
+          "min": 2.0,
+          "p10": 12.0,
+          "p25": 14.0,
+          "median": 17.0,
+          "mean": 19.2059,
+          "p75": 21.0,
+          "p90": 27.0,
+          "p95": 33.0,
+          "p99": 60.0,
+          "max": 227.0
+        },
+        "share_hostname_over_30": 0.069803,
+        "path_depth": {
+          "distribution": {
+            "0": 4845,
+            "1": 5166,
+            "2": 4487,
+            "3": 2120,
+            "4": 998,
+            "5": 608,
+            "6": 271,
+            "7": 153,
+            "8": 118,
+            "9": 57,
+            "10": 12,
+            "11": 11,
+            "12": 5,
+            "13": 1,
+            "15": 1
+          },
+          "stats": {
+            "n": 18853,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 1.0,
+            "mean": 1.6981,
+            "p75": 2.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 8.0,
+            "max": 15.0
+          }
+        },
+        "query": {
+          "rows_with_query": 1672,
+          "share_with_query": 0.088686,
+          "param_count_stats": {
+            "n": 1672,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.8888,
+            "p75": 2.0,
+            "p90": 3.0,
+            "p95": 4.0,
+            "p99": 11.0,
+            "max": 14.0
+          },
+          "param_count_distribution": {
+            "1": 918,
+            "2": 412,
+            "3": 207,
+            "4": 69,
+            "5": 27,
+            "6": 3,
+            "7": 11,
+            "8": 4,
+            "9": 1,
+            "10": 1,
+            "11": 4,
+            "12": 3,
+            "13": 10,
+            "14": 2
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 18853,
+            "share": 1.0
+          },
+          "path": {
+            "count": 14009,
+            "share": 0.743065
+          },
+          "query": {
+            "count": 1672,
+            "share": 0.088686
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 18853,
+            "min": 1.0,
+            "p10": 2.0,
+            "p25": 3.0,
+            "median": 3.0,
+            "mean": 3.1712,
+            "p75": 3.0,
+            "p90": 4.0,
+            "p95": 5.0,
+            "p99": 8.0,
+            "max": 30.0
+          },
+          "path": {
+            "n": 18853,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 2.0,
+            "mean": 2.5646,
+            "p75": 4.0,
+            "p90": 6.0,
+            "p95": 8.0,
+            "p99": 12.0,
+            "max": 106.0
+          },
+          "query": {
+            "n": 18853,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 0.5925,
+            "p75": 0.0,
+            "p90": 0.0,
+            "p95": 4.0,
+            "p99": 15.0,
+            "max": 79.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 63,
+          "share": 0.003342
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 1947,
+          "share_with_any_hit": 0.103273,
+          "mean_distinct_hits_per_hit_row": 1.3636,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 710,
+              "share": 0.03766
+            },
+            "path": {
+              "count": 1142,
+              "share": 0.060574
+            },
+            "query": {
+              "count": 317,
+              "share": 0.016814
+            }
+          }
+        }
+      },
+      "malware": {
+        "rows": 4480,
+        "scheme": {
+          "bare": {
+            "count": 262,
+            "share": 0.058482
+          },
+          "http": {
+            "count": 3173,
+            "share": 0.708259
+          },
+          "https": {
+            "count": 1045,
+            "share": 0.233259
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 214,
+            "share": 0.047768
+          },
+          "path": {
+            "count": 4061,
+            "share": 0.906473
+          },
+          "query": {
+            "count": 3,
+            "share": 0.00067
+          },
+          "path+query": {
+            "count": 202,
+            "share": 0.045089
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 208,
+            "path": 54,
+            "query": 0,
+            "path+query": 0
+          },
+          "http": {
+            "homepage": 6,
+            "path": 2965,
+            "query": 3,
+            "path+query": 199
+          },
+          "https": {
+            "homepage": 0,
+            "path": 1042,
+            "query": 0,
+            "path+query": 3
+          }
+        },
+        "leading_www": {
+          "count": 225,
+          "share": 0.050223,
+          "non_www": 4255
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "2": 1480,
+            "3": 426,
+            "4": 2520,
+            "5": 10,
+            "6": 39,
+            "8": 4,
+            "11": 1
+          },
+          "share_3_plus_labels": 0.669643,
+          "share_4_plus_labels": 0.574554,
+          "share_5_plus_labels": 0.012054
+        },
+        "tld_last_label": {
+          "distinct": 318,
+          "total": 4480,
+          "top": [
+            {
+              "value": "com",
+              "count": 1497,
+              "share": 0.334152
+            },
+            {
+              "value": "vn",
+              "count": 87,
+              "share": 0.01942
+            },
+            {
+              "value": "29",
+              "count": 68,
+              "share": 0.015179
+            },
+            {
+              "value": "pl",
+              "count": 59,
+              "share": 0.01317
+            },
+            {
+              "value": "184",
+              "count": 57,
+              "share": 0.012723
+            },
+            {
+              "value": "202",
+              "count": 54,
+              "share": 0.012054
+            },
+            {
+              "value": "251",
+              "count": 52,
+              "share": 0.011607
+            },
+            {
+              "value": "253",
+              "count": 49,
+              "share": 0.010937
+            },
+            {
+              "value": "70",
+              "count": 43,
+              "share": 0.009598
+            },
+            {
+              "value": "org",
+              "count": 41,
+              "share": 0.009152
+            },
+            {
+              "value": "122",
+              "count": 41,
+              "share": 0.009152
+            },
+            {
+              "value": "net",
+              "count": 40,
+              "share": 0.008929
+            },
+            {
+              "value": "26",
+              "count": 39,
+              "share": 0.008705
+            },
+            {
+              "value": "164",
+              "count": 39,
+              "share": 0.008705
+            },
+            {
+              "value": "9",
+              "count": 37,
+              "share": 0.008259
+            },
+            {
+              "value": "118",
+              "count": 37,
+              "share": 0.008259
+            },
+            {
+              "value": "107",
+              "count": 35,
+              "share": 0.007812
+            },
+            {
+              "value": "6",
+              "count": 28,
+              "share": 0.00625
+            },
+            {
+              "value": "235",
+              "count": 28,
+              "share": 0.00625
+            },
+            {
+              "value": "ru",
+              "count": 27,
+              "share": 0.006027
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 328,
+          "total": 4480,
+          "top": [
+            {
+              "value": "com",
+              "count": 1497,
+              "share": 0.334152
+            },
+            {
+              "value": "com.vn",
+              "count": 87,
+              "share": 0.01942
+            },
+            {
+              "value": "29",
+              "count": 68,
+              "share": 0.015179
+            },
+            {
+              "value": "pl",
+              "count": 59,
+              "share": 0.01317
+            },
+            {
+              "value": "184",
+              "count": 57,
+              "share": 0.012723
+            },
+            {
+              "value": "202",
+              "count": 54,
+              "share": 0.012054
+            },
+            {
+              "value": "251",
+              "count": 52,
+              "share": 0.011607
+            },
+            {
+              "value": "253",
+              "count": 49,
+              "share": 0.010937
+            },
+            {
+              "value": "70",
+              "count": 43,
+              "share": 0.009598
+            },
+            {
+              "value": "org",
+              "count": 41,
+              "share": 0.009152
+            },
+            {
+              "value": "122",
+              "count": 41,
+              "share": 0.009152
+            },
+            {
+              "value": "net",
+              "count": 40,
+              "share": 0.008929
+            },
+            {
+              "value": "26",
+              "count": 39,
+              "share": 0.008705
+            },
+            {
+              "value": "164",
+              "count": 39,
+              "share": 0.008705
+            },
+            {
+              "value": "9",
+              "count": 37,
+              "share": 0.008259
+            },
+            {
+              "value": "118",
+              "count": 37,
+              "share": 0.008259
+            },
+            {
+              "value": "107",
+              "count": 35,
+              "share": 0.007812
+            },
+            {
+              "value": "6",
+              "count": 28,
+              "share": 0.00625
+            },
+            {
+              "value": "235",
+              "count": 28,
+              "share": 0.00625
+            },
+            {
+              "value": "ru",
+              "count": 27,
+              "share": 0.006027
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 1489,
+          "rows": 4480,
+          "rows_per_domain_mean": 3.009,
+          "top": [
+            {
+              "value": "pastebin.com",
+              "count": 987,
+              "share": 0.220312
+            },
+            {
+              "value": "grasslandhotel.com.vn",
+              "count": 83,
+              "share": 0.018527
+            },
+            {
+              "value": "mp3-pesnja.com",
+              "count": 71,
+              "share": 0.015848
+            },
+            {
+              "value": "travel.pl",
+              "count": 58,
+              "share": 0.012946
+            },
+            {
+              "value": "183.29",
+              "count": 52,
+              "share": 0.011607
+            },
+            {
+              "value": "16.122",
+              "count": 37,
+              "share": 0.008259
+            },
+            {
+              "value": "129.9",
+              "count": 33,
+              "share": 0.007366
+            },
+            {
+              "value": "168.202",
+              "count": 31,
+              "share": 0.00692
+            },
+            {
+              "value": "facebook.com",
+              "count": 29,
+              "share": 0.006473
+            },
+            {
+              "value": "226.184",
+              "count": 27,
+              "share": 0.006027
+            }
+          ]
+        },
+        "distinct_hostnames": 1513,
+        "rows_per_hostname_mean": 2.961,
+        "distinct_normalized_host_path_query": 4347,
+        "hostname_length": {
+          "n": 4480,
+          "min": 5.0,
+          "p10": 12.0,
+          "p25": 12.0,
+          "median": 13.0,
+          "mean": 14.4212,
+          "p75": 14.0,
+          "p90": 19.0,
+          "p95": 21.0,
+          "p99": 44.42,
+          "max": 73.0
+        },
+        "share_hostname_over_30": 0.012946,
+        "path_depth": {
+          "distribution": {
+            "0": 217,
+            "1": 1653,
+            "2": 2204,
+            "3": 93,
+            "4": 114,
+            "5": 162,
+            "6": 28,
+            "7": 6,
+            "8": 3
+          },
+          "stats": {
+            "n": 4480,
+            "min": 0.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 2.0,
+            "mean": 1.75,
+            "p75": 2.0,
+            "p90": 2.0,
+            "p95": 4.0,
+            "p99": 5.0,
+            "max": 8.0
+          }
+        },
+        "query": {
+          "rows_with_query": 205,
+          "share_with_query": 0.045759,
+          "param_count_stats": {
+            "n": 205,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 2.1415,
+            "p75": 2.0,
+            "p90": 5.6,
+            "p95": 7.0,
+            "p99": 9.0,
+            "max": 15.0
+          },
+          "param_count_distribution": {
+            "1": 139,
+            "2": 18,
+            "3": 14,
+            "4": 3,
+            "5": 10,
+            "6": 1,
+            "7": 16,
+            "9": 3,
+            "15": 1
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 4480,
+            "share": 1.0
+          },
+          "path": {
+            "count": 4263,
+            "share": 0.951562
+          },
+          "query": {
+            "count": 205,
+            "share": 0.045759
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 4480,
+            "min": 2.0,
+            "p10": 2.0,
+            "p25": 2.0,
+            "median": 4.0,
+            "mean": 3.3049,
+            "p75": 4.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 13.0
+          },
+          "path": {
+            "n": 4480,
+            "min": 0.0,
+            "p10": 1.0,
+            "p25": 2.0,
+            "median": 2.0,
+            "mean": 3.3848,
+            "p75": 3.0,
+            "p90": 5.0,
+            "p95": 7.0,
+            "p99": 45.42,
+            "max": 73.0
+          },
+          "query": {
+            "n": 4480,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 0.0,
+            "mean": 0.3056,
+            "p75": 0.0,
+            "p90": 0.0,
+            "p95": 0.0,
+            "p99": 9.21,
+            "max": 36.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 2424,
+          "share": 0.541071
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 46,
+          "share_with_any_hit": 0.010268,
+          "mean_distinct_hits_per_hit_row": 1.1522,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 10,
+              "share": 0.002232
+            },
+            "path": {
+              "count": 24,
+              "share": 0.005357
+            },
+            "query": {
+              "count": 15,
+              "share": 0.003348
+            }
+          }
+        }
+      },
+      "defacement": {
+        "rows": 19268,
+        "scheme": {
+          "bare": {
+            "count": 0,
+            "share": 0.0
+          },
+          "http": {
+            "count": 19268,
+            "share": 1.0
+          },
+          "https": {
+            "count": 0,
+            "share": 0.0
+          }
+        },
+        "structure": {
+          "homepage": {
+            "count": 0,
+            "share": 0.0
+          },
+          "path": {
+            "count": 8266,
+            "share": 0.429001
+          },
+          "query": {
+            "count": 0,
+            "share": 0.0
+          },
+          "path+query": {
+            "count": 11002,
+            "share": 0.570999
+          }
+        },
+        "scheme_x_structure": {
+          "bare": {
+            "homepage": 0,
+            "path": 0,
+            "query": 0,
+            "path+query": 0
+          },
+          "http": {
+            "homepage": 0,
+            "path": 8266,
+            "query": 0,
+            "path+query": 11002
+          },
+          "https": {
+            "homepage": 0,
+            "path": 0,
+            "query": 0,
+            "path+query": 0
+          }
+        },
+        "leading_www": {
+          "count": 13745,
+          "share": 0.713359,
+          "non_www": 5523
+        },
+        "hostname_label_counts": {
+          "distribution": {
+            "2": 5055,
+            "3": 10797,
+            "4": 3416
+          },
+          "share_3_plus_labels": 0.737648,
+          "share_4_plus_labels": 0.177289,
+          "share_5_plus_labels": 0.0
+        },
+        "tld_last_label": {
+          "distinct": 49,
+          "total": 19268,
+          "top": [
+            {
+              "value": "com",
+              "count": 5343,
+              "share": 0.277299
+            },
+            {
+              "value": "de",
+              "count": 1819,
+              "share": 0.094405
+            },
+            {
+              "value": "nl",
+              "count": 1368,
+              "share": 0.070999
+            },
+            {
+              "value": "uk",
+              "count": 1125,
+              "share": 0.058387
+            },
+            {
+              "value": "br",
+              "count": 941,
+              "share": 0.048837
+            },
+            {
+              "value": "org",
+              "count": 763,
+              "share": 0.039599
+            },
+            {
+              "value": "net",
+              "count": 735,
+              "share": 0.038146
+            },
+            {
+              "value": "au",
+              "count": 686,
+              "share": 0.035603
+            },
+            {
+              "value": "it",
+              "count": 661,
+              "share": 0.034306
+            },
+            {
+              "value": "eu",
+              "count": 638,
+              "share": 0.033112
+            },
+            {
+              "value": "gr",
+              "count": 554,
+              "share": 0.028752
+            },
+            {
+              "value": "ru",
+              "count": 374,
+              "share": 0.01941
+            },
+            {
+              "value": "se",
+              "count": 359,
+              "share": 0.018632
+            },
+            {
+              "value": "lt",
+              "count": 266,
+              "share": 0.013805
+            },
+            {
+              "value": "fr",
+              "count": 256,
+              "share": 0.013286
+            },
+            {
+              "value": "ch",
+              "count": 252,
+              "share": 0.013079
+            },
+            {
+              "value": "ro",
+              "count": 240,
+              "share": 0.012456
+            },
+            {
+              "value": "pl",
+              "count": 222,
+              "share": 0.011522
+            },
+            {
+              "value": "co",
+              "count": 193,
+              "share": 0.010017
+            },
+            {
+              "value": "ie",
+              "count": 182,
+              "share": 0.009446
+            }
+          ]
+        },
+        "suffix_heuristic_last2": {
+          "distinct": 62,
+          "total": 19268,
+          "top": [
+            {
+              "value": "com",
+              "count": 5343,
+              "share": 0.277299
+            },
+            {
+              "value": "de",
+              "count": 1819,
+              "share": 0.094405
+            },
+            {
+              "value": "nl",
+              "count": 1368,
+              "share": 0.070999
+            },
+            {
+              "value": "co.uk",
+              "count": 1034,
+              "share": 0.053664
+            },
+            {
+              "value": "org",
+              "count": 763,
+              "share": 0.039599
+            },
+            {
+              "value": "net",
+              "count": 735,
+              "share": 0.038146
+            },
+            {
+              "value": "com.br",
+              "count": 734,
+              "share": 0.038094
+            },
+            {
+              "value": "it",
+              "count": 661,
+              "share": 0.034306
+            },
+            {
+              "value": "eu",
+              "count": 638,
+              "share": 0.033112
+            },
+            {
+              "value": "com.au",
+              "count": 495,
+              "share": 0.02569
+            },
+            {
+              "value": "gr",
+              "count": 408,
+              "share": 0.021175
+            },
+            {
+              "value": "ru",
+              "count": 374,
+              "share": 0.01941
+            },
+            {
+              "value": "se",
+              "count": 359,
+              "share": 0.018632
+            },
+            {
+              "value": "lt",
+              "count": 266,
+              "share": 0.013805
+            },
+            {
+              "value": "fr",
+              "count": 256,
+              "share": 0.013286
+            },
+            {
+              "value": "ch",
+              "count": 252,
+              "share": 0.013079
+            },
+            {
+              "value": "ro",
+              "count": 240,
+              "share": 0.012456
+            },
+            {
+              "value": "pl",
+              "count": 190,
+              "share": 0.009861
+            },
+            {
+              "value": "ie",
+              "count": 182,
+              "share": 0.009446
+            },
+            {
+              "value": "us",
+              "count": 161,
+              "share": 0.008356
+            }
+          ]
+        },
+        "approx_registrable_domains": {
+          "distinct": 433,
+          "rows": 19268,
+          "rows_per_domain_mean": 44.499,
+          "top": [
+            {
+              "value": "ind.br",
+              "count": 114,
+              "share": 0.005917
+            },
+            {
+              "value": "sikobv.eu",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "dtcbv.nl",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "botoxina.com",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "zshsq.com",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "prefina.it",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "alorenademalaga.com",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "sementimenzo.it",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "unitre.org",
+              "count": 102,
+              "share": 0.005294
+            },
+            {
+              "value": "fancygaptourism.com",
+              "count": 102,
+              "share": 0.005294
+            }
+          ]
+        },
+        "distinct_hostnames": 434,
+        "rows_per_hostname_mean": 44.396,
+        "distinct_normalized_host_path_query": 19268,
+        "hostname_length": {
+          "n": 19268,
+          "min": 7.0,
+          "p10": 12.0,
+          "p25": 15.0,
+          "median": 18.0,
+          "mean": 19.0509,
+          "p75": 22.0,
+          "p90": 27.0,
+          "p95": 29.0,
+          "p99": 36.0,
+          "max": 49.0
+        },
+        "share_hostname_over_30": 0.035759,
+        "path_depth": {
+          "distribution": {
+            "1": 11133,
+            "2": 3524,
+            "3": 2681,
+            "4": 1118,
+            "5": 550,
+            "6": 137,
+            "7": 65,
+            "8": 41,
+            "9": 11,
+            "10": 8
+          },
+          "stats": {
+            "n": 19268,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "median": 1.0,
+            "mean": 1.8284,
+            "p75": 2.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "max": 10.0
+          }
+        },
+        "query": {
+          "rows_with_query": 11002,
+          "share_with_query": 0.570999,
+          "param_count_stats": {
+            "n": 11002,
+            "min": 1.0,
+            "p10": 1.0,
+            "p25": 3.0,
+            "median": 4.0,
+            "mean": 3.9969,
+            "p75": 5.0,
+            "p90": 6.0,
+            "p95": 8.0,
+            "p99": 9.0,
+            "max": 10.0
+          },
+          "param_count_distribution": {
+            "1": 1116,
+            "2": 1088,
+            "3": 1525,
+            "4": 3656,
+            "5": 2004,
+            "6": 779,
+            "7": 221,
+            "8": 293,
+            "9": 302,
+            "10": 18
+          }
+        },
+        "field_nonempty": {
+          "host": {
+            "count": 19268,
+            "share": 1.0
+          },
+          "path": {
+            "count": 19268,
+            "share": 1.0
+          },
+          "query": {
+            "count": 11002,
+            "share": 0.570999
+          }
+        },
+        "token_counts": {
+          "host": {
+            "n": 19268,
+            "min": 2.0,
+            "p10": 2.0,
+            "p25": 3.0,
+            "median": 3.0,
+            "mean": 3.105,
+            "p75": 4.0,
+            "p90": 4.0,
+            "p95": 4.0,
+            "p99": 5.0,
+            "max": 5.0
+          },
+          "path": {
+            "n": 19268,
+            "min": 1.0,
+            "p10": 2.0,
+            "p25": 2.0,
+            "median": 2.0,
+            "mean": 3.7318,
+            "p75": 4.0,
+            "p90": 8.0,
+            "p95": 10.0,
+            "p99": 15.0,
+            "max": 31.0
+          },
+          "query": {
+            "n": 19268,
+            "min": 0.0,
+            "p10": 0.0,
+            "p25": 0.0,
+            "median": 4.0,
+            "mean": 5.6632,
+            "p75": 9.0,
+            "p90": 15.0,
+            "p95": 17.0,
+            "p99": 23.0,
+            "max": 61.0
+          }
+        },
+        "ip_literal_hosts": {
+          "count": 0,
+          "share": 0.0
+        },
+        "suspicious_keyword_fixed_vocab": {
+          "definition": "fixed 15-word vocabulary; no fitting",
+          "rows_with_any_hit": 149,
+          "share_with_any_hit": 0.007733,
+          "mean_distinct_hits_per_hit_row": 1.0403,
+          "rows_with_hit_by_field": {
+            "host": {
+              "count": 0,
+              "share": 0.0
+            },
+            "path": {
+              "count": 113,
+              "share": 0.005865
+            },
+            "query": {
+              "count": 38,
+              "share": 0.001972
+            }
+          }
+        }
+      }
+    }
+  },
+  "A_cross_form": {
+    "benign": {
+      "equivalent_url_groups": 427112,
+      "groups_with_multiple_schemes": 313,
+      "share_groups_multiple_schemes": 0.000733,
+      "scheme_set_distribution": {
+        "bare": 392047,
+        "http": 33115,
+        "https": 1637,
+        "http+https": 313
+      },
+      "multi_scheme_examples": [
+        {
+          "normalized_host": "twitter.com",
+          "path": "/home",
+          "query": "status=%E3%83%8C%E3%81%91%E3%82%8B%EF%BC%81%E3%80%90%E3%82%A2%E3%83%8B%E3%83%A1%",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "hollywoodlife.com",
+          "path": "/2015/05/14/new-york-rangers-beat-washington-capitals-overtime-game-7-fan-reaction/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "dribbble.com",
+          "path": "/shots/1269523-Sperant-mobile-sidebar-concepts/attachments/174429",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "hollywoodlife.com",
+          "path": "/2015/05/06/zendaya-crop-top-skirt-instagram-picture-material-girl-outfit/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "hollywoodlife.com",
+          "path": "/2015/05/13/kylie-jenner-tyga-getting-married-too-young-secret-engagement-report/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/home",
+          "query": "status=%E3%83%8C%E3%81%91%E3%82%8B%EF%BC%81%E3%80%90%E5%B7%A8%E4%B9%B3%E3%80%91+",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "variety.com",
+          "path": "/2015/film/news/hugh-jackman-and-rooney-mara-to-star-in-me-and-earl-the-dying-girl-directors-next-movie-exclusive-1201494972/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/home",
+          "query": "status=%E3%83%8C%E3%81%91%E3%82%8B%EF%BC%81%E3%80%90%E5%B7%A8%E4%B9%B3%E3%80%91+",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        }
+      ],
+      "hosts_with_multiple_schemes": 97,
+      "share_hosts_with_multiple_schemes": 0.000724,
+      "apex_present_for_www_hosts": 712,
+      "www_present_for_apex_hosts": 712,
+      "www_hosts_without_apex_row": 6667,
+      "www_normalization_collisions": 712,
+      "rows_in_collision_groups": 1424,
+      "collision_examples": [
+        {
+          "normalized": "flickr.com",
+          "raw_hosts": [
+            "flickr.com",
+            "www.flickr.com"
+          ]
+        },
+        {
+          "normalized": "sites.google.com",
+          "raw_hosts": [
+            "sites.google.com",
+            "www.sites.google.com"
+          ]
+        },
+        {
+          "normalized": "users.on.net",
+          "raw_hosts": [
+            "users.on.net",
+            "www.users.on.net"
+          ]
+        },
+        {
+          "normalized": "habsworld.net",
+          "raw_hosts": [
+            "habsworld.net",
+            "www.habsworld.net"
+          ]
+        },
+        {
+          "normalized": "wix.com",
+          "raw_hosts": [
+            "wix.com",
+            "www.wix.com"
+          ]
+        },
+        {
+          "normalized": "oocities.org",
+          "raw_hosts": [
+            "oocities.org",
+            "www.oocities.org"
+          ]
+        },
+        {
+          "normalized": "surveymonkey.com",
+          "raw_hosts": [
+            "surveymonkey.com",
+            "www.surveymonkey.com"
+          ]
+        },
+        {
+          "normalized": "wozzasworld.com",
+          "raw_hosts": [
+            "wozzasworld.com",
+            "www.wozzasworld.com"
+          ]
+        }
+      ],
+      "host_variant_stats": {
+        "hosts": 134065,
+        "mean_host_path_query_variants": 3.203,
+        "hosts_with_over_10_variants": 3024,
+        "max_variants_for_one_host": 12666
+      }
+    },
+    "phishing": {
+      "equivalent_url_groups": 93042,
+      "groups_with_multiple_schemes": 579,
+      "share_groups_multiple_schemes": 0.006223,
+      "scheme_set_distribution": {
+        "bare": 69204,
+        "http": 16990,
+        "https": 6269,
+        "http+https": 579
+      },
+      "multi_scheme_examples": [
+        {
+          "normalized_host": "googledrive.com",
+          "path": "/host/0BwTZ8q281aSMaFpkamhyNXJ2djg/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "84.203.152.12",
+          "path": "/panel/www.paypal.com/default.aspxrru=inbox&amp;wa=/update/webscr.php",
+          "query": "cmd=_login-run&amp;dispatch=5885d80a13c0db1f1ff80d546411d7f8a8350c132bc41e0934cf",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "publish.comcast.net",
+          "path": "/dpath/Bp-mjcDe8YDpP7U9w9tEGn433Zt0tIPA0YS4Fdo0yO_4Nw3c9-vWpfENipSAcu0zOp80mMubvmxcgnVL1OrV9o7n10XH7LXQl8ZYecewRILKQPE34G64JOgUUSPOxTic/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "googledrive.com",
+          "path": "/host/0B6UAmwye7dhdaUhwRk1XLVRiNGc/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "571c3cf0ea8dbeacd92677d2db897d3d2e022b64.googledrive.com",
+          "path": "/host/0BzPRvY46NoU5c1JaVUwyeHhfcmc/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "84.203.152.12",
+          "path": "/user/update.paypal/www.paypal.com/default.aspxrru=inbox&amp;wa=/update/webscr.php",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "84.203.152.12",
+          "path": "/recordings/2/www.paypal.com/default.aspxrru=inbox&wa=/update/webscr.php",
+          "query": "cmd=_login-run&dispatch=5885d80a13c0db1f1ff80d546411d7f8a8350c132bc41e0934cfc023",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "84.203.152.12",
+          "path": "/libs/www.paypal.com/default.aspxrru=inbox&amp;wa=/update/webscr.php",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        }
+      ],
+      "hosts_with_multiple_schemes": 673,
+      "share_hosts_with_multiple_schemes": 0.012059,
+      "apex_present_for_www_hosts": 697,
+      "www_present_for_apex_hosts": 697,
+      "www_hosts_without_apex_row": 18460,
+      "www_normalization_collisions": 697,
+      "rows_in_collision_groups": 1394,
+      "collision_examples": [
+        {
+          "normalized": "pastehtml.com",
+          "raw_hosts": [
+            "pastehtml.com",
+            "www.pastehtml.com"
+          ]
+        },
+        {
+          "normalized": "lappiramis.hu",
+          "raw_hosts": [
+            "lappiramis.hu",
+            "www.lappiramis.hu"
+          ]
+        },
+        {
+          "normalized": "gerwinvegter.com",
+          "raw_hosts": [
+            "gerwinvegter.com",
+            "www.gerwinvegter.com"
+          ]
+        },
+        {
+          "normalized": "viverelagheula.net",
+          "raw_hosts": [
+            "viverelagheula.net",
+            "www.viverelagheula.net"
+          ]
+        },
+        {
+          "normalized": "atricor.es",
+          "raw_hosts": [
+            "atricor.es",
+            "www.atricor.es"
+          ]
+        },
+        {
+          "normalized": "mariamuller.com.br",
+          "raw_hosts": [
+            "mariamuller.com.br",
+            "www.mariamuller.com.br"
+          ]
+        },
+        {
+          "normalized": "ellatirdelasnoticias.com.mx",
+          "raw_hosts": [
+            "ellatirdelasnoticias.com.mx",
+            "www.ellatirdelasnoticias.com.mx"
+          ]
+        },
+        {
+          "normalized": "akfjsh.com",
+          "raw_hosts": [
+            "akfjsh.com",
+            "www.akfjsh.com"
+          ]
+        }
+      ],
+      "host_variant_stats": {
+        "hosts": 55810,
+        "mean_host_path_query_variants": 1.688,
+        "hosts_with_over_10_variants": 558,
+        "max_variants_for_one_host": 3190
+      }
+    },
+    "malware": {
+      "equivalent_url_groups": 22880,
+      "groups_with_multiple_schemes": 44,
+      "share_groups_multiple_schemes": 0.001923,
+      "scheme_set_distribution": {
+        "http": 14950,
+        "https": 6676,
+        "bare": 1210,
+        "http+https": 44
+      },
+      "multi_scheme_examples": [
+        {
+          "normalized_host": "youtube.com",
+          "path": "/embed/9wCygJtW_SQ",
+          "query": "rel=0&showinfo=0&autoplay=1",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/sending-warm-wishes-on-ganesh-chaturthi/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/i-am-lucky-to-have-a-teacher-like-you/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/warm-wishes-for-new-year/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/india-shines-with-her-glory/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/missing-you-on-raksha-bandhan/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/salute-the-tricolor/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "twitter.com",
+          "path": "/share",
+          "query": "url=http://www.greeteasy.com/sending-warm-greetings-on-independence-day/",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        }
+      ],
+      "hosts_with_multiple_schemes": 42,
+      "share_hosts_with_multiple_schemes": 0.005703,
+      "apex_present_for_www_hosts": 14,
+      "www_present_for_apex_hosts": 14,
+      "www_hosts_without_apex_row": 298,
+      "www_normalization_collisions": 14,
+      "rows_in_collision_groups": 28,
+      "collision_examples": [
+        {
+          "normalized": "chinajiaoan.cn",
+          "raw_hosts": [
+            "chinajiaoan.cn",
+            "www.chinajiaoan.cn"
+          ]
+        },
+        {
+          "normalized": "compdata.ca",
+          "raw_hosts": [
+            "compdata.ca",
+            "www.compdata.ca"
+          ]
+        },
+        {
+          "normalized": "nilemixitupd.biz.pl",
+          "raw_hosts": [
+            "nilemixitupd.biz.pl",
+            "www.nilemixitupd.biz.pl"
+          ]
+        },
+        {
+          "normalized": "souqtajeer.com",
+          "raw_hosts": [
+            "souqtajeer.com",
+            "www.souqtajeer.com"
+          ]
+        },
+        {
+          "normalized": "jahesa.com",
+          "raw_hosts": [
+            "jahesa.com",
+            "www.jahesa.com"
+          ]
+        },
+        {
+          "normalized": "xuhss.com",
+          "raw_hosts": [
+            "www.xuhss.com",
+            "xuhss.com"
+          ]
+        },
+        {
+          "normalized": "anjelo-directhelp.de",
+          "raw_hosts": [
+            "anjelo-directhelp.de",
+            "www.anjelo-directhelp.de"
+          ]
+        },
+        {
+          "normalized": "igrejayhwh.com",
+          "raw_hosts": [
+            "igrejayhwh.com",
+            "www.igrejayhwh.com"
+          ]
+        }
+      ],
+      "host_variant_stats": {
+        "hosts": 7364,
+        "mean_host_path_query_variants": 3.113,
+        "hosts_with_over_10_variants": 492,
+        "max_variants_for_one_host": 2879
+      }
+    },
+    "defacement": {
+      "equivalent_url_groups": 95307,
+      "groups_with_multiple_schemes": 0,
+      "share_groups_multiple_schemes": 0.0,
+      "scheme_set_distribution": {
+        "http": 95307
+      },
+      "multi_scheme_examples": [],
+      "hosts_with_multiple_schemes": 0,
+      "share_hosts_with_multiple_schemes": 0.0,
+      "apex_present_for_www_hosts": 0,
+      "www_present_for_apex_hosts": 0,
+      "www_hosts_without_apex_row": 1436,
+      "www_normalization_collisions": 0,
+      "rows_in_collision_groups": 0,
+      "collision_examples": [],
+      "host_variant_stats": {
+        "hosts": 2122,
+        "mean_host_path_query_variants": 44.914,
+        "hosts_with_over_10_variants": 1622,
+        "max_variants_for_one_host": 119
+      }
+    },
+    "all": {
+      "equivalent_url_groups": 634306,
+      "groups_with_multiple_schemes": 4947,
+      "share_groups_multiple_schemes": 0.007799,
+      "scheme_set_distribution": {
+        "bare": 458426,
+        "http": 156454,
+        "https": 14479,
+        "bare+http": 3908,
+        "http+https": 935,
+        "bare+https": 103,
+        "bare+http+https": 1
+      },
+      "multi_scheme_examples": [
+        {
+          "normalized_host": "twitter.com",
+          "path": "/home",
+          "query": "status=%E3%83%8C%E3%81%91%E3%82%8B%EF%BC%81%E3%80%90%E3%82%A2%E3%83%8B%E3%83%A1%",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "pastehtml.com",
+          "path": "/view/b2i243gkw.html",
+          "query": "",
+          "schemes": [
+            "bare",
+            "http"
+          ]
+        },
+        {
+          "normalized_host": "ksra.ca",
+          "path": "/form/use/verify/form1.html",
+          "query": "",
+          "schemes": [
+            "bare",
+            "http"
+          ]
+        },
+        {
+          "normalized_host": "hollywoodlife.com",
+          "path": "/2015/05/14/new-york-rangers-beat-washington-capitals-overtime-game-7-fan-reaction/",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "lappiramis.hu",
+          "path": "/wordpress/wp-content/themes/twentyeleven/inc/images/index.htm",
+          "query": "",
+          "schemes": [
+            "bare",
+            "http"
+          ]
+        },
+        {
+          "normalized_host": "habbomoedasgeraa.blogspot.com",
+          "path": "/",
+          "query": "",
+          "schemes": [
+            "bare",
+            "http"
+          ]
+        },
+        {
+          "normalized_host": "dribbble.com",
+          "path": "/shots/1269523-Sperant-mobile-sidebar-concepts/attachments/174429",
+          "query": "",
+          "schemes": [
+            "http",
+            "https"
+          ]
+        },
+        {
+          "normalized_host": "pastehtml.com",
+          "path": "/view/bfzi0ah2a.html",
+          "query": "",
+          "schemes": [
+            "bare",
+            "http"
+          ]
+        }
+      ],
+      "hosts_with_multiple_schemes": 3105,
+      "share_hosts_with_multiple_schemes": 0.015801,
+      "apex_present_for_www_hosts": 2654,
+      "www_present_for_apex_hosts": 2654,
+      "www_hosts_without_apex_row": 24801,
+      "www_normalization_collisions": 2654,
+      "rows_in_collision_groups": 5308,
+      "collision_examples": [
+        {
+          "normalized": "myspace.com",
+          "raw_hosts": [
+            "myspace.com",
+            "www.myspace.com"
+          ]
+        },
+        {
+          "normalized": "nytimes.com",
+          "raw_hosts": [
+            "nytimes.com",
+            "www.nytimes.com"
+          ]
+        },
+        {
+          "normalized": "wordsmith.org",
+          "raw_hosts": [
+            "wordsmith.org",
+            "www.wordsmith.org"
+          ]
+        },
+        {
+          "normalized": "linkedin.com",
+          "raw_hosts": [
+            "linkedin.com",
+            "www.linkedin.com"
+          ]
+        },
+        {
+          "normalized": "ctv.ca",
+          "raw_hosts": [
+            "ctv.ca",
+            "www.ctv.ca"
+          ]
+        },
+        {
+          "normalized": "alexa.com",
+          "raw_hosts": [
+            "alexa.com",
+            "www.alexa.com"
+          ]
+        },
+        {
+          "normalized": "youtube.com",
+          "raw_hosts": [
+            "www.youtube.com",
+            "youtube.com"
+          ]
+        },
+        {
+          "normalized": "faqs.org",
+          "raw_hosts": [
+            "faqs.org",
+            "www.faqs.org"
+          ]
+        }
+      ],
+      "host_variant_stats": {
+        "hosts": 196505,
+        "mean_host_path_query_variants": 3.272,
+        "hosts_with_over_10_variants": 5720,
+        "max_variants_for_one_host": 13202
+      }
+    }
+  },
+  "A_lexical_coverage": {
+    "full_corpus": {
+      "benign": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.807352,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.825754,
+        "path_rows_measured": 5244,
+        "query_token_coverage_mean": 0.706032,
+        "query_rows_measured": 1034
+      },
+      "phishing": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.712708,
+        "host_rows_with_zero_known_grams": 4,
+        "path_token_coverage_mean": 0.673282,
+        "path_rows_measured": 4457,
+        "query_token_coverage_mean": 0.709228,
+        "query_rows_measured": 512
+      },
+      "malware": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.682299,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.852597,
+        "path_rows_measured": 5731,
+        "query_token_coverage_mean": 0.680351,
+        "query_rows_measured": 361
+      },
+      "defacement": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.783017,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.927574,
+        "path_rows_measured": 6000,
+        "query_token_coverage_mean": 0.946795,
+        "query_rows_measured": 3356
+      }
+    },
+    "test_split": {
+      "benign": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.746378,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.846373,
+        "path_rows_measured": 5230,
+        "query_token_coverage_mean": 0.65541,
+        "query_rows_measured": 935
+      },
+      "phishing": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.693684,
+        "host_rows_with_zero_known_grams": 3,
+        "path_token_coverage_mean": 0.672025,
+        "path_rows_measured": 4411,
+        "query_token_coverage_mean": 0.699587,
+        "query_rows_measured": 528
+      },
+      "malware": {
+        "sampled_rows": 4480,
+        "host_ngram_coverage_mean": 0.604543,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.793933,
+        "path_rows_measured": 4263,
+        "query_token_coverage_mean": 0.712556,
+        "query_rows_measured": 205
+      },
+      "defacement": {
+        "sampled_rows": 6000,
+        "host_ngram_coverage_mean": 0.660463,
+        "host_rows_with_zero_known_grams": 0,
+        "path_token_coverage_mean": 0.882088,
+        "path_rows_measured": 6000,
+        "query_token_coverage_mean": 0.923864,
+        "query_rows_measured": 3448
+      }
+    },
+    "definition": "share of a field's tokens/n-grams that exist in the already-fitted S1 vocabulary. No vectoriser was fitted or transformed here."
+  },
+  "B_malicious_https_attribution": {
+    "R2": {
+      "inference_seconds": 19.35,
+      "https_gate": {
+        "malicious_https_rows": 2321,
+        "malicious_https_detected": 2288,
+        "malicious_https_missed": 33,
+        "malicious_https_recall": 0.985782,
+        "rows_needed_for_0_90": 2089,
+        "shortfall_rows_to_0_90": 0,
+        "per_subtype": {
+          "phishing": {
+            "https_rows": 1276,
+            "share_of_malicious_https": 0.549763,
+            "detected": 1244,
+            "missed": 32,
+            "recall": 0.974922,
+            "share_of_https_detections": 0.543706,
+            "share_of_https_misses": 0.969697
+          },
+          "malware": {
+            "https_rows": 1045,
+            "share_of_malicious_https": 0.450237,
+            "detected": 1044,
+            "missed": 1,
+            "recall": 0.999043,
+            "share_of_https_detections": 0.456294,
+            "share_of_https_misses": 0.030303
+          },
+          "defacement": {
+            "https_rows": 0,
+            "share_of_malicious_https": 0.0,
+            "detected": 0,
+            "missed": 0,
+            "recall": null,
+            "share_of_https_detections": 0.0,
+            "share_of_https_misses": 0.0
+          }
+        },
+        "leave_one_subtype_out": {
+          "phishing": {
+            "https_rows_without_subtype": 1045,
+            "detected_without_subtype": 1044,
+            "recall_without_subtype": 0.999043
+          },
+          "malware": {
+            "https_rows_without_subtype": 1276,
+            "detected_without_subtype": 1244,
+            "recall_without_subtype": 0.974922
+          },
+          "defacement": {
+            "https_rows_without_subtype": 2321,
+            "detected_without_subtype": 2288,
+            "recall_without_subtype": 0.985782
+          }
+        },
+        "defacement_https_rows": 0
+      },
+      "by_subtype_and_scheme": {
+        "phishing": {
+          "bare": {
+            "count": 14401,
+            "detected": 11935,
+            "recall": 0.828762,
+            "mean_score": 0.741454
+          },
+          "http": {
+            "count": 3176,
+            "detected": 2824,
+            "recall": 0.889169,
+            "mean_score": 0.797711
+          },
+          "https": {
+            "count": 1276,
+            "detected": 1244,
+            "recall": 0.974922,
+            "mean_score": 0.902535
+          }
+        },
+        "malware": {
+          "bare": {
+            "count": 262,
+            "detected": 239,
+            "recall": 0.912214,
+            "mean_score": 0.882834
+          },
+          "http": {
+            "count": 3173,
+            "detected": 3023,
+            "recall": 0.952726,
+            "mean_score": 0.936791
+          },
+          "https": {
+            "count": 1045,
+            "detected": 1044,
+            "recall": 0.999043,
+            "mean_score": 0.935129
+          }
+        },
+        "defacement": {
+          "bare": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          },
+          "http": {
+            "count": 19268,
+            "detected": 18834,
+            "recall": 0.977476,
+            "mean_score": 0.934815
+          },
+          "https": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          }
+        }
+      },
+      "overall_malicious_recall": 0.918828,
+      "https_malicious_recall_check": 0.985782
+    },
+    "S1": {
+      "inference_seconds": 23.15,
+      "https_gate": {
+        "malicious_https_rows": 2321,
+        "malicious_https_detected": 1052,
+        "malicious_https_missed": 1269,
+        "malicious_https_recall": 0.453253,
+        "rows_needed_for_0_90": 2089,
+        "shortfall_rows_to_0_90": 1037,
+        "per_subtype": {
+          "phishing": {
+            "https_rows": 1276,
+            "share_of_malicious_https": 0.549763,
+            "detected": 989,
+            "missed": 287,
+            "recall": 0.775078,
+            "share_of_https_detections": 0.940114,
+            "share_of_https_misses": 0.226162
+          },
+          "malware": {
+            "https_rows": 1045,
+            "share_of_malicious_https": 0.450237,
+            "detected": 63,
+            "missed": 982,
+            "recall": 0.060287,
+            "share_of_https_detections": 0.059886,
+            "share_of_https_misses": 0.773838
+          },
+          "defacement": {
+            "https_rows": 0,
+            "share_of_malicious_https": 0.0,
+            "detected": 0,
+            "missed": 0,
+            "recall": null,
+            "share_of_https_detections": 0.0,
+            "share_of_https_misses": 0.0
+          }
+        },
+        "leave_one_subtype_out": {
+          "phishing": {
+            "https_rows_without_subtype": 1045,
+            "detected_without_subtype": 63,
+            "recall_without_subtype": 0.060287
+          },
+          "malware": {
+            "https_rows_without_subtype": 1276,
+            "detected_without_subtype": 989,
+            "recall_without_subtype": 0.775078
+          },
+          "defacement": {
+            "https_rows_without_subtype": 2321,
+            "detected_without_subtype": 1052,
+            "recall_without_subtype": 0.453253
+          }
+        },
+        "defacement_https_rows": 0
+      },
+      "by_subtype_and_scheme": {
+        "phishing": {
+          "bare": {
+            "count": 14401,
+            "detected": 10795,
+            "recall": 0.749601,
+            "mean_score": 0.707477
+          },
+          "http": {
+            "count": 3176,
+            "detected": 2172,
+            "recall": 0.683879,
+            "mean_score": 0.659909
+          },
+          "https": {
+            "count": 1276,
+            "detected": 989,
+            "recall": 0.775078,
+            "mean_score": 0.726114
+          }
+        },
+        "malware": {
+          "bare": {
+            "count": 262,
+            "detected": 160,
+            "recall": 0.610687,
+            "mean_score": 0.627587
+          },
+          "http": {
+            "count": 3173,
+            "detected": 2934,
+            "recall": 0.924677,
+            "mean_score": 0.919284
+          },
+          "https": {
+            "count": 1045,
+            "detected": 63,
+            "recall": 0.060287,
+            "mean_score": 0.337149
+          }
+        },
+        "defacement": {
+          "bare": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          },
+          "http": {
+            "count": 19268,
+            "detected": 17669,
+            "recall": 0.917013,
+            "mean_score": 0.888705
+          },
+          "https": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          }
+        }
+      },
+      "overall_malicious_recall": 0.81646,
+      "https_malicious_recall_check": 0.453253
+    },
+    "S2-A": {
+      "inference_seconds": 28.48,
+      "https_gate": {
+        "malicious_https_rows": 2321,
+        "malicious_https_detected": 1069,
+        "malicious_https_missed": 1252,
+        "malicious_https_recall": 0.460577,
+        "rows_needed_for_0_90": 2089,
+        "shortfall_rows_to_0_90": 1020,
+        "per_subtype": {
+          "phishing": {
+            "https_rows": 1276,
+            "share_of_malicious_https": 0.549763,
+            "detected": 1008,
+            "missed": 268,
+            "recall": 0.789969,
+            "share_of_https_detections": 0.942937,
+            "share_of_https_misses": 0.214058
+          },
+          "malware": {
+            "https_rows": 1045,
+            "share_of_malicious_https": 0.450237,
+            "detected": 61,
+            "missed": 984,
+            "recall": 0.058373,
+            "share_of_https_detections": 0.057063,
+            "share_of_https_misses": 0.785942
+          },
+          "defacement": {
+            "https_rows": 0,
+            "share_of_malicious_https": 0.0,
+            "detected": 0,
+            "missed": 0,
+            "recall": null,
+            "share_of_https_detections": 0.0,
+            "share_of_https_misses": 0.0
+          }
+        },
+        "leave_one_subtype_out": {
+          "phishing": {
+            "https_rows_without_subtype": 1045,
+            "detected_without_subtype": 61,
+            "recall_without_subtype": 0.058373
+          },
+          "malware": {
+            "https_rows_without_subtype": 1276,
+            "detected_without_subtype": 1008,
+            "recall_without_subtype": 0.789969
+          },
+          "defacement": {
+            "https_rows_without_subtype": 2321,
+            "detected_without_subtype": 1069,
+            "recall_without_subtype": 0.460577
+          }
+        },
+        "defacement_https_rows": 0
+      },
+      "by_subtype_and_scheme": {
+        "phishing": {
+          "bare": {
+            "count": 14401,
+            "detected": 9895,
+            "recall": 0.687105,
+            "mean_score": 0.636461
+          },
+          "http": {
+            "count": 3176,
+            "detected": 2112,
+            "recall": 0.664987,
+            "mean_score": 0.635652
+          },
+          "https": {
+            "count": 1276,
+            "detected": 1008,
+            "recall": 0.789969,
+            "mean_score": 0.737087
+          }
+        },
+        "malware": {
+          "bare": {
+            "count": 262,
+            "detected": 187,
+            "recall": 0.71374,
+            "mean_score": 0.669031
+          },
+          "http": {
+            "count": 3173,
+            "detected": 2932,
+            "recall": 0.924047,
+            "mean_score": 0.918717
+          },
+          "https": {
+            "count": 1045,
+            "detected": 61,
+            "recall": 0.058373,
+            "mean_score": 0.440957
+          }
+        },
+        "defacement": {
+          "bare": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          },
+          "http": {
+            "count": 19268,
+            "detected": 16862,
+            "recall": 0.87513,
+            "mean_score": 0.841017
+          },
+          "https": {
+            "count": 0,
+            "detected": 0,
+            "recall": null,
+            "mean_score": null
+          }
+        }
+      },
+      "overall_malicious_recall": 0.775968,
+      "https_malicious_recall_check": 0.460577
+    }
+  },
+  "C_benign_coverage": {
+    "kaggle_benign_train": {
+      "name": "Kaggle benign train rows after brand purge",
+      "benign_rows": 335499,
+      "categories": {
+        "https_homepage": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_path": {
+          "count": 615,
+          "share": 0.001833
+        },
+        "https_deep_query": {
+          "count": 53,
+          "share": 0.000158
+        },
+        "https_deep_path_query": {
+          "count": 771,
+          "share": 0.002298
+        },
+        "https_any_deep": {
+          "count": 1439,
+          "share": 0.004289
+        },
+        "https_www": {
+          "count": 94,
+          "share": 0.00028
+        },
+        "https_non_www": {
+          "count": 1345,
+          "share": 0.004009
+        },
+        "http_any": {
+          "count": 27863,
+          "share": 0.083049
+        },
+        "bare_any": {
+          "count": 306197,
+          "share": 0.912661
+        },
+        "deep_any": {
+          "count": 297449,
+          "share": 0.886587
+        },
+        "homepage_any": {
+          "count": 38050,
+          "share": 0.113413
+        }
+      },
+      "distinct_hostnames": 107073,
+      "distinct_approx_domains": 84420,
+      "suffix_heuristic": {
+        "distinct": 419,
+        "total": 335499,
+        "top": [
+          {
+            "value": "com",
+            "count": 250896,
+            "share": 0.747829
+          },
+          {
+            "value": "org",
+            "count": 19750,
+            "share": 0.058868
+          },
+          {
+            "value": "net",
+            "count": 15271,
+            "share": 0.045517
+          },
+          {
+            "value": "ca",
+            "count": 7616,
+            "share": 0.022701
+          },
+          {
+            "value": "edu",
+            "count": 5496,
+            "share": 0.016382
+          },
+          {
+            "value": "co.uk",
+            "count": 3580,
+            "share": 0.010671
+          },
+          {
+            "value": "gov",
+            "count": 2129,
+            "share": 0.006346
+          },
+          {
+            "value": "pl",
+            "count": 1574,
+            "share": 0.004692
+          },
+          {
+            "value": "info",
+            "count": 1464,
+            "share": 0.004364
+          },
+          {
+            "value": "ru",
+            "count": 1459,
+            "share": 0.004349
+          },
+          {
+            "value": "vn",
+            "count": 1307,
+            "share": 0.003896
+          },
+          {
+            "value": "de",
+            "count": 1174,
+            "share": 0.003499
+          },
+          {
+            "value": "com.br",
+            "count": 1157,
+            "share": 0.003449
+          },
+          {
+            "value": "com.au",
+            "count": 1153,
+            "share": 0.003437
+          },
+          {
+            "value": "cc",
+            "count": 985,
+            "share": 0.002936
+          },
+          {
+            "value": "us",
+            "count": 983,
+            "share": 0.00293
+          },
+          {
+            "value": "mx",
+            "count": 798,
+            "share": 0.002379
+          },
+          {
+            "value": "fm",
+            "count": 737,
+            "share": 0.002197
+          },
+          {
+            "value": "asia",
+            "count": 697,
+            "share": 0.002078
+          },
+          {
+            "value": "in",
+            "count": 663,
+            "share": 0.001976
+          }
+        ]
+      },
+      "hostname_label_counts": {
+        "1": 5,
+        "2": 246117,
+        "3": 74055,
+        "4": 8738,
+        "5": 1982,
+        "6": 1231,
+        "7": 819,
+        "8": 255,
+        "9": 305,
+        "10": 229,
+        "11": 287,
+        "12": 236,
+        "13": 522,
+        "14": 200,
+        "15": 141,
+        "16": 68,
+        "17": 37,
+        "18": 39,
+        "19": 170,
+        "20": 23,
+        "21": 5,
+        "22": 9,
+        "23": 5,
+        "24": 7,
+        "25": 11,
+        "28": 2,
+        "35": 1
+      },
+      "share_3_plus_labels": 0.2664,
+      "share_4_plus_labels": 0.045669,
+      "leading_www": {
+        "www": 10612,
+        "non_www": 324887,
+        "www_share": 0.03163
+      },
+      "path_depth_stats": {
+        "n": 335499,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 1.0,
+        "median": 2.0,
+        "mean": 2.218,
+        "p75": 3.0,
+        "p90": 4.0,
+        "p95": 5.0,
+        "p99": 7.0,
+        "max": 34.0
+      },
+      "query_param_stats": {
+        "n": 335499,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.3236,
+        "p75": 0.0,
+        "p90": 1.0,
+        "p95": 2.0,
+        "p99": 5.0,
+        "max": 40.0
+      },
+      "rows_with_query": 58396,
+      "share_with_query": 0.174057
+    },
+    "tranco_generated_train": {
+      "name": "Tranco generated training representations (https:// apex + https://www.)",
+      "benign_rows": 12905,
+      "categories": {
+        "https_homepage": {
+          "count": 12905,
+          "share": 1.0
+        },
+        "https_deep_path": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_query": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_path_query": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_any_deep": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_www": {
+          "count": 2905,
+          "share": 0.225107
+        },
+        "https_non_www": {
+          "count": 10000,
+          "share": 0.774893
+        },
+        "http_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "bare_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "deep_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "homepage_any": {
+          "count": 12905,
+          "share": 1.0
+        }
+      },
+      "distinct_hostnames": 12905,
+      "distinct_approx_domains": 9980,
+      "suffix_heuristic": {
+        "distinct": 465,
+        "total": 12905,
+        "top": [
+          {
+            "value": "com",
+            "count": 6142,
+            "share": 0.47594
+          },
+          {
+            "value": "net",
+            "count": 875,
+            "share": 0.067803
+          },
+          {
+            "value": "ru",
+            "count": 541,
+            "share": 0.041922
+          },
+          {
+            "value": "org",
+            "count": 534,
+            "share": 0.041379
+          },
+          {
+            "value": "de",
+            "count": 313,
+            "share": 0.024254
+          },
+          {
+            "value": "io",
+            "count": 302,
+            "share": 0.023402
+          },
+          {
+            "value": "fr",
+            "count": 161,
+            "share": 0.012476
+          },
+          {
+            "value": "cn",
+            "count": 119,
+            "share": 0.009221
+          },
+          {
+            "value": "jp",
+            "count": 116,
+            "share": 0.008989
+          },
+          {
+            "value": "com.br",
+            "count": 110,
+            "share": 0.008524
+          },
+          {
+            "value": "it",
+            "count": 95,
+            "share": 0.007361
+          },
+          {
+            "value": "nl",
+            "count": 85,
+            "share": 0.006587
+          },
+          {
+            "value": "co",
+            "count": 83,
+            "share": 0.006432
+          },
+          {
+            "value": "pl",
+            "count": 82,
+            "share": 0.006354
+          },
+          {
+            "value": "in",
+            "count": 77,
+            "share": 0.005967
+          },
+          {
+            "value": "tv",
+            "count": 75,
+            "share": 0.005812
+          },
+          {
+            "value": "ai",
+            "count": 75,
+            "share": 0.005812
+          },
+          {
+            "value": "es",
+            "count": 73,
+            "share": 0.005657
+          },
+          {
+            "value": "co.jp",
+            "count": 66,
+            "share": 0.005114
+          },
+          {
+            "value": "cloud",
+            "count": 62,
+            "share": 0.004804
+          }
+        ]
+      },
+      "hostname_label_counts": {
+        "2": 9244,
+        "3": 3441,
+        "4": 219,
+        "5": 1
+      },
+      "share_3_plus_labels": 0.283688,
+      "share_4_plus_labels": 0.017048,
+      "leading_www": {
+        "www": 2905,
+        "non_www": 10000,
+        "www_share": 0.225107
+      },
+      "path_depth_stats": {
+        "n": 12905,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "query_param_stats": {
+        "n": 12905,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "rows_with_query": 0,
+      "share_with_query": 0.0
+    },
+    "tranco_holdout": {
+      "name": "Tranco holdout generated representations (https:// apex + https://www.)",
+      "benign_rows": 4000,
+      "categories": {
+        "https_homepage": {
+          "count": 4000,
+          "share": 1.0
+        },
+        "https_deep_path": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_query": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_path_query": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_any_deep": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_www": {
+          "count": 2000,
+          "share": 0.5
+        },
+        "https_non_www": {
+          "count": 2000,
+          "share": 0.5
+        },
+        "http_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "bare_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "deep_any": {
+          "count": 0,
+          "share": 0.0
+        },
+        "homepage_any": {
+          "count": 4000,
+          "share": 1.0
+        }
+      },
+      "distinct_hostnames": 4000,
+      "distinct_approx_domains": 1998,
+      "suffix_heuristic": {
+        "distinct": 228,
+        "total": 4000,
+        "top": [
+          {
+            "value": "com",
+            "count": 1860,
+            "share": 0.465
+          },
+          {
+            "value": "net",
+            "count": 268,
+            "share": 0.067
+          },
+          {
+            "value": "ru",
+            "count": 168,
+            "share": 0.042
+          },
+          {
+            "value": "org",
+            "count": 148,
+            "share": 0.037
+          },
+          {
+            "value": "de",
+            "count": 106,
+            "share": 0.0265
+          },
+          {
+            "value": "io",
+            "count": 106,
+            "share": 0.0265
+          },
+          {
+            "value": "fr",
+            "count": 50,
+            "share": 0.0125
+          },
+          {
+            "value": "cn",
+            "count": 46,
+            "share": 0.0115
+          },
+          {
+            "value": "jp",
+            "count": 40,
+            "share": 0.01
+          },
+          {
+            "value": "pl",
+            "count": 36,
+            "share": 0.009
+          },
+          {
+            "value": "es",
+            "count": 34,
+            "share": 0.0085
+          },
+          {
+            "value": "com.br",
+            "count": 34,
+            "share": 0.0085
+          },
+          {
+            "value": "it",
+            "count": 30,
+            "share": 0.0075
+          },
+          {
+            "value": "co.jp",
+            "count": 30,
+            "share": 0.0075
+          },
+          {
+            "value": "tv",
+            "count": 28,
+            "share": 0.007
+          },
+          {
+            "value": "cloud",
+            "count": 26,
+            "share": 0.0065
+          },
+          {
+            "value": "ai",
+            "count": 24,
+            "share": 0.006
+          },
+          {
+            "value": "nl",
+            "count": 22,
+            "share": 0.0055
+          },
+          {
+            "value": "co",
+            "count": 22,
+            "share": 0.0055
+          },
+          {
+            "value": "cc",
+            "count": 20,
+            "share": 0.005
+          }
+        ]
+      },
+      "hostname_label_counts": {
+        "2": 1841,
+        "3": 1998,
+        "4": 159,
+        "5": 2
+      },
+      "share_3_plus_labels": 0.53975,
+      "share_4_plus_labels": 0.04025,
+      "leading_www": {
+        "www": 2000,
+        "non_www": 2000,
+        "www_share": 0.5
+      },
+      "path_depth_stats": {
+        "n": 4000,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "query_param_stats": {
+        "n": 4000,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "p95": 0.0,
+        "p99": 0.0,
+        "max": 0.0
+      },
+      "rows_with_query": 0,
+      "share_with_query": 0.0
+    },
+    "legit_deep_suite": {
+      "name": "Legitimate deep suite (Kaggle TEST split, benign, path/query)",
+      "benign_rows": 76039,
+      "categories": {
+        "https_homepage": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_path": {
+          "count": 118,
+          "share": 0.001552
+        },
+        "https_deep_query": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_deep_path_query": {
+          "count": 391,
+          "share": 0.005142
+        },
+        "https_any_deep": {
+          "count": 509,
+          "share": 0.006694
+        },
+        "https_www": {
+          "count": 0,
+          "share": 0.0
+        },
+        "https_non_www": {
+          "count": 509,
+          "share": 0.006694
+        },
+        "http_any": {
+          "count": 5316,
+          "share": 0.069911
+        },
+        "bare_any": {
+          "count": 70214,
+          "share": 0.923395
+        },
+        "deep_any": {
+          "count": 76039,
+          "share": 1.0
+        },
+        "homepage_any": {
+          "count": 0,
+          "share": 0.0
+        }
+      },
+      "distinct_hostnames": 18629,
+      "distinct_approx_domains": 16084,
+      "suffix_heuristic": {
+        "distinct": 239,
+        "total": 76039,
+        "top": [
+          {
+            "value": "com",
+            "count": 45321,
+            "share": 0.596023
+          },
+          {
+            "value": "org",
+            "count": 16910,
+            "share": 0.222386
+          },
+          {
+            "value": "net",
+            "count": 3242,
+            "share": 0.042636
+          },
+          {
+            "value": "ca",
+            "count": 1667,
+            "share": 0.021923
+          },
+          {
+            "value": "edu",
+            "count": 1181,
+            "share": 0.015532
+          },
+          {
+            "value": "co.uk",
+            "count": 807,
+            "share": 0.010613
+          },
+          {
+            "value": "com.br",
+            "count": 704,
+            "share": 0.009258
+          },
+          {
+            "value": "gov",
+            "count": 405,
+            "share": 0.005326
+          },
+          {
+            "value": "jp",
+            "count": 370,
+            "share": 0.004866
+          },
+          {
+            "value": "to",
+            "count": 335,
+            "share": 0.004406
+          },
+          {
+            "value": "cz",
+            "count": 325,
+            "share": 0.004274
+          },
+          {
+            "value": "ua",
+            "count": 314,
+            "share": 0.004129
+          },
+          {
+            "value": "us",
+            "count": 263,
+            "share": 0.003459
+          },
+          {
+            "value": "cn",
+            "count": 243,
+            "share": 0.003196
+          },
+          {
+            "value": "info",
+            "count": 239,
+            "share": 0.003143
+          },
+          {
+            "value": "ru",
+            "count": 224,
+            "share": 0.002946
+          },
+          {
+            "value": "com.au",
+            "count": 218,
+            "share": 0.002867
+          },
+          {
+            "value": "mx",
+            "count": 201,
+            "share": 0.002643
+          },
+          {
+            "value": "de",
+            "count": 150,
+            "share": 0.001973
+          },
+          {
+            "value": "fr",
+            "count": 134,
+            "share": 0.001762
+          }
+        ]
+      },
+      "hostname_label_counts": {
+        "1": 1,
+        "2": 44145,
+        "3": 29165,
+        "4": 1570,
+        "5": 283,
+        "6": 262,
+        "7": 152,
+        "8": 50,
+        "9": 56,
+        "10": 75,
+        "11": 75,
+        "12": 50,
+        "13": 34,
+        "14": 48,
+        "15": 29,
+        "16": 13,
+        "17": 4,
+        "18": 7,
+        "19": 3,
+        "20": 1,
+        "21": 9,
+        "22": 1,
+        "23": 2,
+        "25": 4
+      },
+      "share_3_plus_labels": 0.41943,
+      "share_4_plus_labels": 0.035876,
+      "leading_www": {
+        "www": 2452,
+        "non_www": 73587,
+        "www_share": 0.032247
+      },
+      "path_depth_stats": {
+        "n": 76039,
+        "min": 0.0,
+        "p10": 1.0,
+        "p25": 2.0,
+        "median": 2.0,
+        "mean": 2.4197,
+        "p75": 3.0,
+        "p90": 4.0,
+        "p95": 5.0,
+        "p99": 7.0,
+        "max": 27.0
+      },
+      "query_param_stats": {
+        "n": 76039,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.3033,
+        "p75": 0.0,
+        "p90": 1.0,
+        "p95": 2.0,
+        "p99": 4.0,
+        "max": 26.0
+      },
+      "rows_with_query": 13341,
+      "share_with_query": 0.175449
+    },
+    "r2_s1_training_total": {
+      "name": "R2/S1 total benign training population (Kaggle purged + Tranco generated)",
+      "benign_rows": 348404,
+      "categories": {
+        "https_homepage": {
+          "count": 12905,
+          "share": 0.03704
+        },
+        "https_deep_path": {
+          "count": 615,
+          "share": 0.001765
+        },
+        "https_deep_query": {
+          "count": 53,
+          "share": 0.000152
+        },
+        "https_deep_path_query": {
+          "count": 771,
+          "share": 0.002213
+        },
+        "https_any_deep": {
+          "count": 1439,
+          "share": 0.00413
+        },
+        "https_www": {
+          "count": 2999,
+          "share": 0.008608
+        },
+        "https_non_www": {
+          "count": 11345,
+          "share": 0.032563
+        },
+        "http_any": {
+          "count": 27863,
+          "share": 0.079973
+        },
+        "bare_any": {
+          "count": 306197,
+          "share": 0.878856
+        },
+        "deep_any": {
+          "count": 297449,
+          "share": 0.853747
+        },
+        "homepage_any": {
+          "count": 50955,
+          "share": 0.146253
+        }
+      },
+      "distinct_hostnames": 119978,
+      "distinct_approx_domains": 94393,
+      "suffix_heuristic": {
+        "distinct": 672,
+        "total": 348404,
+        "top": [
+          {
+            "value": "com",
+            "count": 257038,
+            "share": 0.737758
+          },
+          {
+            "value": "org",
+            "count": 20284,
+            "share": 0.05822
+          },
+          {
+            "value": "net",
+            "count": 16146,
+            "share": 0.046343
+          },
+          {
+            "value": "ca",
+            "count": 7649,
+            "share": 0.021954
+          },
+          {
+            "value": "edu",
+            "count": 5523,
+            "share": 0.015852
+          },
+          {
+            "value": "co.uk",
+            "count": 3580,
+            "share": 0.010275
+          },
+          {
+            "value": "gov",
+            "count": 2168,
+            "share": 0.006223
+          },
+          {
+            "value": "ru",
+            "count": 2000,
+            "share": 0.00574
+          },
+          {
+            "value": "pl",
+            "count": 1656,
+            "share": 0.004753
+          },
+          {
+            "value": "info",
+            "count": 1517,
+            "share": 0.004354
+          },
+          {
+            "value": "de",
+            "count": 1487,
+            "share": 0.004268
+          },
+          {
+            "value": "vn",
+            "count": 1342,
+            "share": 0.003852
+          },
+          {
+            "value": "com.br",
+            "count": 1267,
+            "share": 0.003637
+          },
+          {
+            "value": "com.au",
+            "count": 1182,
+            "share": 0.003393
+          },
+          {
+            "value": "cc",
+            "count": 1031,
+            "share": 0.002959
+          },
+          {
+            "value": "us",
+            "count": 1008,
+            "share": 0.002893
+          },
+          {
+            "value": "mx",
+            "count": 820,
+            "share": 0.002354
+          },
+          {
+            "value": "fr",
+            "count": 788,
+            "share": 0.002262
+          },
+          {
+            "value": "fm",
+            "count": 749,
+            "share": 0.00215
+          },
+          {
+            "value": "in",
+            "count": 740,
+            "share": 0.002124
+          }
+        ]
+      },
+      "hostname_label_counts": {
+        "1": 5,
+        "2": 255361,
+        "3": 77496,
+        "4": 8957,
+        "5": 1983,
+        "6": 1231,
+        "7": 819,
+        "8": 255,
+        "9": 305,
+        "10": 229,
+        "11": 287,
+        "12": 236,
+        "13": 522,
+        "14": 200,
+        "15": 141,
+        "16": 68,
+        "17": 37,
+        "18": 39,
+        "19": 170,
+        "20": 23,
+        "21": 5,
+        "22": 9,
+        "23": 5,
+        "24": 7,
+        "25": 11,
+        "28": 2,
+        "35": 1
+      },
+      "share_3_plus_labels": 0.267041,
+      "share_4_plus_labels": 0.044609,
+      "leading_www": {
+        "www": 13517,
+        "non_www": 334887,
+        "www_share": 0.038797
+      },
+      "path_depth_stats": {
+        "n": 348404,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 1.0,
+        "median": 2.0,
+        "mean": 2.1358,
+        "p75": 3.0,
+        "p90": 4.0,
+        "p95": 5.0,
+        "p99": 7.0,
+        "max": 34.0
+      },
+      "query_param_stats": {
+        "n": 348404,
+        "min": 0.0,
+        "p10": 0.0,
+        "p25": 0.0,
+        "median": 0.0,
+        "mean": 0.3116,
+        "p75": 0.0,
+        "p90": 1.0,
+        "p95": 2.0,
+        "p99": 4.0,
+        "max": 40.0
+      },
+      "rows_with_query": 58396,
+      "share_with_query": 0.16761
+    },
+    "comparison": {
+      "note": "Shares are within each block's benign rows. Gaps are the deep-suite share minus the total-training share.",
+      "legit_deep_minus_train": {
+        "https_homepage": -0.03704,
+        "https_deep_path": -0.000213,
+        "https_deep_query": -0.000152,
+        "https_deep_path_query": 0.002929,
+        "https_any_deep": 0.002564,
+        "https_www": -0.008608,
+        "https_non_www": -0.025869,
+        "http_any": -0.010062,
+        "bare_any": 0.044539,
+        "deep_any": 0.146253,
+        "homepage_any": -0.146253
+      },
+      "tranco_holdout_minus_train": {
+        "https_homepage": 0.96296,
+        "https_deep_path": -0.001765,
+        "https_deep_query": -0.000152,
+        "https_deep_path_query": -0.002213,
+        "https_any_deep": -0.00413,
+        "https_www": 0.491392,
+        "https_non_www": 0.467437,
+        "http_any": -0.079973,
+        "bare_any": -0.878856,
+        "deep_any": -0.853747,
+        "homepage_any": 0.853747
+      }
+    }
+  }
+}

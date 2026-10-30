@@ -1,0 +1,207 @@
+{
+  "meta": {
+    "stage": 7,
+    "mode": "READ-ONLY",
+    "purpose": "Effective sample size of the malicious-HTTPS gate. Rows are clustered in hosts; a gate over rows overstates the independent evidence behind it.",
+    "gate_rows": 2321
+  },
+  "all_malicious_https": {
+    "name": "all malicious https (test split)",
+    "rows": 2321,
+    "distinct_hosts": 816,
+    "distinct_approx_domains": 694,
+    "rows_per_host_mean": 2.84,
+    "rows_per_domain_mean": 3.34,
+    "top_hosts": [
+      [
+        "pastebin.com",
+        976,
+        0.420508
+      ],
+      [
+        "fareast.qa",
+        26,
+        0.011202
+      ],
+      [
+        "t.co",
+        22,
+        0.009479
+      ],
+      [
+        "vizagsource.com",
+        19,
+        0.008186
+      ],
+      [
+        "brussel-airport.be",
+        19,
+        0.008186
+      ],
+      [
+        "auslaufen.com",
+        12,
+        0.00517
+      ],
+      [
+        "blueshop2u.com",
+        11,
+        0.004739
+      ],
+      [
+        "www.jmdpowertools.in",
+        11,
+        0.004739
+      ],
+      [
+        "app.box.com",
+        11,
+        0.004739
+      ],
+      [
+        "yourfitnesscorner.com",
+        11,
+        0.004739
+      ]
+    ],
+    "hosts_needed_for_80pct_of_rows": 352,
+    "share_of_rows_from_single_largest_host": 0.420508
+  },
+  "by_subtype": {
+    "phishing": {
+      "name": "phishing",
+      "rows": 1276,
+      "distinct_hosts": 765,
+      "distinct_approx_domains": 647,
+      "rows_per_host_mean": 1.67,
+      "rows_per_domain_mean": 1.97,
+      "top_hosts": [
+        [
+          "fareast.qa",
+          26,
+          0.020376
+        ],
+        [
+          "t.co",
+          22,
+          0.017241
+        ],
+        [
+          "vizagsource.com",
+          19,
+          0.01489
+        ],
+        [
+          "brussel-airport.be",
+          19,
+          0.01489
+        ],
+        [
+          "auslaufen.com",
+          12,
+          0.009404
+        ],
+        [
+          "blueshop2u.com",
+          11,
+          0.008621
+        ],
+        [
+          "www.jmdpowertools.in",
+          11,
+          0.008621
+        ],
+        [
+          "app.box.com",
+          11,
+          0.008621
+        ],
+        [
+          "yourfitnesscorner.com",
+          11,
+          0.008621
+        ],
+        [
+          "livenmitac-my.sharepoint.com",
+          10,
+          0.007837
+        ]
+      ],
+      "hosts_needed_for_80pct_of_rows": 510,
+      "share_of_rows_from_single_largest_host": 0.020376
+    },
+    "malware": {
+      "name": "malware",
+      "rows": 1045,
+      "distinct_hosts": 51,
+      "distinct_approx_domains": 48,
+      "rows_per_host_mean": 20.49,
+      "rows_per_domain_mean": 21.77,
+      "top_hosts": [
+        [
+          "pastebin.com",
+          976,
+          0.933971
+        ],
+        [
+          "megabitco.in",
+          6,
+          0.005742
+        ],
+        [
+          "u.teknik.io",
+          5,
+          0.004785
+        ],
+        [
+          "13pope.com",
+          3,
+          0.002871
+        ],
+        [
+          "mindrey.co",
+          3,
+          0.002871
+        ],
+        [
+          "3.228.8.95",
+          2,
+          0.001914
+        ],
+        [
+          "pollarr.top",
+          2,
+          0.001914
+        ],
+        [
+          "sirajaoloan.com",
+          2,
+          0.001914
+        ],
+        [
+          "1podcast.xyz",
+          2,
+          0.001914
+        ],
+        [
+          "e-internetim.com",
+          2,
+          0.001914
+        ]
+      ],
+      "hosts_needed_for_80pct_of_rows": 1,
+      "share_of_rows_from_single_largest_host": 0.933971
+    },
+    "defacement": {
+      "name": "defacement",
+      "rows": 0,
+      "distinct_hosts": 0,
+      "distinct_approx_domains": 0,
+      "rows_per_host_mean": null,
+      "rows_per_domain_mean": null,
+      "top_hosts": [],
+      "hosts_needed_for_80pct_of_rows": 0,
+      "share_of_rows_from_single_largest_host": null
+    }
+  }
+}

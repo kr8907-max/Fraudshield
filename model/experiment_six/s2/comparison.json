@@ -1,0 +1,263 @@
+{
+  "experiment": "S2",
+  "stage": "6",
+  "variant": "S2-A (leakage-safe purge)",
+  "generated_at": "2026-10-30T06:55:31.752028+00:00",
+  "objective": "Test whether normalising exactly one leading 'www.' in the host block removes S1's homepage shortcut while preserving its deep-URL separability.",
+  "change_vs_s1": "HOST block input only: lowercase + remove exactly one leading literal 'www.'; path/query/keyword blocks unchanged.",
+  "policy": {
+    "candidate_count": 1,
+    "threshold": 0.5,
+    "threshold_changed": false,
+    "c_tuned": false,
+    "augmentation_used": false,
+    "new_data_used": false,
+    "network_used": false,
+    "pandas_used": false,
+    "promoted_anything": false
+  },
+  "training_population": {
+    "s1_total": 516806,
+    "s2_kaggle": 487729,
+    "s2_tranco": 12905,
+    "s2_total": 500634,
+    "rows_removed_for_normalized_leakage": 16172,
+    "removed_benign": 14316,
+    "removed_malicious": 1856,
+    "note": "Populations are NOT identical. S2 drops 16,172 Kaggle rows whose normalised hostname collides with the unchanged held-out test split. This purge repairs leakage introduced by www-normalisation; the test set and all evaluation suites are unchanged."
+  },
+  "feature_config": {
+    "representation": "S1 scheme-blind field-separated TF-IDF + keyword counts, with a www-normalised hostname",
+    "change_vs_s1": "host block input only",
+    "normalization": {
+      "function": "host.strip().lower(); if startswith('www.') and len>4: host[4:]",
+      "removes": "exactly one leading literal 'www.'",
+      "does_not_remove": [
+        "www2.",
+        "ww2.",
+        "m.",
+        "wap.",
+        "any non-leading label"
+      ],
+      "applies_to": [
+        "HOST feature block"
+      ],
+      "does_not_apply_to": [
+        "path block",
+        "query block",
+        "keyword-count block"
+      ],
+      "original_url_untouched": true
+    },
+    "scheme_handling": {
+      "scheme_is_a_feature": false,
+      "preprocessing": "http(s):// prefix stripped before any feature"
+    },
+    "blocks": {
+      "host": {
+        "field": "normalized hostname",
+        "config": {
+          "analyzer": "char_wb",
+          "ngram_range": [
+            3,
+            5
+          ],
+          "max_features": 30000,
+          "min_df": 3,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": true
+        },
+        "vocab_size": 30000,
+        "offset": 0
+      },
+      "path": {
+        "field": "path",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 50000,
+        "offset": 30000
+      },
+      "query": {
+        "field": "query",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            1
+          ],
+          "max_features": 20000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 7500,
+        "offset": 80000
+      },
+      "suspicious_vocab": {
+        "fields": [
+          "host",
+          "path",
+          "query"
+        ],
+        "keywords": [
+          "login",
+          "signin",
+          "verify",
+          "account",
+          "update",
+          "secure",
+          "password",
+          "bank",
+          "confirm",
+          "payment",
+          "security",
+          "wallet",
+          "authentication",
+          "bonus",
+          "prize"
+        ],
+        "count": 45,
+        "offset": 87500
+      }
+    },
+    "total_features": 87545,
+    "model_config": {
+      "class_weight": "balanced",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 400,
+      "random_state": 42
+    }
+  },
+  "models": {
+    "R2": {
+      "model": "R2",
+      "accuracy": 0.894107,
+      "precision": 0.794588,
+      "recall": 0.918828,
+      "f1": 0.852204,
+      "roc_auc": 0.965169,
+      "tn": 75494,
+      "fp": 10119,
+      "fn": 3458,
+      "tp": 39143,
+      "malicious_https_recall": 0.985782,
+      "benign_https_fp_rate": 0.037328,
+      "external_domain_safe_rate": 0.991,
+      "legit_deep_safe_rate": 0.112074,
+      "legit_deep_fp_rate": 0.887926,
+      "malicious_deep_recall": 0.975001,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 29.32,
+      "gates_passed": 6,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 14
+    },
+    "S1": {
+      "model": "S1",
+      "accuracy": 0.896096,
+      "precision": 0.863398,
+      "recall": 0.81646,
+      "f1": 0.839273,
+      "roc_auc": 0.956458,
+      "tn": 80110,
+      "fp": 5503,
+      "fn": 7819,
+      "tp": 34782,
+      "malicious_https_recall": 0.453253,
+      "benign_https_fp_rate": 0.084479,
+      "external_domain_safe_rate": 0.0255,
+      "legit_deep_safe_rate": 0.941412,
+      "legit_deep_fp_rate": 0.058588,
+      "malicious_deep_recall": 0.840536,
+      "https_only_deep_roc_auc": 0.951609,
+      "legit_sanity_safe": 3,
+      "suspicious_flagged": 4,
+      "model_size_mb": 1.18,
+      "gates_passed": 3,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 87581
+    },
+    "S2": {
+      "model": "S2",
+      "accuracy": 0.865607,
+      "precision": 0.811334,
+      "recall": 0.775968,
+      "f1": 0.793257,
+      "roc_auc": 0.939787,
+      "tn": 77926,
+      "fp": 7687,
+      "fn": 9544,
+      "tp": 33057,
+      "malicious_https_recall": 0.460577,
+      "benign_https_fp_rate": 0.121807,
+      "external_domain_safe_rate": 0.5955,
+      "external_apex_safe_rate": 0.5955,
+      "external_www_safe_rate": 0.5955,
+      "legit_deep_safe_rate": 0.918239,
+      "legit_deep_fp_rate": 0.081761,
+      "malicious_deep_recall": 0.785617,
+      "https_only_deep_roc_auc": 0.924561,
+      "all_deep_roc_auc": 0.947931,
+      "legit_sanity_safe": 5,
+      "suspicious_flagged": 4,
+      "model_size_mb": 1.17,
+      "gates_passed": 3,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 87545
+    }
+  },
+  "headline": {
+    "r2_https_only_deep_auc": 0.757214,
+    "s1_https_only_deep_auc": 0.951609,
+    "s2_https_only_deep_auc": 0.924561,
+    "s2_minus_s1_auc": -0.027048,
+    "s2_minus_r2_auc": 0.167347,
+    "tranco": {
+      "r2": 0.991,
+      "s1": 0.0255,
+      "s2": 0.5955
+    },
+    "legit_deep_safe": {
+      "r2": 0.112074,
+      "s1": 0.941412,
+      "s2": 0.918239
+    },
+    "malicious_deep_recall": {
+      "r2": 0.975001,
+      "s1": 0.840536,
+      "s2": 0.785617
+    },
+    "apex_www_score_identity": {
+      "pairs": 2000,
+      "mean_delta": 0.0,
+      "max_abs_delta": 0.0,
+      "pairs_with_nonzero_delta": 0,
+      "note": "Apex and www forms of the same domain must be identical under S2."
+    }
+  },
+  "interpretation": {
+    "verdict": "FAIL: S2 misses 4 gate(s): overall_malicious_recall_ge_0.87, malicious_https_recall_ge_0.90, external_tranco_homepage_safe_ge_0.95, malicious_deep_recall_ge_0.90. Not promotable.",
+    "recommend_promotion": false,
+    "promotion_rule": "All 7 gates plus zero leakage required.",
+    "s2b_created": false
+  }
+}

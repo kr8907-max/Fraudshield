@@ -1,0 +1,574 @@
+{
+  "note": "Diagnostic only. Computed on the purged S2 training population before the classifier is fitted. Never used for feature selection or tuning.",
+  "training_rows": 487729,
+  "benign_rows": 321183,
+  "malicious_rows": 166546,
+  "prefixes": {
+    "www.": {
+      "benign_count": 1,
+      "malicious_count": 1,
+      "benign_rate": 3e-06,
+      "malicious_rate": 6e-06,
+      "lift": 1.9285
+    },
+    "www2.": {
+      "benign_count": 22,
+      "malicious_count": 111,
+      "benign_rate": 6.8e-05,
+      "malicious_rate": 0.000666,
+      "lift": 9.7301
+    },
+    "ww2.": {
+      "benign_count": 16,
+      "malicious_count": 1,
+      "benign_rate": 5e-05,
+      "malicious_rate": 6e-06,
+      "lift": 0.1205
+    },
+    "m.": {
+      "benign_count": 74,
+      "malicious_count": 20,
+      "benign_rate": 0.00023,
+      "malicious_rate": 0.00012,
+      "lift": 0.5212
+    },
+    "wap.": {
+      "benign_count": 1,
+      "malicious_count": 0,
+      "benign_rate": 3e-06,
+      "malicious_rate": 0.0,
+      "lift": 0.0
+    },
+    "web.": {
+      "benign_count": 583,
+      "malicious_count": 167,
+      "benign_rate": 0.001815,
+      "malicious_rate": 0.001003,
+      "lift": 0.5524
+    },
+    "mail.": {
+      "benign_count": 78,
+      "malicious_count": 115,
+      "benign_rate": 0.000243,
+      "malicious_rate": 0.00069,
+      "lift": 2.8433
+    },
+    "email.": {
+      "benign_count": 3,
+      "malicious_count": 14,
+      "benign_rate": 9e-06,
+      "malicious_rate": 8.4e-05,
+      "lift": 8.9996
+    },
+    "login.": {
+      "benign_count": 103,
+      "malicious_count": 27,
+      "benign_rate": 0.000321,
+      "malicious_rate": 0.000162,
+      "lift": 0.5055
+    },
+    "secure.": {
+      "benign_count": 385,
+      "malicious_count": 163,
+      "benign_rate": 0.001199,
+      "malicious_rate": 0.000979,
+      "lift": 0.8165
+    },
+    "account.": {
+      "benign_count": 21,
+      "malicious_count": 7,
+      "benign_rate": 6.5e-05,
+      "malicious_rate": 4.2e-05,
+      "lift": 0.6428
+    },
+    "support.": {
+      "benign_count": 14,
+      "malicious_count": 27,
+      "benign_rate": 4.4e-05,
+      "malicious_rate": 0.000162,
+      "lift": 3.7192
+    },
+    "portal.": {
+      "benign_count": 70,
+      "malicious_count": 34,
+      "benign_rate": 0.000218,
+      "malicious_rate": 0.000204,
+      "lift": 0.9367
+    },
+    "admin.": {
+      "benign_count": 7,
+      "malicious_count": 13,
+      "benign_rate": 2.2e-05,
+      "malicious_rate": 7.8e-05,
+      "lift": 3.5815
+    },
+    "signin.": {
+      "benign_count": 23,
+      "malicious_count": 96,
+      "benign_rate": 7.2e-05,
+      "malicious_rate": 0.000576,
+      "lift": 8.0494
+    },
+    "my.": {
+      "benign_count": 70,
+      "malicious_count": 20,
+      "benign_rate": 0.000218,
+      "malicious_rate": 0.00012,
+      "lift": 0.551
+    },
+    "app.": {
+      "benign_count": 10,
+      "malicious_count": 12,
+      "benign_rate": 3.1e-05,
+      "malicious_rate": 7.2e-05,
+      "lift": 2.3142
+    },
+    "mobile.": {
+      "benign_count": 29,
+      "malicious_count": 23,
+      "benign_rate": 9e-05,
+      "malicious_rate": 0.000138,
+      "lift": 1.5295
+    },
+    "en.": {
+      "benign_count": 830,
+      "malicious_count": 99,
+      "benign_rate": 0.002584,
+      "malicious_rate": 0.000594,
+      "lift": 0.23
+    },
+    "blog.": {
+      "benign_count": 669,
+      "malicious_count": 49,
+      "benign_rate": 0.002083,
+      "malicious_rate": 0.000294,
+      "lift": 0.1412
+    },
+    "shop.": {
+      "benign_count": 76,
+      "malicious_count": 19,
+      "benign_rate": 0.000237,
+      "malicious_rate": 0.000114,
+      "lift": 0.4821
+    },
+    "news.": {
+      "benign_count": 325,
+      "malicious_count": 111,
+      "benign_rate": 0.001012,
+      "malicious_rate": 0.000666,
+      "lift": 0.6587
+    },
+    "cdn.": {
+      "benign_count": 5,
+      "malicious_count": 27,
+      "benign_rate": 1.6e-05,
+      "malicious_rate": 0.000162,
+      "lift": 10.4139
+    }
+  },
+  "tokens": {
+    "login": {
+      "benign_count": 1285,
+      "malicious_count": 261,
+      "benign_rate": 0.004001,
+      "malicious_rate": 0.001567,
+      "lift": 0.3917
+    },
+    "secure": {
+      "benign_count": 519,
+      "malicious_count": 215,
+      "benign_rate": 0.001616,
+      "malicious_rate": 0.001291,
+      "lift": 0.7989
+    },
+    "account": {
+      "benign_count": 284,
+      "malicious_count": 59,
+      "benign_rate": 0.000884,
+      "malicious_rate": 0.000354,
+      "lift": 0.4006
+    },
+    "verify": {
+      "benign_count": 40,
+      "malicious_count": 26,
+      "benign_rate": 0.000125,
+      "malicious_rate": 0.000156,
+      "lift": 1.2535
+    },
+    "update": {
+      "benign_count": 201,
+      "malicious_count": 61,
+      "benign_rate": 0.000626,
+      "malicious_rate": 0.000366,
+      "lift": 0.5853
+    },
+    "support": {
+      "benign_count": 18,
+      "malicious_count": 34,
+      "benign_rate": 5.6e-05,
+      "malicious_rate": 0.000204,
+      "lift": 3.6427
+    },
+    "mail": {
+      "benign_count": 92,
+      "malicious_count": 121,
+      "benign_rate": 0.000286,
+      "malicious_rate": 0.000727,
+      "lift": 2.5364
+    },
+    "admin": {
+      "benign_count": 12,
+      "malicious_count": 13,
+      "benign_rate": 3.7e-05,
+      "malicious_rate": 7.8e-05,
+      "lift": 2.0892
+    },
+    "portal": {
+      "benign_count": 74,
+      "malicious_count": 37,
+      "benign_rate": 0.00023,
+      "malicious_rate": 0.000222,
+      "lift": 0.9642
+    },
+    "signin": {
+      "benign_count": 37,
+      "malicious_count": 109,
+      "benign_rate": 0.000115,
+      "malicious_rate": 0.000654,
+      "lift": 5.6812
+    },
+    "bank": {
+      "benign_count": 7,
+      "malicious_count": 7,
+      "benign_rate": 2.2e-05,
+      "malicious_rate": 4.2e-05,
+      "lift": 1.9285
+    },
+    "paypal": {
+      "benign_count": 3045,
+      "malicious_count": 292,
+      "benign_rate": 0.009481,
+      "malicious_rate": 0.001753,
+      "lift": 0.1849
+    },
+    "free": {
+      "benign_count": 23,
+      "malicious_count": 95,
+      "benign_rate": 7.2e-05,
+      "malicious_rate": 0.00057,
+      "lift": 7.9655
+    },
+    "download": {
+      "benign_count": 26,
+      "malicious_count": 43,
+      "benign_rate": 8.1e-05,
+      "malicious_rate": 0.000258,
+      "lift": 3.1894
+    },
+    "app": {
+      "benign_count": 15,
+      "malicious_count": 96,
+      "benign_rate": 4.7e-05,
+      "malicious_rate": 0.000576,
+      "lift": 12.3424
+    },
+    "mobile": {
+      "benign_count": 33,
+      "malicious_count": 27,
+      "benign_rate": 0.000103,
+      "malicious_rate": 0.000162,
+      "lift": 1.5779
+    },
+    "blog": {
+      "benign_count": 705,
+      "malicious_count": 55,
+      "benign_rate": 0.002195,
+      "malicious_rate": 0.00033,
+      "lift": 0.1504
+    },
+    "shop": {
+      "benign_count": 130,
+      "malicious_count": 32,
+      "benign_rate": 0.000405,
+      "malicious_rate": 0.000192,
+      "lift": 0.4747
+    },
+    "store": {
+      "benign_count": 85,
+      "malicious_count": 25,
+      "benign_rate": 0.000265,
+      "malicious_rate": 0.00015,
+      "lift": 0.5672
+    },
+    "news": {
+      "benign_count": 380,
+      "malicious_count": 114,
+      "benign_rate": 0.001183,
+      "malicious_rate": 0.000684,
+      "lift": 0.5785
+    },
+    "cdn": {
+      "benign_count": 5,
+      "malicious_count": 29,
+      "benign_rate": 1.6e-05,
+      "malicious_rate": 0.000174,
+      "lift": 11.1853
+    },
+    "static": {
+      "benign_count": 13,
+      "malicious_count": 10,
+      "benign_rate": 4e-05,
+      "malicious_rate": 6e-05,
+      "lift": 1.4835
+    },
+    "s3": {
+      "benign_count": 1,
+      "malicious_count": 7,
+      "benign_rate": 3e-06,
+      "malicious_rate": 4.2e-05,
+      "lift": 13.4995
+    },
+    "aws": {
+      "benign_count": 1,
+      "malicious_count": 0,
+      "benign_rate": 3e-06,
+      "malicious_rate": 0.0,
+      "lift": 0.0
+    },
+    "cloud": {
+      "benign_count": 0,
+      "malicious_count": 29,
+      "benign_rate": 0.0,
+      "malicious_rate": 0.000174,
+      "lift": null
+    },
+    "test": {
+      "benign_count": 8,
+      "malicious_count": 13,
+      "benign_rate": 2.5e-05,
+      "malicious_rate": 7.8e-05,
+      "lift": 3.1338
+    },
+    "dev": {
+      "benign_count": 13,
+      "malicious_count": 25,
+      "benign_rate": 4e-05,
+      "malicious_rate": 0.00015,
+      "lift": 3.7086
+    },
+    "staging": {
+      "benign_count": 2,
+      "malicious_count": 8,
+      "benign_rate": 6e-06,
+      "malicious_rate": 4.8e-05,
+      "lift": 7.714
+    },
+    "api": {
+      "benign_count": 1,
+      "malicious_count": 9,
+      "benign_rate": 3e-06,
+      "malicious_rate": 5.4e-05,
+      "lift": 17.3564
+    },
+    "auth": {
+      "benign_count": 3,
+      "malicious_count": 12,
+      "benign_rate": 9e-06,
+      "malicious_rate": 7.2e-05,
+      "lift": 7.714
+    }
+  },
+  "first_label_top_by_malicious_count": [
+    {
+      "first_label": "tools",
+      "benign": 2,
+      "malicious": 3195,
+      "malicious_share": 0.999374,
+      "lift": 3080.7695
+    },
+    {
+      "first_label": "mitsui-jyuku",
+      "benign": 0,
+      "malicious": 2879,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "angelfire",
+      "benign": 179,
+      "malicious": 1306,
+      "malicious_share": 0.879461,
+      "lift": 14.0705
+    },
+    {
+      "first_label": "apbfiber",
+      "benign": 0,
+      "malicious": 1147,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "pastehtml",
+      "benign": 960,
+      "malicious": 944,
+      "malicious_share": 0.495798,
+      "lift": 1.8964
+    },
+    {
+      "first_label": "cs",
+      "benign": 41,
+      "malicious": 681,
+      "malicious_share": 0.943213,
+      "lift": 32.0318
+    },
+    {
+      "first_label": "45",
+      "benign": 0,
+      "malicious": 613,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "sourceforge",
+      "benign": 441,
+      "malicious": 539,
+      "malicious_share": 0.55,
+      "lift": 2.357
+    },
+    {
+      "first_label": "toulousa",
+      "benign": 0,
+      "malicious": 501,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "37",
+      "benign": 0,
+      "malicious": 489,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "home",
+      "benign": 156,
+      "malicious": 474,
+      "malicious_share": 0.752381,
+      "lift": 5.8597
+    },
+    {
+      "first_label": "111",
+      "benign": 0,
+      "malicious": 397,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "9779",
+      "benign": 0,
+      "malicious": 395,
+      "malicious_share": 1.0,
+      "lift": null
+    },
+    {
+      "first_label": "freewebs",
+      "benign": 52,
+      "malicious": 348,
+      "malicious_share": 0.87,
+      "lift": 12.9061
+    },
+    {
+      "first_label": "onedrive",
+      "benign": 0,
+      "malicious": 323,
+      "malicious_share": 1.0,
+      "lift": null
+    }
+  ],
+  "structure": {
+    "labels_2": {
+      "benign_count": 240274,
+      "malicious_count": 111751,
+      "benign_rate": 0.748091,
+      "malicious_rate": 0.670992,
+      "lift": 0.8969
+    },
+    "labels_3": {
+      "benign_count": 67516,
+      "malicious_count": 38968,
+      "benign_rate": 0.21021,
+      "malicious_rate": 0.233977,
+      "lift": 1.1131
+    },
+    "labels_ge_4": {
+      "benign_count": 13388,
+      "malicious_count": 15790,
+      "benign_rate": 0.041683,
+      "malicious_rate": 0.094809,
+      "lift": 2.2745
+    },
+    "contains_digit": {
+      "benign_count": 21129,
+      "malicious_count": 21266,
+      "benign_rate": 0.065785,
+      "malicious_rate": 0.127688,
+      "lift": 1.941
+    },
+    "contains_hyphen": {
+      "benign_count": 22284,
+      "malicious_count": 27897,
+      "benign_rate": 0.069381,
+      "malicious_rate": 0.167503,
+      "lift": 2.4143
+    },
+    "contains_www_anywhere": {
+      "benign_count": 1345,
+      "malicious_count": 851,
+      "benign_rate": 0.004188,
+      "malicious_rate": 0.00511,
+      "lift": 1.2202
+    },
+    "leading_www": {
+      "benign_count": 1,
+      "malicious_count": 1,
+      "benign_rate": 3e-06,
+      "malicious_rate": 6e-06,
+      "lift": 1.9285
+    },
+    "www_not_leading": {
+      "benign_count": 1344,
+      "malicious_count": 850,
+      "benign_rate": 0.004185,
+      "malicious_rate": 0.005104,
+      "lift": 1.2197
+    },
+    "length_gt_30": {
+      "benign_count": 12971,
+      "malicious_count": 5874,
+      "benign_rate": 0.040385,
+      "malicious_rate": 0.03527,
+      "lift": 0.8733
+    }
+  },
+  "rows_still_containing_www_after_normalisation": 2194,
+  "rows_still_containing_www_share": 0.004498,
+  "other_patterns_at_scale_with_lift_ge_5": [],
+  "reference_before_normalization": {
+    "note": "same rows, raw hostnames, for comparison only",
+    "leading_www": {
+      "benign_count": 10320,
+      "malicious_count": 80336,
+      "benign_rate": 0.032131,
+      "malicious_rate": 0.482365,
+      "lift": 15.0124
+    },
+    "contains_www_anywhere": {
+      "benign_count": 11657,
+      "malicious_count": 81182,
+      "benign_rate": 0.036294,
+      "malicious_rate": 0.487445,
+      "lift": 13.4305
+    },
+    "rows_still_containing_www": 2196
+  }
+}

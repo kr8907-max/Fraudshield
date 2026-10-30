@@ -1,0 +1,98 @@
+{
+  "representation": "scheme-blind field-separated TF-IDF + suspicious vocabulary counts",
+  "scheme_handling": {
+    "scheme_is_a_feature": false,
+    "preprocessing": "http(s):// prefix stripped before any feature is computed",
+    "equality_check": "features(original) == features(browser_form)"
+  },
+  "blocks": {
+    "host": {
+      "field": "hostname",
+      "config": {
+        "analyzer": "char_wb",
+        "ngram_range": [
+          3,
+          5
+        ],
+        "max_features": 30000,
+        "min_df": 3,
+        "sublinear_tf": true,
+        "dtype": "float32",
+        "lowercase": true
+      },
+      "vocab_size": 30000,
+      "offset": 0
+    },
+    "path": {
+      "field": "path",
+      "config": {
+        "analyzer": "word",
+        "ngram_range": [
+          1,
+          2
+        ],
+        "max_features": 50000,
+        "min_df": 5,
+        "sublinear_tf": true,
+        "dtype": "float32",
+        "lowercase": false,
+        "token_pattern": "(?u)\\b\\w+\\b"
+      },
+      "vocab_size": 50000,
+      "offset": 30000
+    },
+    "query": {
+      "field": "query",
+      "config": {
+        "analyzer": "word",
+        "ngram_range": [
+          1,
+          1
+        ],
+        "max_features": 20000,
+        "min_df": 5,
+        "sublinear_tf": true,
+        "dtype": "float32",
+        "lowercase": false,
+        "token_pattern": "(?u)\\b\\w+\\b"
+      },
+      "vocab_size": 7536,
+      "offset": 80000
+    },
+    "suspicious_vocab": {
+      "fields": [
+        "host",
+        "path",
+        "query"
+      ],
+      "keywords": [
+        "login",
+        "signin",
+        "verify",
+        "account",
+        "update",
+        "secure",
+        "password",
+        "bank",
+        "confirm",
+        "payment",
+        "security",
+        "wallet",
+        "authentication",
+        "bonus",
+        "prize"
+      ],
+      "count": 45,
+      "offset": 87536,
+      "encoding": "raw substring counts per field"
+    }
+  },
+  "total_features": 87581,
+  "model_config": {
+    "class_weight": "balanced",
+    "C": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 400,
+    "random_state": 42
+  }
+}

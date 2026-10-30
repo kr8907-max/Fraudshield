@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checks": {
+    "split_train_rows_matches_experiment_c": 503901,
+    "kaggle_train_after_collision_purge": 487729,
+    "total_s2_training_rows": 500634,
+    "collision_rows_purged": 16172,
+    "raw_train_test_hostname_overlap": 0,
+    "normalized_train_test_hostname_overlap": 0,
+    "deep_benign_hosts_in_train": 0,
+    "deep_malicious_hosts_in_train": 0,
+    "deep_rows_all_from_test_split": 1,
+    "famous_diagnostic_urls_in_train": 0,
+    "sanity_brand_hosts_in_train": 0,
+    "tranco_holdout_domains_in_train": 0,
+    "tranco_train_vs_holdout_normalized_overlap": 0,
+    "tranco_train_urls_in_test_split": 0,
+    "no_augmentation_rows": 0,
+    "vocab_will_be_fit_on_s2_train_only": 1,
+    "host_text_equal_over_5000_real_domains": 0,
+    "scheme_blind_field_equality_5000": 0,
+    "scheme_blind_sample_size": 5000,
+    "only_one_leading_literal_www_removed": 0
+  },
+  "audit_summary": {
+    "rows": 487729,
+    "rows_still_containing_www": 2194,
+    "other_patterns_at_scale_with_lift_ge_5": []
+  },
+  "note": "Classifier not fitted at the time this file was written."
+}

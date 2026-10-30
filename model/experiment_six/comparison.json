@@ -1,0 +1,300 @@
+{
+  "experiment": "S1",
+  "stage": "6",
+  "generated_at": "2026-10-30T05:42:55.828354+00:00",
+  "objective": "Test whether a scheme-blind, field-separated semantic lexical representation adds genuine deep-URL discriminative ability over the 14 scalar counts, instead of shifting the operating point.",
+  "policy": {
+    "candidate_count": 1,
+    "tuning": "none; C=1.0, threshold=0.5 fixed before running",
+    "threshold_changed": false,
+    "augmentation_used": false,
+    "network_used": false,
+    "pandas_used": false,
+    "promoted_anything": false
+  },
+  "r2_reference_source": "numbers read from model/experiment_d/comparison.json (detail.r2) and deep_separability.json; not recomputed",
+  "feature_config": {
+    "representation": "scheme-blind field-separated TF-IDF + suspicious vocabulary counts",
+    "scheme_handling": {
+      "scheme_is_a_feature": false,
+      "preprocessing": "http(s):// prefix stripped before any feature is computed",
+      "equality_check": "features(original) == features(browser_form)"
+    },
+    "blocks": {
+      "host": {
+        "field": "hostname",
+        "config": {
+          "analyzer": "char_wb",
+          "ngram_range": [
+            3,
+            5
+          ],
+          "max_features": 30000,
+          "min_df": 3,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": true
+        },
+        "vocab_size": 30000,
+        "offset": 0
+      },
+      "path": {
+        "field": "path",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            2
+          ],
+          "max_features": 50000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 50000,
+        "offset": 30000
+      },
+      "query": {
+        "field": "query",
+        "config": {
+          "analyzer": "word",
+          "ngram_range": [
+            1,
+            1
+          ],
+          "max_features": 20000,
+          "min_df": 5,
+          "sublinear_tf": true,
+          "dtype": "float32",
+          "lowercase": false,
+          "token_pattern": "(?u)\\b\\w+\\b"
+        },
+        "vocab_size": 7536,
+        "offset": 80000
+      },
+      "suspicious_vocab": {
+        "fields": [
+          "host",
+          "path",
+          "query"
+        ],
+        "keywords": [
+          "login",
+          "signin",
+          "verify",
+          "account",
+          "update",
+          "secure",
+          "password",
+          "bank",
+          "confirm",
+          "payment",
+          "security",
+          "wallet",
+          "authentication",
+          "bonus",
+          "prize"
+        ],
+        "count": 45,
+        "offset": 87536,
+        "encoding": "raw substring counts per field"
+      }
+    },
+    "total_features": 87581,
+    "model_config": {
+      "class_weight": "balanced",
+      "C": 1.0,
+      "solver": "lbfgs",
+      "max_iter": 400,
+      "random_state": 42
+    }
+  },
+  "models": {
+    "R2": {
+      "model": "R2",
+      "accuracy": 0.894107,
+      "precision": 0.794588,
+      "recall": 0.918828,
+      "f1": 0.852204,
+      "roc_auc": 0.965169,
+      "tn": 75494,
+      "fp": 10119,
+      "fn": 3458,
+      "tp": 39143,
+      "malicious_https_recall": 0.985782,
+      "benign_https_fp_rate": 0.037328,
+      "external_domain_safe_rate": 0.991,
+      "legit_deep_safe_rate": 0.112074,
+      "legit_deep_fp_rate": 0.887926,
+      "malicious_deep_recall": 0.975001,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 29.32,
+      "gates_passed": 6,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 14
+    },
+    "S1": {
+      "model": "S1",
+      "accuracy": 0.896096,
+      "precision": 0.863398,
+      "recall": 0.81646,
+      "f1": 0.839273,
+      "roc_auc": 0.956458,
+      "tn": 80110,
+      "fp": 5503,
+      "fn": 7819,
+      "tp": 34782,
+      "malicious_https_recall": 0.453253,
+      "benign_https_fp_rate": 0.084479,
+      "external_domain_safe_rate": 0.0255,
+      "legit_deep_safe_rate": 0.941412,
+      "legit_deep_fp_rate": 0.058588,
+      "malicious_deep_recall": 0.840536,
+      "https_only_deep_roc_auc": 0.951609,
+      "legit_sanity_safe": 3,
+      "suspicious_flagged": 4,
+      "model_size_mb": 1.18,
+      "gates_passed": 3,
+      "gates_total": 7,
+      "all_gates_passed": false,
+      "active_features": 87581
+    }
+  },
+  "headline": {
+    "r2_https_only_deep_auc": 0.757214,
+    "s1_https_only_deep_auc": 0.951609,
+    "auc_delta": 0.194395,
+    "r2_legit_deep_safe": 0.112074,
+    "s1_legit_deep_safe": 0.941412,
+    "r2_malicious_deep_recall": 0.975001,
+    "s1_malicious_deep_recall": 0.840536,
+    "r2_malicious_https_recall": 0.985782,
+    "s1_malicious_https_recall": 0.453253
+  },
+  "tranco_explanation": {
+    "observed": {
+      "note": "All values below are measured on the existing fitted S1 bundle and the unchanged 4,000-URL Tranco holdout. No retraining, no threshold change.",
+      "s1": {
+        "domain_safe_rate": 0.0255,
+        "url_safe_rate": 0.38825,
+        "mean_score": 0.601815,
+        "median_score": 0.673884,
+        "p10_score": 0.151618,
+        "p90_score": 0.956121,
+        "flagged_urls": 2447,
+        "flagged_share": 0.61175,
+        "share_of_flagged_above_0.65": 0.842664
+      },
+      "r2_same_urls": {
+        "domain_safe_rate": 0.991,
+        "url_safe_rate": 0.9955,
+        "mean_score": 0.042248,
+        "median_score": 0.025236
+      },
+      "agreement": {
+        "both_safe": 1553,
+        "r2_safe_s1_malicious": 2429,
+        "r2_malicious_s1_safe": 0,
+        "both_malicious": 18
+      },
+      "block_logit_mean_flagged": {
+        "host": 1.947677,
+        "path": 0.0,
+        "query": 0.0,
+        "vocab": 0.001593,
+        "intercept": -0.043772,
+        "total": 1.905498
+      },
+      "block_logit_mean_safe": {
+        "host": -1.19451,
+        "path": 0.0,
+        "query": 0.0,
+        "vocab": -0.000276,
+        "intercept": -0.043772,
+        "total": -1.238558
+      },
+      "path_block_is_zero_on_every_holdout_url": true,
+      "query_block_is_zero_on_every_holdout_url": true,
+      "top_features_driving_flags": [
+        {
+          "feature": " www",
+          "mean_logit_per_flagged_row": 0.393447
+        },
+        {
+          "feature": "www",
+          "mean_logit_per_flagged_row": 0.379546
+        },
+        {
+          "feature": " ww",
+          "mean_logit_per_flagged_row": 0.286375
+        },
+        {
+          "feature": " www.",
+          "mean_logit_per_flagged_row": 0.238556
+        },
+        {
+          "feature": "www.",
+          "mean_logit_per_flagged_row": 0.211291
+        },
+        {
+          "feature": "ww.",
+          "mean_logit_per_flagged_row": 0.1682
+        },
+        {
+          "feature": "net",
+          "mean_logit_per_flagged_row": 0.016617
+        },
+        {
+          "feature": "www.s",
+          "mean_logit_per_flagged_row": 0.013222
+        },
+        {
+          "feature": "www.c",
+          "mean_logit_per_flagged_row": 0.012522
+        },
+        {
+          "feature": "w.c",
+          "mean_logit_per_flagged_row": 0.010639
+        }
+      ],
+      "host_ngram_coverage": {
+        "definition": "share of a hostname's char_wb 3-5 grams that exist in the training vocabulary",
+        "tranco_holdout_mean": 0.657729,
+        "deep_benign_sample_mean": 0.766475,
+        "deep_malicious_sample_mean": 0.661682,
+        "sample_sizes": {
+          "tranco_holdout": 4000,
+          "deep_benign": 8000,
+          "deep_malicious": 8000
+        }
+      },
+      "www_prefix_prevalence_in_training": {
+        "benign_with_www": 10612,
+        "benign_total": 335499,
+        "malicious_with_www": 81943,
+        "malicious_total": 168402,
+        "tranco_train_with_www": 2905,
+        "benign_share": 0.03163,
+        "malicious_share": 0.486592
+      }
+    },
+    "interpretation": [
+      "S1's Tranco domain safe rate is 0.0255 (51/2000 domains). R2, scored on the identical 4,000 URLs, reaches 0.9910 with mean score 0.0422, against S1's mean score 0.6018.",
+      "2,447 of 4,000 holdout URLs cross the 0.5 boundary. On those rows the host block contributes +1.9477 mean logit, the path and query blocks contribute exactly 0.0000 because the holdout is homepage-only, the keyword block contributes +0.0016, and the intercept is -0.0438.",
+      "The largest positive contributors on the flagged rows are host character n-grams: ' www', 'www', ' ww', ' www.', 'www.'.",
+      "The dataset writes a 'www.' hostname in 48.66% of malicious training rows but only 3.16% of benign rows, so a positive www-prefix weight encodes a writing convention of the training data rather than URL semantics.",
+      "Host n-gram coverage of the Tranco holdout is 0.6577, close to the deep-malicious sample (0.6617) and below the deep-benign sample (0.7665), so unfamiliar hostnames land near the malicious side of the host block.",
+      "Observed and interpretation are separated deliberately: the numbers above are measured on the unchanged fitted bundle; the causal reading is an interpretation."
+    ]
+  },
+  "interpretation": {
+    "improved_https_only_separability_by_0.05": true,
+    "verdict": "FAIL: S1 adds measurable deep-URL separability but misses at least one predeclared gate; not promotable.",
+    "recommend_promotion": false,
+    "rule": "Predeclared: promotion requires ALL gates. An AUC gain alone is evidence, not a promotion."
+  }
+}

@@ -1,0 +1,1706 @@
+{
+  "experiment": "C",
+  "timestamp": "2026-10-29T17:32:54.752781+00:00",
+  "status": "experimental - no model promoted",
+  "provenance": {
+    "kaggle_dataset": "malicious_phish.csv",
+    "kaggle_sha256": "d83ce942075dd63ed4d11560cfdcd9d512caa3d680e292f22cab484e8f074d01",
+    "kaggle_original_rows": 651191,
+    "kaggle_usable_rows": 641084,
+    "kaggle_train_rows_before_purge": 512870,
+    "kaggle_train_rows_after_purge": 503901,
+    "kaggle_test_rows_fixed": 128214,
+    "sanity_rows_purged_from_train": 8969,
+    "tranco_csv": "top-1m.csv",
+    "tranco_sha256": "c13d972cb8deb00bcada3d2087c283a067e7235e7acebd596ab21c0126cd95c5",
+    "tranco_rows": 1000000,
+    "tranco_selection_salt": "fraudshield-c-v1",
+    "tranco_rank_limit": 50000
+  },
+  "training_rows": 516806,
+  "training_class_counts": {
+    "benign": 348404,
+    "malicious": 168402
+  },
+  "training_scheme_table": {
+    "0": {
+      "bare": 306197,
+      "http": 27863,
+      "https": 14344
+    },
+    "1": {
+      "bare": 55042,
+      "http": 102681,
+      "https": 10679
+    }
+  },
+  "representations": {
+    "train": "Generated representations of ranked legitimate Tranco domains: https://<domain> for 100% and https://www.<domain> for the deterministic ~30% subset. These are NOT observed browser URLs.",
+    "holdout": "Generated representations of held-out Tranco domains: https://<domain> and https://www.<domain> for every domain. Never used for fitting, threshold selection, feature selection, or hyperparameter tuning.",
+    "train_rows": 12905,
+    "holdout_rows": 4000
+  },
+  "pre_training_gate": {
+    "https_benign_share": 0.573233,
+    "https_benign_count": 14344,
+    "https_malicious_count": 10679,
+    "cramers_v_final": 0.584872,
+    "cramers_v_baseline_train": 0.615288,
+    "univariate_auc": {
+      "uses_https": 0.511122,
+      "num_slashes": 0.620911,
+      "num_dots": 0.746546,
+      "url_length": 0.558513,
+      "num_subdomains": 0.699747
+    },
+    "scheme_table": {
+      "0": {
+        "bare": 306197,
+        "http": 27863,
+        "https": 14344
+      },
+      "1": {
+        "bare": 55042,
+        "http": 102681,
+        "https": 10679
+      }
+    },
+    "checks": {
+      "https_benign_share_0.40_to_0.60": true,
+      "uses_https_univariate_auc_0.45_to_0.55": true,
+      "cramers_v_not_worse_than_baseline": true
+    },
+    "passed": true,
+    "note": "num_dots/num_subdomains/num_slashes retain high univariate AUC because malicious Kaggle URLs contain deep paths and subdomains. This is a real dataset property, not an HTTPS label proxy; the formal gate is the uses_https AUC plus the HTTPS class balance."
+  },
+  "leakage_audit": {
+    "ok": true,
+    "kaggle_train_hosts": 156580,
+    "kaggle_test_hosts": 39460,
+    "tranco_train_domains": 10000,
+    "tranco_holdout_domains": 2000,
+    "train_generated_hosts": 12905,
+    "exact_train_test_hostname_overlap": 0,
+    "exact_overlap_examples": [],
+    "derived_train_urls_in_kaggle_test": 0,
+    "derived_train_urls_already_in_kaggle_train": 0,
+    "holdout_source_domains_in_training_domains": 0,
+    "holdout_representation_hosts_in_training_hosts": 0,
+    "sanity_brand_hosts_in_training": 0,
+    "sanity_brand_host_examples": [],
+    "sanity_domains_in_tranco_selection": 0,
+    "legit_sanity_urls_generated_as_training_rows": 0,
+    "tranco_holdout_parent_child_conflicts_with_train": 0,
+    "derived_urls_in_test_examples": [],
+    "parent_child": {
+      "train_host_is_ancestor_of_test_host": 2979,
+      "test_host_is_ancestor_of_train_host": 2858,
+      "examples_train_parent": [
+        {
+          "test_host": "www.jezuk.co.uk",
+          "train_parent": "co.uk"
+        },
+        {
+          "test_host": "fhwa.dot.gov",
+          "train_parent": "dot.gov"
+        },
+        {
+          "test_host": "marsrovername.jpl.nasa.gov",
+          "train_parent": "jpl.nasa.gov"
+        },
+        {
+          "test_host": "cookbooks.andrewsmcmeel.com",
+          "train_parent": "andrewsmcmeel.com"
+        },
+        {
+          "test_host": "www.wisegeek.com",
+          "train_parent": "wisegeek.com"
+        },
+        {
+          "test_host": "political-voice.co.uk",
+          "train_parent": "co.uk"
+        },
+        {
+          "test_host": "orthosurg.ucsf.edu",
+          "train_parent": "ucsf.edu"
+        },
+        {
+          "test_host": "www.finestquotes.com",
+          "train_parent": "finestquotes.com"
+        },
+        {
+          "test_host": "site.www.umb.edu",
+          "train_parent": "umb.edu"
+        },
+        {
+          "test_host": "supernatural.warnerbros.com",
+          "train_parent": "warnerbros.com"
+        }
+      ],
+      "examples_test_parent": [
+        {
+          "train_host": "www.youngzsoft.net",
+          "test_parent": "youngzsoft.net"
+        },
+        {
+          "train_host": "wiki.evilmadscience.com",
+          "test_parent": "evilmadscience.com"
+        },
+        {
+          "train_host": "datg.disneycareers.com",
+          "test_parent": "disneycareers.com"
+        },
+        {
+          "train_host": "freepages.folklore.rootsweb.ancestry.com",
+          "test_parent": "rootsweb.ancestry.com"
+        },
+        {
+          "train_host": "jenljones.suite101.com",
+          "test_parent": "suite101.com"
+        },
+        {
+          "train_host": "lostinhogwarts.proboards.com",
+          "test_parent": "proboards.com"
+        },
+        {
+          "train_host": "www.nautic-direct.com",
+          "test_parent": "nautic-direct.com"
+        },
+        {
+          "train_host": "hetaliart.livejournal.com",
+          "test_parent": "livejournal.com"
+        },
+        {
+          "train_host": "childparenting.about.com",
+          "test_parent": "about.com"
+        },
+        {
+          "train_host": "www.jdlyj.com",
+          "test_parent": "jdlyj.com"
+        }
+      ],
+      "note": "Hostname-only grouping without a Public Suffix List. Parent/child overlaps are reported, not claimed to be zero."
+    },
+    "note": "Tranco domains overlapping any Kaggle hostname (exact, parent, or child) were excluded before selection. Hostname grouping is not registrable-domain grouping because no Public Suffix List is used."
+  },
+  "models": {
+    "A_baseline": {
+      "summary": {
+        "model": "A_baseline",
+        "accuracy": 0.881183,
+        "precision": 0.781675,
+        "recall": 0.891364,
+        "f1": 0.832924,
+        "roc_auc": 0.955218,
+        "false_positives": 10606,
+        "false_negatives": 4628,
+        "https_malicious_recall": 0.996553,
+        "https_benign_fp_rate": 0.02554,
+        "external_domain_safe_rate": 0.0,
+        "external_url_safe_rate": 0.0,
+        "legit_sanity_safe": 0,
+        "suspicious_flagged": 4,
+        "model_size_mb": 152.51,
+        "gates_passed": null,
+        "gates_total": null,
+        "all_gates_passed": null
+      },
+      "metrics_internal_test": {
+        "accuracy": 0.8811830221348683,
+        "precision": 0.7816752094526441,
+        "recall": 0.8913640524870308,
+        "f1": 0.8329238868172845,
+        "roc_auc": 0.9552183046482631,
+        "tn": 75007,
+        "fp": 10606,
+        "fn": 4628,
+        "tp": 37973,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9728,
+            "benign_fp_rate": 0.1219230962049431,
+            "benign_mean_score": 0.14482846692826556,
+            "malicious_count": 14663,
+            "malicious_detected": 11213,
+            "malicious_recall": 0.7647139057491645,
+            "malicious_mean_score": 0.7461964036907048
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 865,
+            "benign_fp_rate": 0.1627163280662152,
+            "benign_mean_score": 0.20441036493604214,
+            "malicious_count": 25617,
+            "malicious_detected": 24447,
+            "malicious_recall": 0.9543272045907015,
+            "malicious_mean_score": 0.9181046432665173
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 13,
+            "benign_fp_rate": 0.025540275049115914,
+            "benign_mean_score": 0.1698166339227243,
+            "malicious_count": 2321,
+            "malicious_detected": 2313,
+            "malicious_recall": 0.996553209823352,
+            "malicious_mean_score": 0.9663587989226455
+          }
+        },
+        "sanity_brand_test_subset": {
+          "rows": 14127,
+          "benign_rows": 13056,
+          "malicious_rows": 1071,
+          "accuracy": 0.6523678063283075,
+          "malicious_recall": 0.6507936507936508
+        }
+      },
+      "external_holdout": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.0,
+        "domain_safe_rate": 0.0,
+        "domains_safe": 0,
+        "domains_unsafe": 2000,
+        "apex_safe_rate": 0.0,
+        "www_safe_rate": 0.0,
+        "score_mean": 0.9830839289765604,
+        "score_median": 0.9979621212121212,
+        "score_p90": 1.0,
+        "domain_score_mean": 0.9830839289765605,
+        "domain_score_median": 0.9917738185484517,
+        "domain_score_p90": 1.0,
+        "worst_domains": [
+          {
+            "domain": "saashub.com",
+            "max_score": 1.0,
+            "mean_score": 0.998818,
+            "forms": 2
+          },
+          {
+            "domain": "initxa.com",
+            "max_score": 1.0,
+            "mean_score": 0.998981,
+            "forms": 2
+          },
+          {
+            "domain": "adokutrtb.com",
+            "max_score": 1.0,
+            "mean_score": 0.991437,
+            "forms": 2
+          },
+          {
+            "domain": "birkenstock.com",
+            "max_score": 1.0,
+            "mean_score": 1.0,
+            "forms": 2
+          },
+          {
+            "domain": "darktrace.com",
+            "max_score": 1.0,
+            "mean_score": 0.991437,
+            "forms": 2
+          },
+          {
+            "domain": "bartarinha.ir",
+            "max_score": 1.0,
+            "mean_score": 0.991437,
+            "forms": 2
+          },
+          {
+            "domain": "vidaahub.com",
+            "max_score": 1.0,
+            "mean_score": 0.982304,
+            "forms": 2
+          },
+          {
+            "domain": "ivanti.com",
+            "max_score": 1.0,
+            "mean_score": 0.998981,
+            "forms": 2
+          },
+          {
+            "domain": "hindichudaivideos.com",
+            "max_score": 1.0,
+            "mean_score": 0.9975,
+            "forms": 2
+          },
+          {
+            "domain": "banamex.com",
+            "max_score": 1.0,
+            "mean_score": 0.998818,
+            "forms": 2
+          },
+          {
+            "domain": "bsclink.cn",
+            "max_score": 1.0,
+            "mean_score": 0.998981,
+            "forms": 2
+          },
+          {
+            "domain": "skyscanner.ch",
+            "max_score": 1.0,
+            "mean_score": 0.991437,
+            "forms": 2
+          },
+          {
+            "domain": "mlbinfra.com",
+            "max_score": 1.0,
+            "mean_score": 0.982304,
+            "forms": 2
+          },
+          {
+            "domain": "ehiweb.it",
+            "max_score": 1.0,
+            "mean_score": 0.9825,
+            "forms": 2
+          },
+          {
+            "domain": "detik.com",
+            "max_score": 1.0,
+            "mean_score": 0.9825,
+            "forms": 2
+          },
+          {
+            "domain": "calldorado-api.com",
+            "max_score": 1.0,
+            "mean_score": 0.9975,
+            "forms": 2
+          },
+          {
+            "domain": "ntpu.edu.tw",
+            "max_score": 1.0,
+            "mean_score": 0.966152,
+            "forms": 2
+          },
+          {
+            "domain": "spamhaus.net",
+            "max_score": 1.0,
+            "mean_score": 0.982304,
+            "forms": 2
+          },
+          {
+            "domain": "uoc.gr",
+            "max_score": 1.0,
+            "mean_score": 0.937083,
+            "forms": 2
+          },
+          {
+            "domain": "iframe.ly",
+            "max_score": 1.0,
+            "mean_score": 0.9825,
+            "forms": 2
+          }
+        ],
+        "note": "Generated representations of ranked Tranco domains, not observed browser URLs. Popularity is not a guarantee of safety."
+      },
+      "sanity_suite": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 1,
+            "score": 0.997962
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 1,
+            "score": 0.982875
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 1,
+            "score": 1.0
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 1,
+            "score": 0.982875
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 1,
+            "score": 0.965
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 1,
+            "score": 0.997962
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 1,
+            "score": 0.997637
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 1,
+            "score": 0.997962
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 1,
+            "score": 1.0
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 1,
+            "score": 0.997962
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.915
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.945
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.76
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.86
+          }
+        ],
+        "legit_safe_count": 0,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4,
+        "note": "Sanity strings only; never used for fitting, tuning, or accuracy."
+      },
+      "model_path": "C:\\fraudshield\\model\\fraudshield_model.pkl",
+      "feature_names": [
+        "url_length",
+        "hostname_length",
+        "num_dots",
+        "num_hyphens",
+        "num_slashes",
+        "num_digits",
+        "num_special_chars",
+        "num_query_marks",
+        "num_equal_signs",
+        "has_at_symbol",
+        "uses_https",
+        "has_ip_host",
+        "num_subdomains",
+        "suspicious_keyword_count"
+      ]
+    },
+    "C1_all14": {
+      "summary": {
+        "model": "C1_all14",
+        "accuracy": 0.886565,
+        "precision": 0.785428,
+        "recall": 0.906152,
+        "f1": 0.841482,
+        "roc_auc": 0.96302,
+        "false_positives": 10546,
+        "false_negatives": 3998,
+        "https_malicious_recall": 0.985351,
+        "https_benign_fp_rate": 0.021611,
+        "external_domain_safe_rate": 0.9895,
+        "external_url_safe_rate": 0.99475,
+        "legit_sanity_safe": 10,
+        "suspicious_flagged": 4,
+        "model_size_mb": 79.5,
+        "gates_passed": 6,
+        "gates_total": 6,
+        "all_gates_passed": true
+      },
+      "metrics_internal_test": {
+        "accuracy": 0.8865646497262389,
+        "precision": 0.7854279842926611,
+        "recall": 0.9061524377362034,
+        "f1": 0.8414822888283379,
+        "roc_auc": 0.9630196093695192,
+        "tn": 75067,
+        "fp": 10546,
+        "fn": 3998,
+        "tp": 38603,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9657,
+            "benign_fp_rate": 0.12103323808091443,
+            "benign_mean_score": 0.15955050799197193,
+            "malicious_count": 14663,
+            "malicious_detected": 11710,
+            "malicious_recall": 0.7986087430948646,
+            "malicious_mean_score": 0.7448209984529087
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 878,
+            "benign_fp_rate": 0.1651617757712566,
+            "benign_mean_score": 0.2166057164996296,
+            "malicious_count": 25617,
+            "malicious_detected": 24606,
+            "malicious_recall": 0.9605340203770933,
+            "malicious_mean_score": 0.9187966651881442
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 11,
+            "benign_fp_rate": 0.021611001964636542,
+            "benign_mean_score": 0.15541629442115723,
+            "malicious_count": 2321,
+            "malicious_detected": 2287,
+            "malicious_recall": 0.985351141749246,
+            "malicious_mean_score": 0.9327531104167439
+          }
+        },
+        "sanity_brand_test_subset": {
+          "rows": 14127,
+          "benign_rows": 13056,
+          "malicious_rows": 1071,
+          "accuracy": 0.6854250725560983,
+          "malicious_recall": 0.5452847805788982
+        }
+      },
+      "external_holdout": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.99475,
+        "domain_safe_rate": 0.9895,
+        "domains_safe": 1979,
+        "domains_unsafe": 21,
+        "apex_safe_rate": 1.0,
+        "www_safe_rate": 0.9895,
+        "score_mean": 0.03348823164669715,
+        "score_median": 0.019789768873030203,
+        "score_p90": 0.05597506959179375,
+        "domain_score_mean": 0.03348823164669715,
+        "domain_score_median": 0.01762377726259081,
+        "domain_score_p90": 0.06042720647492195,
+        "worst_domains": [
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.877384,
+            "mean_score": 0.564221,
+            "forms": 2
+          },
+          {
+            "domain": "ffe390afd658c19dcbf707e0597b846d.de",
+            "max_score": 0.714067,
+            "mean_score": 0.515145,
+            "forms": 2
+          },
+          {
+            "domain": "bahagiabatik77.com",
+            "max_score": 0.692093,
+            "mean_score": 0.35559,
+            "forms": 2
+          },
+          {
+            "domain": "kingdomtotox75.com",
+            "max_score": 0.692093,
+            "mean_score": 0.35559,
+            "forms": 2
+          },
+          {
+            "domain": "thueringer-allgemeine.de",
+            "max_score": 0.685815,
+            "mean_score": 0.507188,
+            "forms": 2
+          },
+          {
+            "domain": "automizely-analytics.com",
+            "max_score": 0.685815,
+            "mean_score": 0.507188,
+            "forms": 2
+          },
+          {
+            "domain": "xn--42c5ab1a9aq9hqb5dud.to",
+            "max_score": 0.683822,
+            "mean_score": 0.416346,
+            "forms": 2
+          },
+          {
+            "domain": "browser-intake-us3-datadoghq.com",
+            "max_score": 0.677458,
+            "mean_score": 0.411353,
+            "forms": 2
+          },
+          {
+            "domain": "xn--42cf7cgd7gxbd4m7c.cc",
+            "max_score": 0.661694,
+            "mean_score": 0.453183,
+            "forms": 2
+          },
+          {
+            "domain": "xn----gtbdhedngtjwm0ak2j.xn--p1ai",
+            "max_score": 0.661125,
+            "mean_score": 0.427019,
+            "forms": 2
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.656282,
+            "mean_score": 0.369738,
+            "forms": 2
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.656282,
+            "mean_score": 0.369738,
+            "forms": 2
+          },
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.656121,
+            "mean_score": 0.351377,
+            "forms": 2
+          },
+          {
+            "domain": "jartrim68oum1z.org",
+            "max_score": 0.587972,
+            "mean_score": 0.306471,
+            "forms": 2
+          },
+          {
+            "domain": "lemon212asli.store",
+            "max_score": 0.587972,
+            "mean_score": 0.306471,
+            "forms": 2
+          },
+          {
+            "domain": "udyamregistration.gov.in",
+            "max_score": 0.573586,
+            "mean_score": 0.328706,
+            "forms": 2
+          },
+          {
+            "domain": "mitsui-shopping-park.com",
+            "max_score": 0.573325,
+            "mean_score": 0.352673,
+            "forms": 2
+          },
+          {
+            "domain": "datadoghq-browser-agent.com",
+            "max_score": 0.565955,
+            "mean_score": 0.329392,
+            "forms": 2
+          },
+          {
+            "domain": "elsiglodetorreon.com.mx",
+            "max_score": 0.559033,
+            "mean_score": 0.334082,
+            "forms": 2
+          },
+          {
+            "domain": "chemistwarehouse.com.au",
+            "max_score": 0.559033,
+            "mean_score": 0.334082,
+            "forms": 2
+          }
+        ],
+        "note": "Generated representations of ranked Tranco domains, not observed browser URLs. Popularity is not a guarantee of safety."
+      },
+      "sanity_suite": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.0218
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.01979
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.007814
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.01979
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.022108
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.0218
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.031425
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.0218
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.036791
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.0218
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.940115
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.937492
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.844032
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.897006
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4,
+        "note": "Sanity strings only; never used for fitting, tuning, or accuracy."
+      },
+      "acceptance_gates": {
+        "checks": {
+          "https_malicious_recall_ge_0.90": true,
+          "overall_malicious_recall_ge_0.87": true,
+          "external_domain_safe_ge_0.85": true,
+          "suspicious_sanity_4_of_4": true,
+          "no_leakage_detected": true,
+          "pre_training_distribution_gate": true
+        },
+        "passed_count": 6,
+        "total": 6,
+        "passed": true,
+        "quality_warnings": {
+          "accuracy_below_0.85": false,
+          "precision_below_0.72": false,
+          "f1_below_0.80": false,
+          "roc_auc_below_0.93": false
+        },
+        "quality_warning_triggered": false
+      },
+      "feature_importances": {
+        "num_slashes": 0.253435,
+        "num_special_chars": 0.134622,
+        "num_dots": 0.121359,
+        "num_subdomains": 0.10606,
+        "url_length": 0.10274,
+        "hostname_length": 0.096083,
+        "num_digits": 0.054904,
+        "num_equal_signs": 0.038675,
+        "num_hyphens": 0.033293,
+        "num_query_marks": 0.01672,
+        "uses_https": 0.014417,
+        "suspicious_keyword_count": 0.014069,
+        "has_ip_host": 0.013229,
+        "has_at_symbol": 0.000393
+      },
+      "active_feature_names": [
+        "url_length",
+        "hostname_length",
+        "num_dots",
+        "num_hyphens",
+        "num_slashes",
+        "num_digits",
+        "num_special_chars",
+        "num_query_marks",
+        "num_equal_signs",
+        "has_at_symbol",
+        "uses_https",
+        "has_ip_host",
+        "num_subdomains",
+        "suspicious_keyword_count"
+      ],
+      "hyperparameters": {
+        "n_estimators": 150,
+        "max_depth": null,
+        "min_samples_leaf": 2,
+        "max_features": "sqrt",
+        "class_weight": "balanced",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "model_path": "C:\\fraudshield\\model\\experiment_c\\c1_r1.pkl",
+      "metadata_path": "C:\\fraudshield\\model\\experiment_c\\c1_r1.metadata.json",
+      "model_size_mb": 79.49722385406494
+    },
+    "C2_no_https": {
+      "summary": {
+        "model": "C2_no_https",
+        "accuracy": 0.882454,
+        "precision": 0.782811,
+        "recall": 0.894369,
+        "f1": 0.83488,
+        "roc_auc": 0.959923,
+        "false_positives": 10571,
+        "false_negatives": 4500,
+        "https_malicious_recall": 0.76131,
+        "https_benign_fp_rate": 0.011788,
+        "external_domain_safe_rate": 0.9415,
+        "external_url_safe_rate": 0.9705,
+        "legit_sanity_safe": 10,
+        "suspicious_flagged": 4,
+        "model_size_mb": 81.77,
+        "gates_passed": 5,
+        "gates_total": 6,
+        "all_gates_passed": false
+      },
+      "metrics_internal_test": {
+        "accuracy": 0.8824543341600761,
+        "precision": 0.7828114727153189,
+        "recall": 0.8943686767916246,
+        "f1": 0.8348799754582407,
+        "roc_auc": 0.9599228291496767,
+        "tn": 75042,
+        "fp": 10571,
+        "fn": 4500,
+        "tp": 38101,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9630,
+            "benign_fp_rate": 0.12069484132952324,
+            "benign_mean_score": 0.15695118600371902,
+            "malicious_count": 14663,
+            "malicious_detected": 11664,
+            "malicious_recall": 0.7954715951715201,
+            "malicious_mean_score": 0.7458737874749275
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 935,
+            "benign_fp_rate": 0.17588412340105342,
+            "benign_mean_score": 0.22053678949918676,
+            "malicious_count": 25617,
+            "malicious_detected": 24670,
+            "malicious_recall": 0.9630323613225592,
+            "malicious_mean_score": 0.9236956593859131
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 6,
+            "benign_fp_rate": 0.011787819253438114,
+            "benign_mean_score": 0.08619068422007126,
+            "malicious_count": 2321,
+            "malicious_detected": 1767,
+            "malicious_recall": 0.7613097802671263,
+            "malicious_mean_score": 0.6927087626787425
+          }
+        },
+        "sanity_brand_test_subset": {
+          "rows": 14127,
+          "benign_rows": 13056,
+          "malicious_rows": 1071,
+          "accuracy": 0.6876902385502938,
+          "malicious_recall": 0.5368814192343604
+        }
+      },
+      "external_holdout": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.9705,
+        "domain_safe_rate": 0.9415,
+        "domains_safe": 1883,
+        "domains_unsafe": 117,
+        "apex_safe_rate": 0.9995,
+        "www_safe_rate": 0.9415,
+        "score_mean": 0.08687845976294736,
+        "score_median": 0.05833481465261357,
+        "score_p90": 0.17255065909916542,
+        "domain_score_mean": 0.08687845976294738,
+        "domain_score_median": 0.05042627574590995,
+        "domain_score_p90": 0.2181811423141251,
+        "worst_domains": [
+          {
+            "domain": "sigeduc.rn.gov.br",
+            "max_score": 0.992633,
+            "mean_score": 0.759685,
+            "forms": 2
+          },
+          {
+            "domain": "operacoes.sp.gov.br",
+            "max_score": 0.984311,
+            "mean_score": 0.669313,
+            "forms": 2
+          },
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.965556,
+            "mean_score": 0.66733,
+            "forms": 2
+          },
+          {
+            "domain": "w3school.com.cn",
+            "max_score": 0.926929,
+            "mean_score": 0.64172,
+            "forms": 2
+          },
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.918333,
+            "mean_score": 0.485549,
+            "forms": 2
+          },
+          {
+            "domain": "kobe-np.co.jp",
+            "max_score": 0.884635,
+            "mean_score": 0.48862,
+            "forms": 2
+          },
+          {
+            "domain": "sunway-wine.com.cn",
+            "max_score": 0.877676,
+            "mean_score": 0.500478,
+            "forms": 2
+          },
+          {
+            "domain": "elsiglodetorreon.com.mx",
+            "max_score": 0.852208,
+            "mean_score": 0.512379,
+            "forms": 2
+          },
+          {
+            "domain": "chemistwarehouse.com.au",
+            "max_score": 0.852208,
+            "mean_score": 0.512379,
+            "forms": 2
+          },
+          {
+            "domain": "poder360.com.br",
+            "max_score": 0.843361,
+            "mean_score": 0.483402,
+            "forms": 2
+          },
+          {
+            "domain": "bahagiabatik77.com",
+            "max_score": 0.837717,
+            "mean_score": 0.439496,
+            "forms": 2
+          },
+          {
+            "domain": "kingdomtotox75.com",
+            "max_score": 0.837717,
+            "mean_score": 0.439496,
+            "forms": 2
+          },
+          {
+            "domain": "icloud-content.com.cn",
+            "max_score": 0.809772,
+            "mean_score": 0.453756,
+            "forms": 2
+          },
+          {
+            "domain": "tokyo-np.co.jp",
+            "max_score": 0.806466,
+            "mean_score": 0.448804,
+            "forms": 2
+          },
+          {
+            "domain": "udyamregistration.gov.in",
+            "max_score": 0.798973,
+            "mean_score": 0.468397,
+            "forms": 2
+          },
+          {
+            "domain": "thueringer-allgemeine.de",
+            "max_score": 0.764259,
+            "mean_score": 0.55456,
+            "forms": 2
+          },
+          {
+            "domain": "automizely-analytics.com",
+            "max_score": 0.764259,
+            "mean_score": 0.55456,
+            "forms": 2
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.748434,
+            "mean_score": 0.398091,
+            "forms": 2
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.748434,
+            "mean_score": 0.398091,
+            "forms": 2
+          },
+          {
+            "domain": "jartrim68oum1z.org",
+            "max_score": 0.743142,
+            "mean_score": 0.438175,
+            "forms": 2
+          }
+        ],
+        "note": "Generated representations of ranked Tranco domains, not observed browser URLs. Popularity is not a guarantee of safety."
+      },
+      "sanity_suite": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.08251
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.067713
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.009039
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.067713
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.058335
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.08251
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.082046
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.08251
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.040608
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.08251
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.947344
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.95691
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.806817
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.885724
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4,
+        "note": "Sanity strings only; never used for fitting, tuning, or accuracy."
+      },
+      "acceptance_gates": {
+        "checks": {
+          "https_malicious_recall_ge_0.90": false,
+          "overall_malicious_recall_ge_0.87": true,
+          "external_domain_safe_ge_0.85": true,
+          "suspicious_sanity_4_of_4": true,
+          "no_leakage_detected": true,
+          "pre_training_distribution_gate": true
+        },
+        "passed_count": 5,
+        "total": 6,
+        "passed": false,
+        "quality_warnings": {
+          "accuracy_below_0.85": false,
+          "precision_below_0.72": false,
+          "f1_below_0.80": false,
+          "roc_auc_below_0.93": false
+        },
+        "quality_warning_triggered": false
+      },
+      "feature_importances": {
+        "num_slashes": 0.261651,
+        "num_special_chars": 0.140725,
+        "num_dots": 0.126731,
+        "url_length": 0.103969,
+        "num_subdomains": 0.097083,
+        "hostname_length": 0.096681,
+        "num_digits": 0.056277,
+        "num_equal_signs": 0.037939,
+        "num_hyphens": 0.03609,
+        "suspicious_keyword_count": 0.014663,
+        "num_query_marks": 0.014355,
+        "has_ip_host": 0.013291,
+        "has_at_symbol": 0.000546
+      },
+      "active_feature_names": [
+        "url_length",
+        "hostname_length",
+        "num_dots",
+        "num_hyphens",
+        "num_slashes",
+        "num_digits",
+        "num_special_chars",
+        "num_query_marks",
+        "num_equal_signs",
+        "has_at_symbol",
+        "has_ip_host",
+        "num_subdomains",
+        "suspicious_keyword_count"
+      ],
+      "hyperparameters": {
+        "n_estimators": 150,
+        "max_depth": null,
+        "min_samples_leaf": 2,
+        "max_features": "sqrt",
+        "class_weight": "balanced",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "model_path": "C:\\fraudshield\\model\\experiment_c\\c2_r1.pkl",
+      "metadata_path": "C:\\fraudshield\\model\\experiment_c\\c2_r1.metadata.json",
+      "model_size_mb": 81.77230644226074
+    },
+    "R2_small": {
+      "summary": {
+        "model": "R2_small",
+        "accuracy": 0.894107,
+        "precision": 0.794588,
+        "recall": 0.918828,
+        "f1": 0.852204,
+        "roc_auc": 0.965169,
+        "false_positives": 10119,
+        "false_negatives": 3458,
+        "https_malicious_recall": 0.985782,
+        "https_benign_fp_rate": 0.037328,
+        "external_domain_safe_rate": 0.991,
+        "external_url_safe_rate": 0.9955,
+        "legit_sanity_safe": 10,
+        "suspicious_flagged": 4,
+        "model_size_mb": 29.32,
+        "gates_passed": 6,
+        "gates_total": 6,
+        "all_gates_passed": true
+      },
+      "metrics_internal_test": {
+        "accuracy": 0.8941067278144352,
+        "precision": 0.7945881206609557,
+        "recall": 0.9188281965212084,
+        "f1": 0.8522038252615307,
+        "roc_auc": 0.9651686184069914,
+        "tn": 75494,
+        "fp": 10119,
+        "fn": 3458,
+        "tp": 39143,
+        "by_style": {
+          "bare": {
+            "benign_count": 79788,
+            "benign_fp": 9025,
+            "benign_fp_rate": 0.11311224745575776,
+            "benign_mean_score": 0.169585309027245,
+            "malicious_count": 14663,
+            "malicious_detected": 12174,
+            "malicious_recall": 0.8302530177999046,
+            "malicious_mean_score": 0.7439802030694629
+          },
+          "http": {
+            "benign_count": 5316,
+            "benign_fp": 1075,
+            "benign_fp_rate": 0.20221971407072986,
+            "benign_mean_score": 0.23722885769174462,
+            "malicious_count": 25617,
+            "malicious_detected": 24681,
+            "malicious_recall": 0.9634617636725612,
+            "malicious_mean_score": 0.9180615213650604
+          },
+          "https": {
+            "benign_count": 509,
+            "benign_fp": 19,
+            "benign_fp_rate": 0.03732809430255403,
+            "benign_mean_score": 0.16942219002442663,
+            "malicious_count": 2321,
+            "malicious_detected": 2288,
+            "malicious_recall": 0.985781990521327,
+            "malicious_mean_score": 0.9172101542329645
+          }
+        },
+        "sanity_brand_test_subset": {
+          "rows": 14127,
+          "benign_rows": 13056,
+          "malicious_rows": 1071,
+          "accuracy": 0.7561407234373894,
+          "malicious_recall": 0.4911297852474323
+        }
+      },
+      "external_holdout": {
+        "url_count": 4000,
+        "domain_count": 2000,
+        "url_safe_rate": 0.9955,
+        "domain_safe_rate": 0.991,
+        "domains_safe": 1982,
+        "domains_unsafe": 18,
+        "apex_safe_rate": 1.0,
+        "www_safe_rate": 0.991,
+        "score_mean": 0.042247657547417515,
+        "score_median": 0.02523580609520193,
+        "score_p90": 0.08176830918734718,
+        "domain_score_mean": 0.042247657547417515,
+        "domain_score_median": 0.023405245274475572,
+        "domain_score_p90": 0.0837987854045612,
+        "worst_domains": [
+          {
+            "domain": "ffe390afd658c19dcbf707e0597b846d.de",
+            "max_score": 0.727928,
+            "mean_score": 0.519909,
+            "forms": 2
+          },
+          {
+            "domain": "casasbahia-imagens.com.br",
+            "max_score": 0.699085,
+            "mean_score": 0.497101,
+            "forms": 2
+          },
+          {
+            "domain": "browser-intake-us3-datadoghq.com",
+            "max_score": 0.638028,
+            "mean_score": 0.420867,
+            "forms": 2
+          },
+          {
+            "domain": "xn--42cf7cgd7gxbd4m7c.cc",
+            "max_score": 0.632486,
+            "mean_score": 0.424975,
+            "forms": 2
+          },
+          {
+            "domain": "ilportaledellautomobilista.it",
+            "max_score": 0.629076,
+            "mean_score": 0.363489,
+            "forms": 2
+          },
+          {
+            "domain": "xn----gtbdhedngtjwm0ak2j.xn--p1ai",
+            "max_score": 0.608842,
+            "mean_score": 0.427941,
+            "forms": 2
+          },
+          {
+            "domain": "xn--42c5ab1a9aq9hqb5dud.to",
+            "max_score": 0.601392,
+            "mean_score": 0.386843,
+            "forms": 2
+          },
+          {
+            "domain": "kettledroopingcontinuation.com",
+            "max_score": 0.597332,
+            "mean_score": 0.35839,
+            "forms": 2
+          },
+          {
+            "domain": "advanceddataanalysiscenter.com",
+            "max_score": 0.597332,
+            "mean_score": 0.35839,
+            "forms": 2
+          },
+          {
+            "domain": "udyamregistration.gov.in",
+            "max_score": 0.563913,
+            "mean_score": 0.342815,
+            "forms": 2
+          },
+          {
+            "domain": "datadoghq-browser-agent.com",
+            "max_score": 0.561968,
+            "mean_score": 0.360791,
+            "forms": 2
+          },
+          {
+            "domain": "elsiglodetorreon.com.mx",
+            "max_score": 0.54185,
+            "mean_score": 0.337581,
+            "forms": 2
+          },
+          {
+            "domain": "chemistwarehouse.com.au",
+            "max_score": 0.54185,
+            "mean_score": 0.337581,
+            "forms": 2
+          },
+          {
+            "domain": "mitsui-shopping-park.com",
+            "max_score": 0.533271,
+            "mean_score": 0.368755,
+            "forms": 2
+          },
+          {
+            "domain": "jartrim68oum1z.org",
+            "max_score": 0.513095,
+            "mean_score": 0.301256,
+            "forms": 2
+          },
+          {
+            "domain": "lemon212asli.store",
+            "max_score": 0.513095,
+            "mean_score": 0.301256,
+            "forms": 2
+          },
+          {
+            "domain": "thueringer-allgemeine.de",
+            "max_score": 0.506324,
+            "mean_score": 0.350841,
+            "forms": 2
+          },
+          {
+            "domain": "automizely-analytics.com",
+            "max_score": 0.506324,
+            "mean_score": 0.350841,
+            "forms": 2
+          },
+          {
+            "domain": "confiant-integrations.net",
+            "max_score": 0.498726,
+            "mean_score": 0.3328,
+            "forms": 2
+          },
+          {
+            "domain": "realmoneyslots-mobile.com",
+            "max_score": 0.498726,
+            "mean_score": 0.3328,
+            "forms": 2
+          }
+        ],
+        "note": "Generated representations of ranked Tranco domains, not observed browser URLs. Popularity is not a guarantee of safety."
+      },
+      "sanity_suite": {
+        "rows": [
+          {
+            "kind": "legit",
+            "url": "https://www.google.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.wikipedia.org",
+            "prediction": 0,
+            "score": 0.015872
+          },
+          {
+            "kind": "legit",
+            "url": "https://github.com",
+            "prediction": 0,
+            "score": 0.011001
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.microsoft.com",
+            "prediction": 0,
+            "score": 0.015872
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.apple.com",
+            "prediction": 0,
+            "score": 0.027957
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.python.org",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.mozilla.org",
+            "prediction": 0,
+            "score": 0.04213
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.reddit.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "legit",
+            "url": "https://stackoverflow.com",
+            "prediction": 0,
+            "score": 0.039211
+          },
+          {
+            "kind": "legit",
+            "url": "https://www.amazon.com",
+            "prediction": 0,
+            "score": 0.027139
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://secure-login.example/verify/account",
+            "prediction": 1,
+            "score": 0.915309
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://192.0.2.123/login/verify/password",
+            "prediction": 1,
+            "score": 0.965691
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://account-security-update.example/confirm/password",
+            "prediction": 1,
+            "score": 0.841611
+          },
+          {
+            "kind": "suspicious",
+            "url": "http://bank-login-verification.example/account/secure",
+            "prediction": 1,
+            "score": 0.867217
+          }
+        ],
+        "legit_safe_count": 10,
+        "legit_total": 10,
+        "suspicious_flagged_count": 4,
+        "suspicious_total": 4,
+        "note": "Sanity strings only; never used for fitting, tuning, or accuracy."
+      },
+      "acceptance_gates": {
+        "checks": {
+          "https_malicious_recall_ge_0.90": true,
+          "overall_malicious_recall_ge_0.87": true,
+          "external_domain_safe_ge_0.85": true,
+          "suspicious_sanity_4_of_4": true,
+          "no_leakage_detected": true,
+          "pre_training_distribution_gate": true
+        },
+        "passed_count": 6,
+        "total": 6,
+        "passed": true,
+        "quality_warnings": {
+          "accuracy_below_0.85": false,
+          "precision_below_0.72": false,
+          "f1_below_0.80": false,
+          "roc_auc_below_0.93": false
+        },
+        "quality_warning_triggered": false
+      },
+      "feature_importances": {
+        "num_slashes": 0.261752,
+        "num_special_chars": 0.139258,
+        "num_dots": 0.121387,
+        "num_subdomains": 0.110667,
+        "hostname_length": 0.09093,
+        "url_length": 0.089737,
+        "num_digits": 0.048713,
+        "num_equal_signs": 0.042062,
+        "num_hyphens": 0.031355,
+        "has_ip_host": 0.018646,
+        "num_query_marks": 0.016135,
+        "uses_https": 0.015398,
+        "suspicious_keyword_count": 0.013693,
+        "has_at_symbol": 0.000266
+      },
+      "active_feature_names": [
+        "url_length",
+        "hostname_length",
+        "num_dots",
+        "num_hyphens",
+        "num_slashes",
+        "num_digits",
+        "num_special_chars",
+        "num_query_marks",
+        "num_equal_signs",
+        "has_at_symbol",
+        "uses_https",
+        "has_ip_host",
+        "num_subdomains",
+        "suspicious_keyword_count"
+      ],
+      "hyperparameters": {
+        "n_estimators": 100,
+        "max_depth": 24,
+        "min_samples_leaf": 5,
+        "max_features": "sqrt",
+        "class_weight": "balanced",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "model_path": "C:\\fraudshield\\model\\experiment_c\\winner_r2.pkl",
+      "metadata_path": "C:\\fraudshield\\model\\experiment_c\\winner_r2.metadata.json",
+      "model_size_mb": 29.316944122314453
+    }
+  },
+  "comparison_table": [
+    {
+      "model": "A_baseline",
+      "accuracy": 0.881183,
+      "precision": 0.781675,
+      "recall": 0.891364,
+      "f1": 0.832924,
+      "roc_auc": 0.955218,
+      "false_positives": 10606,
+      "false_negatives": 4628,
+      "https_malicious_recall": 0.996553,
+      "https_benign_fp_rate": 0.02554,
+      "external_domain_safe_rate": 0.0,
+      "external_url_safe_rate": 0.0,
+      "legit_sanity_safe": 0,
+      "suspicious_flagged": 4,
+      "model_size_mb": 152.51,
+      "gates_passed": null,
+      "gates_total": null,
+      "all_gates_passed": null
+    },
+    {
+      "model": "C1_all14",
+      "accuracy": 0.886565,
+      "precision": 0.785428,
+      "recall": 0.906152,
+      "f1": 0.841482,
+      "roc_auc": 0.96302,
+      "false_positives": 10546,
+      "false_negatives": 3998,
+      "https_malicious_recall": 0.985351,
+      "https_benign_fp_rate": 0.021611,
+      "external_domain_safe_rate": 0.9895,
+      "external_url_safe_rate": 0.99475,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 79.5,
+      "gates_passed": 6,
+      "gates_total": 6,
+      "all_gates_passed": true
+    },
+    {
+      "model": "C2_no_https",
+      "accuracy": 0.882454,
+      "precision": 0.782811,
+      "recall": 0.894369,
+      "f1": 0.83488,
+      "roc_auc": 0.959923,
+      "false_positives": 10571,
+      "false_negatives": 4500,
+      "https_malicious_recall": 0.76131,
+      "https_benign_fp_rate": 0.011788,
+      "external_domain_safe_rate": 0.9415,
+      "external_url_safe_rate": 0.9705,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 81.77,
+      "gates_passed": 5,
+      "gates_total": 6,
+      "all_gates_passed": false
+    },
+    {
+      "model": "R2_small",
+      "accuracy": 0.894107,
+      "precision": 0.794588,
+      "recall": 0.918828,
+      "f1": 0.852204,
+      "roc_auc": 0.965169,
+      "false_positives": 10119,
+      "false_negatives": 3458,
+      "https_malicious_recall": 0.985782,
+      "https_benign_fp_rate": 0.037328,
+      "external_domain_safe_rate": 0.991,
+      "external_url_safe_rate": 0.9955,
+      "legit_sanity_safe": 10,
+      "suspicious_flagged": 4,
+      "model_size_mb": 29.32,
+      "gates_passed": 6,
+      "gates_total": 6,
+      "all_gates_passed": true
+    }
+  ],
+  "decision": {
+    "winner_feature_set": "c1_r1",
+    "feature_set_tie_break": "higher security/generalization rank",
+    "uses_https_importance_c1": 0.014417,
+    "uses_https_verdict": "uses_https importance is 0.0144 (Model A 0.0167, Model B 0.2838), so scheme is not dominating this forest.",
+    "r2_acceptable": true,
+    "r2_vs_winner_external_safe_delta": 0.0015,
+    "r2_vs_winner_https_recall_delta": 0.000431,
+    "r2_vs_winner_overall_recall_delta": 0.012676,
+    "recommended_model": "winner_r2",
+    "recommendation": "Promote WINNER_R2 (passes all gates and matches the larger winner within the stated tolerances while being smaller).",
+    "promotion_performed": false
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "meta": {
+    "stage": 7,
+    "mode": "READ-ONLY",
+    "derived_only": true
+  },
+  "G_gate_sensitivity_S2A": {
+    "note": "shortfall_rows = how many additional correct decisions this gate needs at the current denominator. Derived from the project's own evaluation.json, not recomputed.",
+    "gates": {
+      "overall_malicious_recall_ge_0.87": {
+        "target": 0.87,
+        "observed": 0.7759677002887256,
+        "denominator": 42601,
+        "correct_now": 33057,
+        "correct_needed": 37063,
+        "shortfall_rows": 4006,
+        "passed": false
+      },
+      "malicious_https_recall_ge_0.90": {
+        "target": 0.9,
+        "observed": 0.46057733735458856,
+        "denominator": 2321,
+        "correct_now": 1069,
+        "correct_needed": 2089,
+        "shortfall_rows": 1020,
+        "passed": false
+      },
+      "external_tranco_homepage_safe_ge_0.95": {
+        "target": 0.95,
+        "observed": 0.5955,
+        "denominator": 4000,
+        "correct_now": 2382,
+        "correct_needed": 3800,
+        "shortfall_rows": 1418,
+        "passed": false
+      },
+      "legit_deep_safe_ge_0.90": {
+        "target": 0.9,
+        "observed": 0.918239,
+        "denominator": 76039,
+        "correct_now": 69822,
+        "correct_needed": 68436,
+        "shortfall_rows": 0,
+        "passed": true
+      },
+      "malicious_deep_recall_ge_0.90": {
+        "target": 0.9,
+        "observed": 0.785617,
+        "denominator": 37601,
+        "correct_now": 29540,
+        "correct_needed": 33841,
+        "shortfall_rows": 4301,
+        "passed": false
+      },
+      "suspicious_synthetic_4_of_4": {
+        "target": "4/4",
+        "observed": "4/4",
+        "passed": true,
+        "shortfall_rows": 0
+      },
+      "no_leakage": {
+        "target": "0 leaked rows",
+        "observed": "0",
+        "passed": true,
+        "shortfall_rows": 0
+      }
+    },
+    "passed_count": 3,
+    "total": 7
+  },
+  "G_gate_view_R2": {
+    "note": "R2's own recorded acceptance gates (6 checks, different set).",
+    "checks": {
+      "https_malicious_recall_ge_0.90": true,
+      "overall_malicious_recall_ge_0.87": true,
+      "external_domain_safe_ge_0.85": true,
+      "suspicious_sanity_4_of_4": true,
+      "no_leakage_detected": true,
+      "pre_training_distribution_gate": true
+    },
+    "passed_count": 6,
+    "total": 6,
+    "fails_legit_deep_safe": false
+  },
+  "D_benign_gap_measured": {
+    "kaggle_benign_train_rows": 335499,
+    "total_benign_train_rows": 348404,
+    "legit_deep_suite_rows": 76039,
+    "legit_deep_suite_https_rows_in_evaluated_form": 70723,
+    "https_deep": {
+      "train_rows_kaggle": 1439,
+      "train_rows_total": 1439,
+      "train_share": 0.00413,
+      "eval_share": 0.930089,
+      "ratio_eval_over_train": 225.19
+    },
+    "https_homepage": {
+      "train_rows_kaggle": 0,
+      "train_rows_total": 12905,
+      "train_share_total": 0.03704,
+      "note": "Kaggle benign training contains ZERO https homepages."
+    },
+    "https_www": {
+      "train_rows_total": 2999,
+      "train_share_total": 0.008608
+    },
+    "https_non_www": {
+      "train_rows_total": 11345,
+      "train_share_total": 0.032563
+    }
+  },
+  "D_https_deep_target_scenarios": {
+    "note": "Arithmetic on the measured benign training population. 'share' is https-deep rows as a fraction of all benign training rows. The evaluation suite runs at the measured eval_share above; matching it exactly is a design choice, not a measured requirement.",
+    "baseline_benign_train_rows": 348404,
+    "baseline_https_deep_rows": 1439,
+    "scenarios": {
+      "share_5pct": {
+        "target_share": 0.05,
+        "additional_https_deep_rows_needed": 16823,
+        "resulting_benign_train_rows": 365226
+      },
+      "share_10pct": {
+        "target_share": 0.1,
+        "additional_https_deep_rows_needed": 37113,
+        "resulting_benign_train_rows": 385516
+      },
+      "share_20pct": {
+        "target_share": 0.2,
+        "additional_https_deep_rows_needed": 85303,
+        "resulting_benign_train_rows": 433706
+      },
+      "share_30pct": {
+        "target_share": 0.3,
+        "additional_https_deep_rows_needed": 147261,
+        "resulting_benign_train_rows": 495664
+      }
+    }
+  },
+  "G_diagnostics": {
+    "host_ngram_coverage_mean_by_subtype": {
+      "benign": 0.807352,
+      "phishing": 0.712708,
+      "malware": 0.682299,
+      "defacement": 0.783017
+    },
+    "host_rows_with_zero_known_grams": {
+      "benign": 0,
+      "phishing": 4,
+      "malware": 0,
+      "defacement": 0
+    },
+    "absence_of_evidence": {
+      "intercept": 0.301758,
+      "score_when_no_features": 0.574872,
+      "decision_when_no_features": 1,
+      "tranco_holdout": {
+        "rows": 4000,
+        "rows_with_no_features": 2,
+        "share_with_no_features": 0.0005,
+        "mean_score_no_features": 0.574872
+      },
+      "deep_benign": {
+        "rows": 76039,
+        "rows_with_no_features": 6,
+        "share_with_no_features": 7.9e-05,
+        "mean_score_no_features": 0.574872
+      },
+      "deep_malicious": {
+        "rows": 37601,
+        "rows_with_no_features": 0,
+        "share_with_no_features": 0.0,
+        "mean_score_no_features": null
+      }
+    },
+    "residual_scheme_probe_auc": {
+      "purpose": "diagnostic only: can the features reconstruct the written scheme?",
+      "train_rows": 25000,
+      "test_rows": 15000,
+      "https_rate_train": 0.02416,
+      "auc": 0.880385
+    },
+    "https_only_deep_auc": {
+      "R2": 0.757214,
+      "S1": 0.951609,
+      "S2-A": 0.924561
+    },
+    "all_deep_auc": {
+      "S1": 0.964609,
+      "S2-A": 0.947931
+    },
+    "ninety_ninety_reachable": {
+      "S1_https_only": false,
+      "S1_all_deep": false,
+      "S2_https_only": false,
+      "S2_all_deep": false
+    },
+    "tranco_apex_www": {
+      "pairs": 2000,
+      "mean_delta": 0.0,
+      "max_abs_delta": 0.0,
+      "pairs_with_nonzero_delta": 0,
+      "note": "Apex and www forms of the same domain must be identical under S2."
+    },
+    "tranco_safety": {
+      "r2": 0.991,
+      "s1": 0.0255,
+      "s2": 0.5955
+    }
+  },
+  "B_https_attribution_summary": {
+    "malicious_https_rows": 2321,
+    "defacement_https_rows_confirmed": 0,
+    "per_subtype_https_rows": {
+      "phishing": 1276,
+      "malware": 1045,
+      "defacement": 0
+    },
+    "recall_on_https_by_model": {
+      "R2": {
+        "phishing": 0.974922,
+        "malware": 0.999043,
+        "defacement": null
+      },
+      "S1": {
+        "phishing": 0.775078,
+        "malware": 0.060287,
+        "defacement": null
+      },
+      "S2-A": {
+        "phishing": 0.789969,
+        "malware": 0.058373,
+        "defacement": null
+      }
+    }
+  }
+}

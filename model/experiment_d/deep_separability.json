@@ -1,0 +1,113 @@
+{
+  "note": "Threshold-independent analysis of the held-out deep suites. The threshold sweep is DIAGNOSTIC ONLY: it shows the achievable frontier and is never used to select a model or a deployed threshold. Classification remains fixed at 0.5.",
+  "suites": {
+    "deep_benign_rows": 76039,
+    "deep_malicious_rows": 37601,
+    "deep_benign_https_rows": 70723,
+    "deep_malicious_https_rows": 12295
+  },
+  "results": {
+    "R2|all deep": {
+      "roc_auc": 0.772797,
+      "at_0.5": {
+        "benign_safe": 0.112074,
+        "malicious_recall": 0.975001
+      },
+      "best_balanced": {
+        "benign_safe": 0.690198,
+        "malicious_recall": 0.689742,
+        "min": 0.689742
+      },
+      "best_sum": {
+        "benign_safe": 0.784098,
+        "malicious_recall": 0.634744
+      },
+      "both_0.90_reachable": false
+    },
+    "R2|https-only deep": {
+      "roc_auc": 0.757214,
+      "at_0.5": {
+        "benign_safe": 0.060532,
+        "malicious_recall": 0.997967
+      },
+      "best_balanced": {
+        "benign_safe": 0.665795,
+        "malicious_recall": 0.665718,
+        "min": 0.665718
+      },
+      "best_sum": {
+        "benign_safe": 0.519732,
+        "malicious_recall": 0.877349
+      },
+      "both_0.90_reachable": false
+    },
+    "D1|all deep": {
+      "roc_auc": 0.905009,
+      "at_0.5": {
+        "benign_safe": 0.892897,
+        "malicious_recall": 0.722986
+      },
+      "best_balanced": {
+        "benign_safe": 0.805284,
+        "malicious_recall": 0.806016,
+        "min": 0.805284
+      },
+      "best_sum": {
+        "benign_safe": 0.900683,
+        "malicious_recall": 0.716656
+      },
+      "both_0.90_reachable": false
+    },
+    "D1|https-only deep": {
+      "roc_auc": 0.755828,
+      "at_0.5": {
+        "benign_safe": 0.896809,
+        "malicious_recall": 0.27442
+      },
+      "best_balanced": {
+        "benign_safe": 0.701427,
+        "malicious_recall": 0.701423,
+        "min": 0.701423
+      },
+      "best_sum": {
+        "benign_safe": 0.530422,
+        "malicious_recall": 0.887515
+      },
+      "both_0.90_reachable": false
+    },
+    "D2|all deep": {
+      "roc_auc": 0.894548,
+      "at_0.5": {
+        "benign_safe": 0.89771,
+        "malicious_recall": 0.681764
+      },
+      "best_balanced": {
+        "benign_safe": 0.791528,
+        "malicious_recall": 0.791548,
+        "min": 0.791528
+      },
+      "best_sum": {
+        "benign_safe": 0.932521,
+        "malicious_recall": 0.657296
+      },
+      "both_0.90_reachable": false
+    },
+    "D2|https-only deep": {
+      "roc_auc": 0.757289,
+      "at_0.5": {
+        "benign_safe": 0.900075,
+        "malicious_recall": 0.234486
+      },
+      "best_balanced": {
+        "benign_safe": 0.702501,
+        "malicious_recall": 0.702481,
+        "min": 0.702481
+      },
+      "best_sum": {
+        "benign_safe": 0.534777,
+        "malicious_recall": 0.896625
+      },
+      "both_0.90_reachable": false
+    }
+  }
+}

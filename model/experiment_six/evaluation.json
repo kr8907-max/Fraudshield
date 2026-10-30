@@ -1,0 +1,460 @@
+{
+  "generated_at": "2026-10-30T05:42:55.828317+00:00",
+  "internal_test": {
+    "accuracy": 0.8960955901851592,
+    "precision": 0.8633982872036738,
+    "recall": 0.8164597075186029,
+    "f1": 0.8392732186376469,
+    "roc_auc": 0.956457513007392,
+    "tn": 80110,
+    "fp": 5503,
+    "fn": 7819,
+    "tp": 34782,
+    "threshold": 0.5,
+    "rows": 128214,
+    "by_style": {
+      "bare": {
+        "benign_count": 79788,
+        "benign_fp": 4608,
+        "benign_fp_rate": 0.05775304557076252,
+        "malicious_count": 14663,
+        "malicious_recall": 0.747118597831276
+      },
+      "http": {
+        "benign_count": 5316,
+        "benign_fp": 852,
+        "benign_fp_rate": 0.16027088036117382,
+        "malicious_count": 25617,
+        "malicious_recall": 0.8890580473904048
+      },
+      "https": {
+        "benign_count": 509,
+        "benign_fp": 43,
+        "benign_fp_rate": 0.08447937131630648,
+        "malicious_count": 2321,
+        "malicious_recall": 0.45325290822921155
+      }
+    }
+  },
+  "external_tranco_homepage": {
+    "url_count": 4000,
+    "domain_count": 2000,
+    "url_safe_rate": 0.38825,
+    "domain_safe_rate": 0.0255,
+    "domains_safe": 51,
+    "domains_unsafe": 1949,
+    "apex_safe_rate": 0.751,
+    "www_safe_rate": 0.0255,
+    "score_mean": 0.6018151640892029
+  },
+  "deep_legitimate": {
+    "label": 0,
+    "rows": 76039,
+    "overall": {
+      "count": 76039,
+      "rate": 0.941412,
+      "mean_score": 0.110044
+    },
+    "by_structure": {
+      "path": {
+        "count": 62698,
+        "rate": 0.940827,
+        "mean_score": 0.11151
+      },
+      "query": {
+        "count": 864,
+        "rate": 0.929398,
+        "mean_score": 0.127916
+      },
+      "path+query": {
+        "count": 12477,
+        "rate": 0.945179,
+        "mean_score": 0.101441
+      }
+    }
+  },
+  "deep_malicious": {
+    "label": 1,
+    "rows": 37601,
+    "overall": {
+      "count": 37601,
+      "rate": 0.840536,
+      "mean_score": 0.816268
+    },
+    "by_structure": {
+      "path": {
+        "count": 24722,
+        "rate": 0.785737,
+        "mean_score": 0.75866
+      },
+      "query": {
+        "count": 61,
+        "rate": 0.754098,
+        "mean_score": 0.664794
+      },
+      "path+query": {
+        "count": 12818,
+        "rate": 0.946638,
+        "mean_score": 0.928097
+      }
+    }
+  },
+  "deep_malicious_by_subtype": {
+    "defacement": {
+      "count": 19268,
+      "recall": 0.917013,
+      "mean_score": 0.888705
+    },
+    "malware": {
+      "count": 4266,
+      "recall": 0.711908,
+      "mean_score": 0.77565
+    },
+    "phishing": {
+      "count": 14067,
+      "recall": 0.774792,
+      "mean_score": 0.729367
+    }
+  },
+  "separability": {
+    "https_only_deep": {
+      "roc_auc": 0.951609,
+      "best_balanced_safe": 0.885737,
+      "best_balanced_recall": 0.885726,
+      "best_balanced_min": 0.885726,
+      "best_balanced_threshold": 0.262619,
+      "both_0.90_reachable": false,
+      "note": "Threshold sweep is diagnostic only; deployed threshold stays 0.5."
+    },
+    "all_deep": {
+      "roc_auc": 0.964609,
+      "best_balanced_safe": 0.892279,
+      "best_balanced_recall": 0.913486,
+      "best_balanced_min": 0.892279,
+      "best_balanced_threshold": 0.300623,
+      "both_0.90_reachable": false,
+      "note": "Threshold sweep is diagnostic only; deployed threshold stays 0.5."
+    }
+  },
+  "sanity": {
+    "rows": [
+      {
+        "kind": "legit",
+        "url": "https://www.google.com",
+        "score": 0.900482,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.wikipedia.org",
+        "score": 0.464924,
+        "prediction": 0
+      },
+      {
+        "kind": "legit",
+        "url": "https://github.com",
+        "score": 0.236499,
+        "prediction": 0
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.microsoft.com",
+        "score": 0.978488,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.apple.com",
+        "score": 0.972043,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.python.org",
+        "score": 0.868723,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.mozilla.org",
+        "score": 0.942469,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.reddit.com",
+        "score": 0.881205,
+        "prediction": 1
+      },
+      {
+        "kind": "legit",
+        "url": "https://stackoverflow.com",
+        "score": 0.19801,
+        "prediction": 0
+      },
+      {
+        "kind": "legit",
+        "url": "https://www.amazon.com",
+        "score": 0.96235,
+        "prediction": 1
+      },
+      {
+        "kind": "suspicious",
+        "url": "http://secure-login.example/verify/account",
+        "score": 0.794595,
+        "prediction": 1
+      },
+      {
+        "kind": "suspicious",
+        "url": "http://192.0.2.123/login/verify/password",
+        "score": 0.913716,
+        "prediction": 1
+      },
+      {
+        "kind": "suspicious",
+        "url": "http://account-security-update.example/confirm/password",
+        "score": 0.893499,
+        "prediction": 1
+      },
+      {
+        "kind": "suspicious",
+        "url": "http://bank-login-verification.example/account/secure",
+        "score": 0.865143,
+        "prediction": 1
+      }
+    ],
+    "legit_safe": 3,
+    "suspicious_flagged": 4
+  },
+  "diagnostics": [
+    {
+      "label": "google search",
+      "url": "https://www.google.com/search?q=fraud",
+      "kind": "famous",
+      "score": 0.531526,
+      "prediction": 1
+    },
+    {
+      "label": "wikipedia article",
+      "url": "https://en.wikipedia.org/wiki/Phishing",
+      "kind": "famous",
+      "score": 0.081522,
+      "prediction": 0
+    },
+    {
+      "label": "github repository",
+      "url": "https://github.com/microsoft/vscode",
+      "kind": "famous",
+      "score": 0.44684,
+      "prediction": 0
+    },
+    {
+      "label": "python downloads",
+      "url": "https://www.python.org/downloads/",
+      "kind": "famous",
+      "score": 0.937183,
+      "prediction": 1
+    },
+    {
+      "label": "microsoft windows",
+      "url": "https://www.microsoft.com/en-us/windows",
+      "kind": "famous",
+      "score": 0.980245,
+      "prediction": 1
+    },
+    {
+      "label": "bbc news",
+      "url": "https://www.bbc.com/news",
+      "kind": "famous",
+      "score": 0.880408,
+      "prediction": 1
+    },
+    {
+      "label": "example.org about",
+      "url": "https://example.org/about",
+      "kind": "extra",
+      "score": 0.043846,
+      "prediction": 0
+    },
+    {
+      "label": "example.com path+query",
+      "url": "https://example.com/path?a=1",
+      "kind": "extra",
+      "score": 0.061607,
+      "prediction": 0
+    }
+  ],
+  "inference_latency": {
+    "iterations": 200,
+    "mean_ms": 5.437,
+    "median_ms": 4.95,
+    "p95_ms": 7.725,
+    "min_ms": 2.884,
+    "max_ms": 22.093
+  },
+  "scheme_probe": {
+    "purpose": "diagnostic only: can the semantic features reconstruct the written scheme?",
+    "train_rows": 25000,
+    "test_rows": 15000,
+    "https_rate_train": 0.02372,
+    "auc": 0.821347
+  },
+  "degeneracy": {
+    "note": "Diagnostic only, no model change. A URL whose host/path/query tokens are all outside the training vocabulary produces an all-zero feature row, so its score is sigmoid(intercept). With class_weight='balanced' the intercept sits on the 0.5 boundary, so an evidence-free URL is decided by a tie, not by evidence.",
+    "intercept": -0.043772,
+    "score_when_no_features": 0.489059,
+    "decision_when_no_features": 0,
+    "tranco_holdout": {
+      "rows": 4000,
+      "rows_with_no_features": 1,
+      "share_with_no_features": 0.00025,
+      "mean_score_all": 0.601815,
+      "mean_score_no_features": 0.489059,
+      "mean_score_with_features": 0.601843
+    },
+    "deep_benign": {
+      "rows": 76039,
+      "rows_with_no_features": 0,
+      "share_with_no_features": 0.0,
+      "mean_score_all": 0.110044,
+      "mean_score_no_features": null,
+      "mean_score_with_features": 0.110044
+    },
+    "deep_malicious": {
+      "rows": 37601,
+      "rows_with_no_features": 0,
+      "share_with_no_features": 0.0,
+      "mean_score_all": 0.816268,
+      "mean_score_no_features": null,
+      "mean_score_with_features": 0.816268
+    }
+  },
+  "tranco_diagnosis": {
+    "note": "All values below are measured on the existing fitted S1 bundle and the unchanged 4,000-URL Tranco holdout. No retraining, no threshold change.",
+    "s1": {
+      "domain_safe_rate": 0.0255,
+      "url_safe_rate": 0.38825,
+      "mean_score": 0.601815,
+      "median_score": 0.673884,
+      "p10_score": 0.151618,
+      "p90_score": 0.956121,
+      "flagged_urls": 2447,
+      "flagged_share": 0.61175,
+      "share_of_flagged_above_0.65": 0.842664
+    },
+    "r2_same_urls": {
+      "domain_safe_rate": 0.991,
+      "url_safe_rate": 0.9955,
+      "mean_score": 0.042248,
+      "median_score": 0.025236
+    },
+    "agreement": {
+      "both_safe": 1553,
+      "r2_safe_s1_malicious": 2429,
+      "r2_malicious_s1_safe": 0,
+      "both_malicious": 18
+    },
+    "block_logit_mean_flagged": {
+      "host": 1.947677,
+      "path": 0.0,
+      "query": 0.0,
+      "vocab": 0.001593,
+      "intercept": -0.043772,
+      "total": 1.905498
+    },
+    "block_logit_mean_safe": {
+      "host": -1.19451,
+      "path": 0.0,
+      "query": 0.0,
+      "vocab": -0.000276,
+      "intercept": -0.043772,
+      "total": -1.238558
+    },
+    "path_block_is_zero_on_every_holdout_url": true,
+    "query_block_is_zero_on_every_holdout_url": true,
+    "top_features_driving_flags": [
+      {
+        "feature": " www",
+        "mean_logit_per_flagged_row": 0.393447
+      },
+      {
+        "feature": "www",
+        "mean_logit_per_flagged_row": 0.379546
+      },
+      {
+        "feature": " ww",
+        "mean_logit_per_flagged_row": 0.286375
+      },
+      {
+        "feature": " www.",
+        "mean_logit_per_flagged_row": 0.238556
+      },
+      {
+        "feature": "www.",
+        "mean_logit_per_flagged_row": 0.211291
+      },
+      {
+        "feature": "ww.",
+        "mean_logit_per_flagged_row": 0.1682
+      },
+      {
+        "feature": "net",
+        "mean_logit_per_flagged_row": 0.016617
+      },
+      {
+        "feature": "www.s",
+        "mean_logit_per_flagged_row": 0.013222
+      },
+      {
+        "feature": "www.c",
+        "mean_logit_per_flagged_row": 0.012522
+      },
+      {
+        "feature": "w.c",
+        "mean_logit_per_flagged_row": 0.010639
+      }
+    ],
+    "host_ngram_coverage": {
+      "definition": "share of a hostname's char_wb 3-5 grams that exist in the training vocabulary",
+      "tranco_holdout_mean": 0.657729,
+      "deep_benign_sample_mean": 0.766475,
+      "deep_malicious_sample_mean": 0.661682,
+      "sample_sizes": {
+        "tranco_holdout": 4000,
+        "deep_benign": 8000,
+        "deep_malicious": 8000
+      }
+    },
+    "www_prefix_prevalence_in_training": {
+      "benign_with_www": 10612,
+      "benign_total": 335499,
+      "malicious_with_www": 81943,
+      "malicious_total": 168402,
+      "tranco_train_with_www": 2905,
+      "benign_share": 0.03163,
+      "malicious_share": 0.486592
+    }
+  },
+  "gates": {
+    "checks": {
+      "overall_malicious_recall_ge_0.87": false,
+      "malicious_https_recall_ge_0.90": false,
+      "external_tranco_homepage_safe_ge_0.95": false,
+      "suspicious_synthetic_4_of_4": true,
+      "legit_deep_safe_ge_0.90": true,
+      "malicious_deep_recall_ge_0.90": false,
+      "no_leakage": true
+    },
+    "passed_count": 3,
+    "total": 7,
+    "passed": false
+  },
+  "timings": {
+    "mode": "report-only (loaded s1.pkl)",
+    "vectoriser_fit_seconds": 0.0,
+    "train_transform_seconds": 0.0,
+    "classifier_fit_seconds": 0.0,
+    "test_inference_seconds": 22.56,
+    "note": "Report-only regeneration performs no fitting, so fit timings are 0. The original fit run measured 9.6 s for the logistic regression (101 lbfgs iterations); see model/experiment_six_run.log."
+  }
+}
