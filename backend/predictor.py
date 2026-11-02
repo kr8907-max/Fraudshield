@@ -98,6 +98,11 @@ from backend.feature_extractor import (  # noqa: E402  (path setup must run firs
     SUSPICIOUS_KEYWORDS,
     extract_features,
 )
+from backend.url_policy import (  # noqa: E402
+    PolicyResult,
+    evaluate_trusted_url_policy,
+    policy_approval_reason,
+)
 
 DEFAULT_MODEL_PATH = PROJECT_ROOT / "model" / "fraudshield_model.pkl"
 DEFAULT_METADATA_PATH = PROJECT_ROOT / "model" / "model_metadata.json"
@@ -380,25 +385,70 @@ class FraudShieldPredictor:
         # argmax is exactly the model's binary decision (ties -> class 0).
         proba = self.model.predict_proba(vector)[0]
         model_score = float(proba[self._malicious_index])
-        prediction = int(np.argmax(proba))
+        raw_prediction = int(np.argmax(proba))
 
         if model_score < SAFE_BELOW:
-            risk_level = RISK_SAFE
+            raw_risk_level = RISK_SAFE
         elif model_score < HIGH_RISK_AT_OR_ABOVE:
-            risk_level = RISK_SUSPICIOUS
+            raw_risk_level = RISK_SUSPICIOUS
         else:
-            risk_level = RISK_HIGH
+            raw_risk_level = RISK_HIGH
+
+        # ------------------------------------------------------------------
+        # URL policy layer (ALWAYS after the model; never before it).
+        # It may only downgrade a malicious verdict to SAFE when a trusted
+        # platform URL passes strict structural verification. The raw model
+        # score and verdict are preserved and reported alongside.
+        # ------------------------------------------------------------------
+        policy_result = evaluate_trusted_url_policy(text)
+        policy_applied = policy_result.is_trusted_platform
+        policy_approved = policy_applied and policy_result.approved
+        policy_adjusted = policy_approved and raw_prediction == 1
+
+        if policy_approved:
+            prediction = 0
+            prediction_label = "benign"
+            risk_level = RISK_SAFE
+            # A structural verdict has no probability; the raw forest score
+            # stays visible in model_score / raw_risk_score for diagnostics.
+            risk_score: float | None = None
+            reasons = [
+                policy_approval_reason(policy_result.platform, policy_result.url_kind),
+                *_build_reasons(text, features)[:2],
+            ]
+        else:
+            prediction = raw_prediction
+            prediction_label = "malicious" if raw_prediction == 1 else "benign"
+            risk_level = raw_risk_level
+            risk_score = round(model_score * 100.0, 2)
+            reasons = _build_reasons(text, features)
+
+        policy_info = {
+            "platform": policy_result.platform,
+            "url_kind": policy_result.url_kind,
+            "applied": policy_applied,
+            "approved": policy_approved,
+            "adjusted": policy_adjusted,
+            "decision": "policy_approved_safe" if policy_approved else "model_verdict",
+            "rejection": policy_result.rejection if (policy_applied and not policy_approved) else None,
+            "note": policy_result.note if policy_approved else "",
+        }
 
         return {
             "url": url,
             "valid": True,
             "prediction": prediction,
-            "prediction_label": "malicious" if prediction == 1 else "benign",
+            "prediction_label": prediction_label,
             "risk_level": risk_level,
-            "risk_score": round(model_score * 100.0, 2),
+            "risk_score": risk_score,
             "model_score": round(model_score, 6),
-            "reasons": _build_reasons(text, features),
+            "raw_prediction": raw_prediction,
+            "raw_prediction_label": "malicious" if raw_prediction == 1 else "benign",
+            "raw_risk_level": raw_risk_level,
+            "raw_risk_score": round(model_score * 100.0, 2),
+            "reasons": reasons,
             "features": features,
+            "policy": policy_info,
             "model": {
                 "name": self.metadata.get("model_name"),
                 "variant": self.metadata.get("variant"),
@@ -419,8 +469,22 @@ class FraudShieldPredictor:
             "risk_level": RISK_UNKNOWN,
             "risk_score": None,
             "model_score": None,
+            "raw_prediction": None,
+            "raw_prediction_label": None,
+            "raw_risk_level": None,
+            "raw_risk_score": None,
             "reasons": [],
             "features": {},
+            "policy": {
+                "platform": None,
+                "url_kind": None,
+                "applied": False,
+                "approved": False,
+                "adjusted": False,
+                "decision": "model_verdict",
+                "rejection": None,
+                "note": "",
+            },
             "model": {
                 "name": self.metadata.get("model_name"),
                 "variant": self.metadata.get("variant"),

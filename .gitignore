@@ -60,3 +60,11 @@ model/stage7_study/protected_after.json
 model/stage7_study/protected_diff.json
 model/stage7_study/run.log
 model/stage7_study/stage7_addendum.json
+# Include only the production R2 model
+!model/fraudshield_model.pkl
+
+# Local AI tooling
+.perch/
+
+# Experimental research - not part of production deployment
+model/experiment_seven/
