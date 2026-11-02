@@ -50,8 +50,15 @@ const sidebarBackdrop = document.querySelector("#sidebar-backdrop");
 
 /* Same page served from the API itself (port 8000) -> relative path.
    Served by Vite (port 5173) or opened as a file -> explicit API origin. */
+const isLocalDev =
+  location.protocol === "file:" ||
+  location.hostname === "localhost" ||
+  location.hostname === "127.0.0.1";
+
 const API_BASE =
-  location.port === "8000" ? "" : "http://127.0.0.1:8000";
+  isLocalDev && location.port !== "8000"
+    ? "http://127.0.0.1:8000"
+    : "";
 
 const READY_MESSAGE = "Connected to the FraudShield layered inspection engine";
 
