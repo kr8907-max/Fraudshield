@@ -235,7 +235,6 @@ def main() -> int:
     print(f"Data preparation time: {prep_seconds:.1f}s")
     del bundle
 
-    # --- Split -------------------------------------------------------------
     print("\n[2/6] Hostname-grouped split (StratifiedGroupKFold)...")
     train_idx, test_idx, groups = split_by_hostname(urls, y_lists)
 
@@ -267,7 +266,6 @@ def main() -> int:
     print(f"  Unique test hostnames : {len(test_hosts):,}")
     print("  Hostname overlap      : 0")
 
-    # --- Train -------------------------------------------------------------
     print("\n[3/6] Training RandomForestClassifier...")
     model = RandomForestClassifier(
         n_estimators=200,
@@ -286,7 +284,6 @@ def main() -> int:
         print(f"STOP: model expects {model.n_features_in_} features, contract is {len(FEATURE_NAMES)}.")
         return 1
 
-    # --- Evaluate ----------------------------------------------------------
     print("\n[4/6] Evaluating on the held-out test set (positive class = malicious)...")
     y_pred = model.predict(X_test)
     malicious_scores = model.predict_proba(X_test)[:, 1]
@@ -315,7 +312,6 @@ def main() -> int:
     print("\n  Interpretation: in a security product, false negatives are the costly")
     print("  error here, so malicious recall matters more than raw accuracy.")
 
-    # --- Feature importance ------------------------------------------------
     print("\n[5/6] Feature importance (Random Forest):")
     importances = sorted(
         zip(FEATURE_NAMES, model.feature_importances_.tolist()),
@@ -327,7 +323,6 @@ def main() -> int:
     print("  Note: importance shows how useful a feature was to this model,")
     print("        not a causal relationship with fraud.")
 
-    # --- Save --------------------------------------------------------------
     print("\n[6/6] Saving model and metadata...")
     MODEL_DIR.mkdir(parents=True, exist_ok=True)
     joblib.dump(model, MODEL_PATH, compress=3)

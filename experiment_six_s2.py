@@ -272,10 +272,6 @@ def host_artifact_audit(train_rows) -> dict:
         "other_patterns_at_scale_with_lift_ge_5": escalations,
     }
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="FraudShield Stage 6 Experiment S2-A")
@@ -300,7 +296,6 @@ def main(argv: list[str] | None = None) -> int:
                               if (PROJECT_ROOT / rel).is_file() else "MISSING")
                         for rel in PROTECTED_FILES}
 
-    # -- A. Inputs ---------------------------------------------------------
     print("\n[A] Input verification (read-only)")
     r2_meta = json.loads(R2_PROVENANCE_META.read_text(encoding="utf-8"))
     dataset_hash = file_sha256(DATASET_PATH)
@@ -316,7 +311,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    Promoted R2    : {file_sha256(PROJECT_ROOT / 'model' / 'fraudshield_model.pkl')}")
     print(f"    S1 bundle      : {file_sha256(S1_BUNDLE)}")
 
-    # -- B. Data, split, purge ---------------------------------------------
     print("\n[B] Split reproduction and leakage-safe S2-A purge")
     starter = time.perf_counter()
     bundle = load_dataset(DATASET_PATH, label_map=train.SOURCE_TO_BINARY,
@@ -364,7 +358,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    Tranco rows    : {len(tranco_train_urls):,}")
     print(f"    S2 total train : {total_train:,}  (expected {EXPECTED_TOTAL_TRAIN:,})")
 
-    # -- C. Evaluation suites (identical to Experiment D / S1) -------------
     print("\n[C] Held-out evaluation suites (identical index sets)")
     benign_idx = [i for i in test_idx if y[i] == 0 and s1.is_deep(urls[i])]
     malicious_idx = [i for i in test_idx if y[i] == 1 and s1.is_deep(urls[i])]
@@ -392,7 +385,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    malicious subtypes: "
           f"{ {k: malicious_subtype.count(k) for k in sorted(set(malicious_subtype))} }")
 
-    # -- D. Preflight audits ------------------------------------------------
     print("\n[D] PREFLIGHT AUDITS (all must pass; classifier not fitted yet)")
     failures: list[str] = []
     checks: dict[str, int | str] = {}
@@ -514,7 +506,6 @@ def main(argv: list[str] | None = None) -> int:
         print("\n--preflight-only requested; stopping before vectoriser/classifier fitting.")
         return 0
 
-    # -- E. Vectorisers on the purged S2 training population ---------------
     print("\n[E] Fitting vectorisers on S2 training text only")
     train_jobs = [(urls[i], int(y[i])) for i in train_s2] + [(u, 0) for u in tranco_train_urls]
     y_train = np.asarray([label for _u, label in train_jobs], dtype=np.int8)
@@ -556,7 +547,6 @@ def main(argv: list[str] | None = None) -> int:
           f"nnz={X_train.nnz:,} ({X_train.nnz / X_train.shape[0]:.1f} per row)")
     del hosts_text, paths_text, queries_text, vocab_rows, train_jobs
 
-    # -- E2. Vector-level invariance (must pass BEFORE the classifier) -----
     print("\n[E2] Vector-level invariance assertions (classifier still unfitted)")
     model = SemanticURLModelS2(host_vec, path_vec, query_vec, None, s1.MODEL_CONFIG)
 
@@ -591,7 +581,6 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print("    All invariance assertions passed. Proceeding to the single fit.")
 
-    # -- F. The one and only classifier fit --------------------------------
     print("\n[F] Fitting LogisticRegression (one candidate, no tuning)")
     used_max_iter = s1.MODEL_CONFIG["max_iter"]
     t0 = time.perf_counter()
@@ -631,7 +620,6 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print(f"    model size    : {size_mb:.2f} MB  (artifact reload verified)")
 
-    # -- G. Evaluation ------------------------------------------------------
     print("\n[G] Evaluation (identical suites, threshold 0.5)")
     test_urls = [urls[i] for i in test_idx]
     test_styles = np.asarray([s1.scheme_of(u) for u in test_urls], dtype=object)
@@ -675,7 +663,6 @@ def main(argv: list[str] | None = None) -> int:
           f"(R2 {0.757214:.6f}, S1 {0.951609:.6f})  frontier "
           f"{https_sep['best_balanced_safe']:.3f}/{https_sep['best_balanced_recall']:.3f}")
 
-    # -- G2. Tranco diagnosis ----------------------------------------------
     print("\n[G2] Tranco diagnostics")
     bounds = s1.block_bounds(host_vec, path_vec, query_vec, n_features)
     ext_matrix = model.transform(tranco_holdout_urls)
@@ -851,7 +838,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    [{'PASS' if ok else 'FAIL'}] {name}")
     print(f"    {gates['passed_count']}/{gates['total']} gates passed")
 
-    # -- I. Artifacts -------------------------------------------------------
     print("\n[I] Writing S2 artifacts")
     feature_config = {
         "representation": ("S1 scheme-blind field-separated TF-IDF + keyword counts, "

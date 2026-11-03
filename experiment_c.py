@@ -983,11 +983,6 @@ def summary_row(name: str, result_or_dict: dict) -> dict:
     }
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-
 def main() -> int:
     print("=" * 80)
     print("FraudShield Stage 4.6 - Experiment C (Tranco legitimate-domain coverage)")
@@ -1001,7 +996,6 @@ def main() -> int:
 
     baseline_meta = json.loads(BASELINE_METADATA.read_text(encoding="utf-8"))
 
-    # -- A. Verify inputs ---------------------------------------------------
     print("\n[A] Input verification (read-only)")
     dataset_hash = file_sha256(DATASET_PATH)
     dataset_unchanged = dataset_hash == baseline_meta.get("dataset_sha256")
@@ -1077,7 +1071,6 @@ def main() -> int:
     write_json(TRANCO_MANIFEST, manifest)
     print(f"    Manifest       : {TRANCO_MANIFEST}")
 
-    # -- Load Kaggle and reproduce the Stage 4 split ------------------------
     print("\n[1] Loading Kaggle dataset (read-only) and reproducing the Stage 4 split...")
     started = time.perf_counter()
     bundle = load_dataset(
@@ -1126,7 +1119,6 @@ def main() -> int:
         f"{int(brand_mask_test.sum()):,} (reported separately, never removed)"
     )
 
-    # -- B. Tranco selection ------------------------------------------------
     print("\n[2] Deterministic Tranco selection (ranks 1-50,000)...")
     kaggle_hosts_all = kaggle_train_hosts_all | kaggle_test_hosts
     selection = build_selection(kaggle_hosts_all)
@@ -1170,7 +1162,6 @@ def main() -> int:
         f"({len(holdout_domains):,} domains x apex+www)"
     )
 
-    # -- C. Assemble training data ------------------------------------------
     print("\n[3] Assembling training data...")
     X_kaggle_train = X_all[train_idx_purged]
     y_kaggle_train = y_all[train_idx_purged]
@@ -1201,7 +1192,6 @@ def main() -> int:
     print(format_scheme_table(table))
     print(f"    Total training rows: {len(y_train):,}")
 
-    # -- D. Pre-training distribution gate ----------------------------------
     print("\n[4] Pre-training distribution gate (computed BEFORE fitting)")
 
     https_benign = table[0]["https"]
@@ -1248,7 +1238,6 @@ def main() -> int:
               "No model was trained.")
         return 1
 
-    # -- E. Leakage audit ---------------------------------------------------
     print("\n[5] Leakage audit")
     tranco_train_domains = set(train_domains)
     tranco_holdout_domains_set = set(holdout_domains)
@@ -1317,7 +1306,6 @@ def main() -> int:
         "leakage": leakage,
     }
 
-    # -- F. Baseline Model A evaluation -------------------------------------
     print("\n[6] Model A (untouched Stage 4 baseline) - same evaluation suite")
     baseline_model = joblib.load(BASELINE_MODEL)
     if baseline_model.n_features_in_ != len(FEATURE_NAMES):
@@ -1412,7 +1400,6 @@ def main() -> int:
     )
     print(f"    R2 acceptable: {r2_acceptable}")
 
-    # -- I. Comparison ------------------------------------------------------
     print("\n[8] Comparison: Model A vs C1 vs C2 vs R2")
     baseline_row = summary_row("A_baseline", {
         "metrics": baseline_metrics,

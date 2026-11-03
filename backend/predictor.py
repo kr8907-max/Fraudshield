@@ -265,11 +265,6 @@ def _build_reasons(url: str, features: dict[str, int]) -> list[str]:
     return reasons[:4]
 
 
-# ---------------------------------------------------------------------------
-# Predictor
-# ---------------------------------------------------------------------------
-
-
 class FraudShieldPredictor:
     """Loads one model/metadata pair and predicts URLs as text."""
 

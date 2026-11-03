@@ -435,11 +435,6 @@ def block_contributions(matrix, classifier, bounds: dict[str, tuple[int, int]]) 
     return parts
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="FraudShield Stage 6 Experiment S1")
     parser.add_argument("--preflight-only", action="store_true",
@@ -463,7 +458,6 @@ def main(argv: list[str] | None = None) -> int:
             return 1
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # -- A. Input verification ---------------------------------------------
     print("\n[A] Input verification (read-only)")
     r2_meta = json.loads(R2_PROVENANCE_META.read_text(encoding="utf-8"))
     dataset_hash = file_sha256(DATASET_PATH)
@@ -478,7 +472,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    Tranco SHA-256 : {tranco_hash}")
     print(f"    Promoted R2    : {file_sha256(PROJECT_ROOT / 'model' / 'fraudshield_model.pkl')}")
 
-    # -- B. Data + split ----------------------------------------------------
     print("\n[B] Loading Kaggle and reproducing the Stage 4 / Experiment C split...")
     started = time.perf_counter()
     bundle = load_dataset(DATASET_PATH, label_map=train.SOURCE_TO_BINARY,
@@ -508,7 +501,6 @@ def main(argv: list[str] | None = None) -> int:
         tranco_holdout_urls += [f"https://{domain}", f"https://www.{domain}"]
         tranco_holdout_domains += [domain, domain]
 
-    # -- C. Evaluation index sets (identical to Experiment D) --------------
     print("\n[C] Building held-out evaluation sets (identical index sets to Experiment D)")
     benign_idx = [i for i in test_idx if y[i] == 0 and is_deep(urls[i])]
     malicious_idx = [i for i in test_idx if y[i] == 1 and is_deep(urls[i])]
@@ -539,7 +531,6 @@ def main(argv: list[str] | None = None) -> int:
     subtype_counts = {k: malicious_subtype.count(k) for k in sorted(set(malicious_subtype))}
     print(f"    malicious subtypes: {subtype_counts}")
 
-    # -- D. Pre-flight audits ----------------------------------------------
     print("\n[D] PRE-FLIGHT AUDITS (must pass before any fitting)")
     failures: list[str] = []
 
@@ -608,7 +599,6 @@ def main(argv: list[str] | None = None) -> int:
     model_path = OUT_DIR / "s1.pkl"
 
     if args.report_only:
-        # -- E. Report-only: load the already-fitted bundle. NO TRAINING. ---
         print("\n[E] REPORT-ONLY: loading the already-fitted bundle (no fitting, no training)")
         if not model_path.is_file():
             print(f"STOP: fitted bundle not found: {model_path}")
@@ -645,7 +635,6 @@ def main(argv: list[str] | None = None) -> int:
             return 1
 
     else:
-        # -- E. Fit vectorisers on TRAIN ONLY ------------------------------
         print("\n[E] Fitting vectorisers on training text only")
         train_jobs = [(urls[i], y[i]) for i in train_purged] + [
             (u, 0) for u in tranco_train_urls
@@ -712,7 +701,6 @@ def main(argv: list[str] | None = None) -> int:
             print("STOP: scheme-blind equality failed after vectorisation.")
             return 1
 
-        # -- F. Fit logistic regression ------------------------------------
         print("\n[F] Fitting LogisticRegression (one candidate, no tuning)")
         used_max_iter = MODEL_CONFIG["max_iter"]
         convergence_warning = False
@@ -756,7 +744,6 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         print(f"    model size    : {size_mb:.2f} MB  (artifact reload verified)")
 
-    # -- G. Evaluate --------------------------------------------------------
     print("\n[G] Evaluation (identical suites and threshold as Experiment D)")
 
     test_urls = [urls[i] for i in test_idx]
@@ -774,7 +761,6 @@ def main(argv: list[str] | None = None) -> int:
     external = external_block(ext_pred, ext_score, tranco_holdout_urls, tranco_holdout_domains)
     print(f"    Tranco domain safe: {external['domain_safe_rate']:.4f}")
 
-    # -- G2. Measured evidence for the Tranco result ------------------------
     print("\n[G2] Tranco holdout: measured evidence (no model change, no tuning)")
     n_features = (len(host_vec.vocabulary_) + len(path_vec.vocabulary_)
                   + len(query_vec.vocabulary_) + 3 * len(SUSPICIOUS_KEYWORDS))
@@ -1046,7 +1032,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"    [{'PASS' if ok else 'FAIL'}] {name}")
     print(f"    {gates['passed_count']}/{gates['total']} gates passed")
 
-    # -- H2. Degeneracy diagnostic -----------------------------------------
     print("\n[H2] Degeneracy diagnostic: behaviour when no lexical evidence exists")
     intercept = float(classifier.intercept_[0])
     empty_score = float(1.0 / (1.0 + np.exp(-intercept)))
@@ -1089,7 +1074,6 @@ def main(argv: list[str] | None = None) -> int:
               f"/{profile['rows']:<7,} ({profile['share_with_no_features'] * 100:5.2f}%)  "
               f"mean score without={without}  with={with_}")
 
-    # -- I. Artifacts -------------------------------------------------------
     print("\n[I] Writing Stage 6 artifacts")
     total_features = (len(host_vec.vocabulary_) + len(path_vec.vocabulary_)
                       + len(query_vec.vocabulary_) + 3 * len(SUSPICIOUS_KEYWORDS))

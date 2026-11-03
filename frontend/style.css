@@ -622,8 +622,6 @@ button { font: inherit; }
   line-height: 1.6;
 }
 
-/* Scan form ------------------------------------------------- */
-
 .scan-form {
   display: flex;
   flex-direction: column;

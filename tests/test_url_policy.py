@@ -30,11 +30,6 @@ def _api_predict(url: str) -> dict:
     return response.json()
 
 
-# ---------------------------------------------------------------------------
-# The reported false positive
-# ---------------------------------------------------------------------------
-
-
 def test_reported_youtube_playlist_false_positive_now_safe():
     result = _api_predict(BUG_PLAYLIST_URL)
     assert result["risk_level"] == "SAFE"

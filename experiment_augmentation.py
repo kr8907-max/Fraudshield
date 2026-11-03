@@ -239,7 +239,6 @@ def main() -> int:
         print("STOP: baseline metrics do not reproduce; split changed.")
         return 1
 
-    # --- Augmentation (training-only) ----------------------------------------
     print("\n[3] Generating training-only benign scheme augmentation...")
     train_url_set = set(train_urls)
     augmented_urls: list[str] = []
@@ -331,7 +330,6 @@ def main() -> int:
         f"(+{len(y_train_aug) - len(y_train):,})"
     )
 
-    # --- Model B --------------------------------------------------------------
     print("\n[5] Training Model B (same hyperparameters, seed 42)...")
     model_b = RandomForestClassifier(
         n_estimators=200,
@@ -352,7 +350,6 @@ def main() -> int:
         f"rec={metrics_b['recall']:.4f} f1={metrics_b['f1']:.4f} auc={metrics_b['roc_auc']:.4f}"
     )
 
-    # --- Comparison -----------------------------------------------------------
     print("\n[6] Held-out comparison (identical test set)")
     print(f"    {'Metric':<12}{'A baseline':>14}{'B augmented':>14}{'Delta':>12}")
     for key in ("accuracy", "precision", "recall", "f1", "roc_auc"):
@@ -402,7 +399,6 @@ def main() -> int:
             f"{importance_b[name] - importance_a[name]:>+10.4f}"
         )
 
-    # --- Focus-feature diagnostic (summary statistics only) -------------------
     print("\n[9] Focus features: sanity vectors vs training class means (original rows)")
     benign_mask = y_train == 0
     malicious_mask = y_train == 1
@@ -423,7 +419,6 @@ def main() -> int:
             f"{values[0]:>9}{values[1]:>11}{values[2]:>9}"
         )
 
-    # --- Sanity suite ---------------------------------------------------------
     print("\n[10] Sanity suite (not used for any metric)")
     print(
         f"    {'kind':<11}{'A pred':>8}{'A score':>9}{'B pred':>8}{'B score':>9}"
@@ -461,7 +456,6 @@ def main() -> int:
     print(f"\n    Legit URLs classified safe     : A {legit_a}/10   B {legit_b}/10")
     print(f"    Suspicious URLs flagged risky  : A {susp_a}/4   B {susp_b}/4")
 
-    # --- Save experimental artifacts only -------------------------------------
     print("\n[11] Saving experimental Model B (baseline untouched)...")
     joblib.dump(model_b, EXPERIMENT_MODEL, compress=3)
     reloaded = joblib.load(EXPERIMENT_MODEL)

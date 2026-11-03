@@ -736,11 +736,6 @@ def https_gate_attribution(y, subtypes, schemes, pred):
     }
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-
 def main():
     t0 = time.perf_counter()
     print("[1/7] Loading corpus (validity + exact-URL dedup, same rules as loader)")

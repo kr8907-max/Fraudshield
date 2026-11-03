@@ -850,11 +850,6 @@ def summary_row(name, result) -> dict:
     }
 
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="FraudShield Experiment D")
     parser.add_argument(
@@ -876,7 +871,6 @@ def main(argv: list[str] | None = None) -> int:
 
     EXPERIMENT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # -- A. Verify inputs ---------------------------------------------------
     print("\n[A] Input verification (read-only)")
     dataset_hash = file_sha256(DATASET_PATH)
     tranco_hash = file_sha256(TRANCO_CSV)
@@ -892,7 +886,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    Tranco SHA-256 : {tranco_hash}  (matches Experiment C)")
     print(f"    R2 model SHA-256: {file_sha256(R2_MODEL)}")
 
-    # -- B. Load and reproduce the Experiment C split -----------------------
     print("\n[B] Loading Kaggle and reproducing the Stage 4 / Experiment C split...")
     started = time.perf_counter()
     bundle = load_dataset(
@@ -922,7 +915,6 @@ def main(argv: list[str] | None = None) -> int:
     kaggle_train_urls = {urls[i] for i in train_purged}
     kaggle_test_urls = {urls[i] for i in test_idx}
 
-    # -- C. Root-cause diagnostics -----------------------------------------
     print("\n[C] Root-cause data analysis (structural distribution)")
     full_struct = scheme_structure_table(urls, y_all)
     print("    FULL DATASET, scheme x structure x class:")
@@ -944,7 +936,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     test_struct = scheme_structure_table([urls[i] for i in test_idx], y_all[test_idx])
 
-    # -- D. Held-out deep-URL evaluation sets (built before any training) ----
     print("\n[D] Building deep-URL evaluation sets from the Kaggle TEST split only")
     deep_benign_idx = [i for i in test_idx if y_all[i] == 0 and is_deep(urls[i])]
     deep_malicious_idx = [i for i in test_idx if y_all[i] == 1 and is_deep(urls[i])]
@@ -966,7 +957,6 @@ def main(argv: list[str] | None = None) -> int:
     for group in DEEP_GROUPS:
         print(f"      {group:<11} {deep_malicious_structures.count(group):>7,}")
 
-    # -- E. Controlled augmentation ----------------------------------------
     print("\n[E] Controlled benign browser-form deep augmentation")
     base_train_rows = len(train_purged) + len(selection["train_domains"]) + len(
         selection["www_train_domains"]
@@ -986,7 +976,6 @@ def main(argv: list[str] | None = None) -> int:
     print(f"    cap ({AUGMENTATION_CAP_SHARE:.0%} of base)    : {cap_rows:,}")
     print(f"    source selection SHA   : {spec['source_selection_sha256']}")
 
-    # -- F. Assemble training data -----------------------------------------
     print("\n[F] Assembling training data (Experiment C + controlled augmentation)")
     tranco_train_urls = [f"https://{d}" for d in selection["train_domains"]]
     tranco_train_urls += [f"https://www.{d}" for d in selection["www_train_domains"]]
@@ -1012,7 +1001,6 @@ def main(argv: list[str] | None = None) -> int:
     print(format_structure_table(train_scheme_struct))
     print(f"    Total training rows: {len(y_train):,}")
 
-    # -- G. Pre-training distribution gate ---------------------------------
     print("\n[G] Pre-training distribution gate (computed BEFORE fitting)")
     v_final, scheme_label = cramers_v(train_scheme_struct)
     v_baseline, _ = cramers_v(
@@ -1060,7 +1048,6 @@ def main(argv: list[str] | None = None) -> int:
         write_json(EXPERIMENT_DIR / "pretrain_gate_failed.json", pretrain)
         return 1
 
-    # -- H. Leakage audit ---------------------------------------------------
     print("\n[H] Leakage audit")
     derived_hosts = {_parse(u).hostname or "" for u in augmentation["derived_urls"]}
     train_hosts_all = kaggle_train_hosts | derived_hosts | {
@@ -1205,7 +1192,6 @@ def main(argv: list[str] | None = None) -> int:
         "leakage": leakage,
     }
 
-    # -- J. Baseline R2 on identical suites --------------------------------
     print("\n[I] Experiment C R2 - same evaluation suites (reference)")
     r2_model = joblib.load(R2_MODEL)
     r2_model.n_jobs = 1
@@ -1405,7 +1391,6 @@ def main(argv: list[str] | None = None) -> int:
     }
     write_json(COMPARISON_PATH, comparison)
 
-    # -- M. Diagnostics / decision -----------------------------------------
     print("\n[K] Famous deep-URL diagnostics (never trained on, never whitelisted)")
     header = f"{'example':<22}{'R2':>10}{'D1':>10}{'D2':>10}" + (f"{'D3':>10}" if d3 else "")
     print(header)
