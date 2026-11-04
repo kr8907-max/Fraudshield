@@ -70,6 +70,35 @@ python backend\predictor.py --self-test     # 31/31 contract checks
 ```
 Live-network tests are marked and automatically skipped when offline.
 
+## Deployment (Render)
+
+The repository ships a ready Render blueprint in **`render.yaml`**:
+
+- Service: `web` (Python runtime, **free plan**), name `fraudshield`.
+- Build: `pip install -r requirements.txt` (runtime dependencies pinned; dev/test tooling like pytest is not installed on Render).
+- Start: `uvicorn backend.app:app --host 0.0.0.0 --port $PORT`.
+- Health check: `/api/health`.
+- The 29.3 MB model artifact `model/fraudshield_model.pkl` is committed to the repository, so no model download or upload step is needed at deploy time.
+
+To deploy: push the repository to GitHub, then in the Render dashboard choose
+"New Web Service" → "Blueprint" and point it at the repository (or use the
+"Deploy to Render" flow with `render.yaml`). The free plan will sleep between
+requests; the first request after sleeping incurs a cold start while the model
+loads.
+
+### Environment variables
+
+| Variable | Where set | Values | Effect |
+|---|---|---|---|
+| `PORT` | Render (automatic) | port number | Port the app binds to in the start command. |
+| `FRAUDSHIELD_ENV` | `render.yaml` (or dashboard) | default `development`; `production` / `prod` for the deployed service | In production mode the interactive API docs (`/docs`, `/redoc`, `/openapi.json`) are **disabled**; locally they remain available. |
+| `FRAUDSHIELD_ENABLE_API_DOCS` | optional, dashboard only | `1` / `true` / `yes` | Force-re-enables the interactive API docs even when `FRAUDSHIELD_ENV=production` (explicit local override). |
+
+**No secrets are required to deploy FraudShield** — there are no API keys, no
+database credentials, and no third-party service tokens. Never add secret
+values to this repository; if a token is ever needed, Render's dashboard
+"Environment" tab (kept out of Git) is the only correct place for it.
+
 ## Architecture overview
 ```
 User → Frontend (script.js) → FastAPI (backend/app.py)

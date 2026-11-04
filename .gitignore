@@ -66,5 +66,8 @@ model/stage7_study/stage7_addendum.json
 # Local AI tooling
 .perch/
 
+# Comment-cleanup / asset-generation process workspace (documented in its DOCUMENTATION.md)
+.audit/
+
 # Experimental research - not part of production deployment
 model/experiment_seven/

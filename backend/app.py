@@ -12,6 +12,7 @@ Run:
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 from typing import Any
 
@@ -34,10 +35,29 @@ from backend.risk_engine import decide
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("fraudshield")
 
+# ---------------------------------------------------------------------------
+# Interactive API documentation (Swagger UI, ReDoc, OpenAPI schema)
+#
+# These development conveniences are enabled by default but disabled in
+# production so the public API schema is not exposed on the deployed site.
+#
+# Environment variables (set on Render via render.yaml):
+#   FRAUDSHIELD_ENV             "production" / "prod" -> docs OFF
+#                               anything else         -> docs ON (default: development)
+#   FRAUDSHIELD_ENABLE_API_DOCS "1" / "true" / "yes"  -> force docs ON (overrides above)
+# ---------------------------------------------------------------------------
+_raw_env = os.environ.get("FRAUDSHIELD_ENV", "development").strip().lower()
+_is_production = _raw_env in ("production", "prod")
+_docs_forced = os.environ.get("FRAUDSHIELD_ENABLE_API_DOCS", "").strip().lower() in ("1", "true", "yes")
+_enable_docs = _docs_forced or not _is_production
+
 app = FastAPI(
     title="FraudShield API",
     description="URL Risk Prediction API using Machine Learning (R2 Model)",
     version="1.0.0",
+    docs_url="/docs" if _enable_docs else None,
+    redoc_url="/redoc" if _enable_docs else None,
+    openapi_url="/openapi.json" if _enable_docs else None,
 )
 
 # Enable CORS so the Vite frontend (port 5173) can talk to FastAPI (port 8000)
